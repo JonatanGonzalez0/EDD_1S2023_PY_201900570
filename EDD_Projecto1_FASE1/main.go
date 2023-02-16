@@ -16,7 +16,9 @@ func main() {
 	listaEstudiantes = *estructuras.Nueva_ListaDoble()
 	ColaPendientes = *estructuras.Nueva_Cola()
 
-	menu()
+	cargaMasiva("D:\\carga.csv")
+	dashboardAdmin()
+	//menu()
 }
 func menu() {
 	println("EDD GoDrive")
@@ -201,6 +203,6 @@ func cargaMasiva(ruta string) {
 		//insertar estudiante en la lista doble
 		ColaPendientes.Encolar(estudiante)
 	}
-	print("------------------------------------------------------------------------------------------")
+	println("------------------------------------------------------------------------------------------")
 	println("!! Estudiantes cargados a la cola de pendientes de aprobación !!")
 }
