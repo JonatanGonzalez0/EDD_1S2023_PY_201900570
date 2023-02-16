@@ -58,7 +58,12 @@ func (lista *ListaDoble) Imprimir() {
 	}
 
 	for aux != nil {
-		fmt.Println(aux.Estudiante)
+		lengthPassword := len(aux.Estudiante.password)
+		asteriscos := ""
+		for i := 0; i < lengthPassword; i++ {
+			asteriscos += "*"
+		}
+		fmt.Printf("Nombre: %s %s, Carnet: %d, Password: %s\n", aux.Estudiante.nombre, aux.Estudiante.apellido, aux.Estudiante.carnet, asteriscos)
 		aux = aux.Siguiente
 	}
 }
