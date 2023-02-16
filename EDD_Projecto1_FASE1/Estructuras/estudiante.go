@@ -7,7 +7,7 @@ type Estudiante struct {
 	password string
 }
 
-//  construct
+// construct
 func Nuevo_Estudiante(nombre string, apellido string, carnet int, password string) *Estudiante {
 	return &Estudiante{nombre: nombre, apellido: apellido, carnet: carnet, password: password}
 }

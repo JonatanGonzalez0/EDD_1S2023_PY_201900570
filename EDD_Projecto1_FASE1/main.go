@@ -2,25 +2,31 @@ package main
 
 import (
 	"EDD_Projecto1_FASE1/estructuras"
+	"bufio"
 	"fmt"
+	"os"
+	"strings"
 )
 
 var listaEstudiantes estructuras.ListaDoble
+var ColaPendientes estructuras.Cola
 
 func main() {
-	//crear lista doble
+	//inicializar
 	listaEstudiantes = *estructuras.Nueva_ListaDoble()
+	ColaPendientes = *estructuras.Nueva_Cola()
 
 	menu()
 }
 func menu() {
 	println("EDD GoDrive")
 	println("Bienvenido al sistema de archivos GoDrive")
-
+	println("------------------------------------------------------------------------------------------")
 	opcion := 0
 	for opcion != 2 {
 		println("1. Iniciar sesion")
 		println("2. Salir")
+		println("------------------------------------------------------------------------------------------")
 		println("Ingrese una opcion")
 		fmt.Scan(&opcion)
 
@@ -37,13 +43,13 @@ func menu() {
 }
 
 func login() {
+	println("------------------------------------------------------------------------------------------")
 	println("Ingrese su usuario")
 	var usuario string
 	fmt.Scan(&usuario)
 	println("Ingrese su contraseña")
 	var password string
 	fmt.Scan(&password)
-
 	if usuario == "admin" && password == "admin" {
 		dashboardAdmin()
 	} else {
@@ -63,6 +69,7 @@ func login() {
 }
 
 func dashboardAdmin() {
+	println("------------------------------------------------------------------------------------------")
 	println("Bienvenido al dashboard de administrador de GoDrive")
 	opcion := 0
 	for opcion != 5 {
@@ -71,13 +78,51 @@ func dashboardAdmin() {
 		println("3. Registrar nuevo estudiante")
 		println("4. Carga masiva de estudiantes")
 		println("5. Cerar sesion")
+		println("------------------------------------------------------------------------------------------")
 		fmt.Scan(&opcion)
 
 		switch opcion {
+		case 1:
+			println("------------------------------------------------------------------------------------------")
+
+			//por cada estudiante en la cola mostrar su informacion y opcion de aprobar o rechazar
+			opcion := 0
+			for !ColaPendientes.EstaVacia() && opcion != 3 {
+				fmt.Printf("\n------------------------ Estudiantes pendientes de aprobacion : %d ------------------------\n", ColaPendientes.GetLongitud())
+				estudiante := ColaPendientes.Desencolar()
+				println("Nombre: ", estudiante.GetNombre(), estudiante.GetApellido())
+				println("Carnet: ", estudiante.GetCarnet())
+				println("------------------------------------------------------------------------------------------")
+				println("1. Aprobar")
+				println("2. Rechazar")
+				println("3. Salir")
+				fmt.Scan(&opcion)
+
+				switch opcion {
+				case 1:
+					//insertar estudiante en la lista doble
+					listaEstudiantes.Insertar(estudiante)
+					println("Estudiante aprobado con exito")
+				case 2:
+					println("Estudiante rechazado con exito")
+				case 3:
+					//regresar a menu principal
+					println("Saliendo del menu de estudiantes pendientes")
+					opcion = 3
+				default:
+					println("Opcion no valida")
+				}
+			}
+			fmt.Println("------------------- Estudiantes pendientes de aprobacion : 0 -----------------------------")
+
 		case 2:
+			println("------------------------------------------------------------------------------------------")
 			listaEstudiantes.Imprimir()
+			println("------------------------------------------------------------------------------------------")
 		case 3:
+			println("------------------------------------------------------------------------------------------")
 			println("REGISTRO nuevo estudiante en GoDrive")
+
 			println("Ingrese el nombre del estudiante")
 			var nombre string
 			fmt.Scan(&nombre)
@@ -94,16 +139,25 @@ func dashboardAdmin() {
 			//crear estudiante
 			estudiante := estructuras.Nuevo_Estudiante(nombre, apellido, carnet, password)
 			//insertar estudiante en la lista doble
-			//todo: comprobar que no exista el carnet y cola de pendientes de aprobacion
-
-			listaEstudiantes.Insertar(estudiante)
-			println("Estudiante registrado con exito")
+			ColaPendientes.Encolar(estudiante)
+			println("------------------------------------------------------------------------------------------")
+			println("!! Estudiante agregado a la cola de pendientes de aprobación !!")
+			println("------------------------------------------------------------------------------------------")
+		case 4:
+			fmt.Println("------------------------------------------------------------------------------------------")
+			fmt.Println("Ingrese la ruta del archivo csv")
+			var ruta string
+			fmt.Scan(&ruta)
+			println("ruta: ", ruta)
+			cargaMasiva(ruta)
+			println("------------------------------------------------------------------------------------------")
 		}
 
 	}
 }
 
 func dashboardEstudiante() {
+	println("------------------------------------------------------------------------------------------")
 	println("Bienvenido al dashboard de estudiante de GoDrive")
 	opcion := 0
 	for opcion != 5 {
@@ -116,4 +170,37 @@ func dashboardEstudiante() {
 		fmt.Scan(&opcion)
 
 	}
+}
+
+// carga masiva de estudiantes desde un archivo csv con el siguiente formato carnet, nombre apellido ,contraseña usando encoding/csv
+func cargaMasiva(ruta string) {
+	//abrir archivo
+	archivo, err := os.Open(ruta)
+	if err != nil {
+		println("Error al abrir el archivo")
+		return
+	}
+	defer archivo.Close()
+
+	//crear un scanner para leer el archivo
+	scanner := bufio.NewScanner(archivo)
+
+	//leer el archivo linea por linea
+	for scanner.Scan() {
+		linea := scanner.Text()
+		//separar la linea por comas
+		lineaSeparada := strings.Split(linea, ",")
+		//convertir carnet a int
+		var carnet int
+		fmt.Sscan(lineaSeparada[0], &carnet)
+		//crear estudiante
+		nombre := strings.Split(lineaSeparada[1], " ")[0]
+		apellido := strings.Split(lineaSeparada[1], " ")[1]
+
+		estudiante := estructuras.Nuevo_Estudiante(nombre, apellido, carnet, lineaSeparada[2])
+		//insertar estudiante en la lista doble
+		ColaPendientes.Encolar(estudiante)
+	}
+	print("------------------------------------------------------------------------------------------")
+	println("!! Estudiantes cargados a la cola de pendientes de aprobación !!")
 }
