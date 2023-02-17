@@ -6,6 +6,7 @@ import (
 	"fmt"
 	"os"
 	"strings"
+	"time"
 )
 
 var listaEstudiantes estructuras.ListaDoble
@@ -16,6 +17,10 @@ func main() {
 	listaEstudiantes = *estructuras.Nueva_ListaDoble()
 	ColaPendientes = *estructuras.Nueva_Cola()
 
+	//crear Estudiante admin "admin", "admin",0,"admin"
+	admin := estructuras.Nuevo_Estudiante("admin", "admin", 0, "admin")
+	listaEstudiantes.Insertar(admin)
+
 	cargaMasiva("D:\\carga.csv")
 	dashboardAdmin()
 	//menu()
@@ -23,7 +28,7 @@ func main() {
 func menu() {
 	println("EDD GoDrive")
 	println("Bienvenido al sistema de archivos GoDrive")
-	println("------------------------------------------------------------------------------------------")
+
 	opcion := 0
 	for opcion != 2 {
 		println("1. Iniciar sesion")
@@ -104,8 +109,27 @@ func dashboardAdmin() {
 				case 1:
 					//insertar estudiante en la lista doble
 					listaEstudiantes.Insertar(estudiante)
+					admin := listaEstudiantes.GetEstudiante(0)
+					operacion := "Se aprobo al estudiante "
+					//obtejer la fecha en string
+					fecha := time.Now()
+					fechaString := fecha.Format("2006-01-02")
+					hora := fecha.Format("15:04:05")
+
+					//crear log
+					admin.Bitacora.Apilar(operacion, estudiante, fechaString, hora)
+
 					println("Estudiante aprobado con exito")
 				case 2:
+					admin := listaEstudiantes.GetEstudiante(0)
+					operacion := "Se rechazo al estudiante"
+					//obtejer la fecha en string
+					fecha := time.Now()
+					fechaString := fecha.Format("2006-01-02")
+					hora := fecha.Format("15:04:05")
+
+					//crear log
+					admin.Bitacora.Apilar(operacion, estudiante, fechaString, hora)
 					println("Estudiante rechazado con exito")
 				case 3:
 					//regresar a menu principal
@@ -153,6 +177,10 @@ func dashboardAdmin() {
 			println("ruta: ", ruta)
 			cargaMasiva(ruta)
 			println("------------------------------------------------------------------------------------------")
+		case 5:
+			println("Saliendo del dashboard de administrador")
+			menu()
+		default:
 		}
 
 	}
@@ -168,13 +196,12 @@ func dashboardEstudiante() {
 		println("3. Descargar archivos")
 		println("4. Eliminar archivos")
 		println("5. Cerrar sesion")
-
 		fmt.Scan(&opcion)
 
 	}
 }
 
-// carga masiva de estudiantes desde un archivo csv con el siguiente formato carnet, nombre apellido ,contraseña usando encoding/csv
+// carga masiva de estudiantes desde un archivo csv con el siguiente formato carnet, nombre apellido ,contraseña
 func cargaMasiva(ruta string) {
 	//abrir archivo
 	archivo, err := os.Open(ruta)
