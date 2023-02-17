@@ -92,3 +92,15 @@ func (lista *ListaDoble) GetEstudiante(carnet int) *Estudiante {
 	}
 	return nil
 }
+
+//comprobar que no exista el carnet
+func (lista *ListaDoble) ExisteCarnet(carnet int) bool {
+	aux := lista.Inicio
+	for aux != nil {
+		if aux.Estudiante.carnet == carnet {
+			return true
+		}
+		aux = aux.Siguiente
+	}
+	return false
+}
