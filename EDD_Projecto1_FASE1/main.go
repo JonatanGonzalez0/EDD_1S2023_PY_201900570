@@ -70,6 +70,7 @@ func login() {
 		var comprobarLogin bool = listaEstudiantes.Login(usuarioInt, password)
 		if comprobarLogin {
 			sesion = listaEstudiantes.GetEstudiante(usuarioInt)
+
 			dashboardEstudiante()
 		} else {
 			println("Usuario o contraseña incorrectos Intente de nuevo")
@@ -197,6 +198,16 @@ func dashboardAdmin() {
 }
 
 func dashboardEstudiante() {
+	//agregar log a bitacoraEstudiante
+	operacion := "Inicio de sesion"
+	//obtejer la fecha en string
+	fecha := time.Now()
+	fechaString := fecha.Format("2006-01-02")
+	hora := fecha.Format("15:04:05")
+
+	//crear log
+	sesion.Bitacora_Estudiante.Apilar(operacion, fechaString, hora)
+
 	println("------------------------------------------------------------------------------------------")
 	println("Bienvenido al dashboard de estudiante de GoDrive")
 	opcion := 0
@@ -209,6 +220,14 @@ func dashboardEstudiante() {
 		fmt.Scan(&opcion)
 
 	}
+	//agregar log a bitacoraEstudiante
+	operacion = "Cierre de sesion"
+	//obtejer la fecha en string
+	fecha = time.Now()
+	fechaString = fecha.Format("2006-01-02")
+	hora = fecha.Format("15:04:05")
+	//crear log
+	sesion.Bitacora_Estudiante.Apilar(operacion, fechaString, hora)
 }
 
 // carga masiva de estudiantes desde un archivo csv con el siguiente formato carnet, nombre apellido ,contraseña

@@ -1,16 +1,17 @@
 package estructuras
 
 type Estudiante struct {
-	nombre   string
-	apellido string
-	carnet   int
-	password string
-	Bitacora *PilaAdmin
+	nombre              string
+	apellido            string
+	carnet              int
+	password            string
+	Bitacora            *PilaAdmin
+	Bitacora_Estudiante *PilaEstudiante
 }
 
 // construct
 func Nuevo_Estudiante(nombre string, apellido string, carnet int, password string) *Estudiante {
-	return &Estudiante{nombre: nombre, apellido: apellido, carnet: carnet, password: password, Bitacora: Nueva_PilaAdmin()}
+	return &Estudiante{nombre: nombre, apellido: apellido, carnet: carnet, password: password, Bitacora: Nueva_PilaAdmin(), Bitacora_Estudiante: Nueva_PilaEstudiante()}
 }
 
 // setters y getter
