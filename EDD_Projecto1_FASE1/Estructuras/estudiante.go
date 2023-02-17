@@ -5,11 +5,12 @@ type Estudiante struct {
 	apellido string
 	carnet   int
 	password string
+	Bitacora *PilaAdmin
 }
 
 // construct
 func Nuevo_Estudiante(nombre string, apellido string, carnet int, password string) *Estudiante {
-	return &Estudiante{nombre: nombre, apellido: apellido, carnet: carnet, password: password}
+	return &Estudiante{nombre: nombre, apellido: apellido, carnet: carnet, password: password, Bitacora: Nueva_PilaAdmin()}
 }
 
 // setters y getter

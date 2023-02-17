@@ -63,7 +63,8 @@ func (lista *ListaDoble) Imprimir() {
 		for i := 0; i < lengthPassword; i++ {
 			asteriscos += "*"
 		}
-		fmt.Printf("Nombre: %s %s, Carnet: %d, Password: %s\n", aux.Estudiante.nombre, aux.Estudiante.apellido, aux.Estudiante.carnet, asteriscos)
+		fmt.Println("------------------------------------------------------------------------------------------")
+		fmt.Printf("Nombre: %s %s, Carnet: %d \n", aux.Estudiante.nombre, aux.Estudiante.apellido, aux.Estudiante.carnet)
 		aux = aux.Siguiente
 	}
 }
@@ -78,4 +79,16 @@ func (lista *ListaDoble) Login(carnet int, password string) bool {
 		aux = aux.Siguiente
 	}
 	return false
+}
+
+//get estudiante by carnet
+func (lista *ListaDoble) GetEstudiante(carnet int) *Estudiante {
+	aux := lista.Inicio
+	for aux != nil {
+		if aux.Estudiante.carnet == carnet {
+			return aux.Estudiante
+		}
+		aux = aux.Siguiente
+	}
+	return nil
 }
