@@ -11,6 +11,7 @@ import (
 
 var listaEstudiantes estructuras.ListaDoble
 var ColaPendientes estructuras.Cola
+var sesion *estructuras.Estudiante
 
 func main() {
 	//inicializar
@@ -58,6 +59,7 @@ func login() {
 	var password string
 	fmt.Scan(&password)
 	if usuario == "admin" && password == "admin" {
+		sesion = listaEstudiantes.GetEstudiante(0)
 		dashboardAdmin()
 	} else {
 		//convertir usuario a int
@@ -67,6 +69,7 @@ func login() {
 		//comprobar login
 		var comprobarLogin bool = listaEstudiantes.Login(usuarioInt, password)
 		if comprobarLogin {
+			sesion = listaEstudiantes.GetEstudiante(usuarioInt)
 			dashboardEstudiante()
 		} else {
 			println("Usuario o contraseña incorrectos Intente de nuevo")
@@ -162,6 +165,13 @@ func dashboardAdmin() {
 			var password string
 			fmt.Scan(&password)
 
+			//si existe el carnet no se puede crear el estudiante
+			if listaEstudiantes.ExisteCarnet(carnet) {
+				println("------------------------------------------------------------------------------------------")
+				println("!! El carnet ya existe en el sistema !!")
+				println("------------------------------------------------------------------------------------------")
+				break
+			}
 			//crear estudiante
 			estudiante := estructuras.Nuevo_Estudiante(nombre, apellido, carnet, password)
 			//insertar estudiante en la lista doble
@@ -180,7 +190,7 @@ func dashboardAdmin() {
 		case 5:
 			println("Saliendo del dashboard de administrador")
 			menu()
-		default:
+
 		}
 
 	}
