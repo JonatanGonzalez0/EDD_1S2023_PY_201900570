@@ -2,7 +2,6 @@ package estructuras
 
 import (
 	"fmt"
-	"io/ioutil"
 	"os"
 	"os/exec"
 )
@@ -123,35 +122,35 @@ func (lista *ListaDoble) ReporteGraphviz() {
 		return
 	}
 	defer file.Close()
+	//escribir en el archivo dot Carnet\n Nombre Apellido
 	file.WriteString("digraph G {\n")
 	file.WriteString("rankdir=LR;\n")
 	file.WriteString("node [shape=record];\n")
-	file.WriteString("rankdir=LR;\n")
-	file.WriteString("subgraph cluster_0 {\n")
-	file.WriteString("style=filled;\n")
-	file.WriteString("color=lightgrey;\n")
-	file.WriteString("node [style=filled,color=white];\n")
-	file.WriteString("label = \"Lista doble de estudiantes\";\n")
+	file.WriteString("node [color=lightblue2, style=filled];\n")
+	file.WriteString("edge [color=black];\nlabel = \"Lista doble de estudiantes\";\n")
+
 	for aux != nil {
-		file.WriteString(fmt.Sprintf("node%d [label=\"{<f0> %d|<f1> %s %s}\"];\n", aux.Estudiante.carnet, aux.Estudiante.carnet, aux.Estudiante.nombre, aux.Estudiante.apellido))
+		file.WriteString(fmt.Sprintf("%d[label=\"%d\\n %s %s\"];\n", aux.Estudiante.carnet, aux.Estudiante.carnet, aux.Estudiante.nombre, aux.Estudiante.apellido))
 		aux = aux.Siguiente
 	}
 	aux = lista.Inicio
 	for aux != nil {
 		if aux.Siguiente != nil {
-			file.WriteString(fmt.Sprintf("node%d:f0 -> node%d:f0;\n", aux.Estudiante.carnet, aux.Siguiente.Estudiante.carnet))
+			file.WriteString(fmt.Sprintf("%d->%d;\n", aux.Estudiante.carnet, aux.Siguiente.Estudiante.carnet))
 		}
 		if aux.Anterior != nil {
-			file.WriteString(fmt.Sprintf("node%d:f0 -> node%d:f0;\n", aux.Estudiante.carnet, aux.Anterior.Estudiante.carnet))
+			file.WriteString(fmt.Sprintf("%d->%d;\n", aux.Estudiante.carnet, aux.Anterior.Estudiante.carnet))
 		}
 		aux = aux.Siguiente
 	}
-	file.WriteString("}\n")
 	file.WriteString("}")
 
-	//cmd to generate the image
-	path, _ := exec.LookPath("dot")
-	cmd, _ := exec.Command(path, "-Tjpg", path_reportes+"\\ListaDobleEstudiantes.dot").Output()
-	mode := 0777
-	_ = ioutil.WriteFile(path_reportes+"\\ListaDobleEstudiantes.jpg", cmd, os.FileMode(mode))
+	// ejecutar comando para generar la imagen
+	cmd, err := exec.Command("dot", "-Tpng", path_reportes+"\\ListaDobleEstudiantes.dot", "-o", path_reportes+"\\ListaDobleEstudiantes.png").Output()
+	if err != nil {
+		println("Error al generar la imagen")
+		return
+	}
+	println(string(cmd))
+
 }

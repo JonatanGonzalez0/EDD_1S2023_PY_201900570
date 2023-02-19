@@ -1,24 +1,23 @@
 digraph G {
 rankdir=LR;
 node [shape=record];
-rankdir=LR;
-subgraph cluster_0 {
-style=filled;
-color=lightgrey;
-node [style=filled,color=white];
+node [color=lightblue2, style=filled];
+edge [color=black];
 label = "Lista doble de estudiantes";
-node0 [label = "Carnet: 0\nNombre: admin admin"];
-node201403877 [label = "Carnet: 201403877\nNombre: Ebany Larios"];
-node201709018 [label = "Carnet: 201709018\nNombre: Cristian Suy"];
-node201709018 [label = "Carnet: 201709018\nNombre: Cristian Suy"];
-node201780044 [label = "Carnet: 201780044\nNombre: Leonardo Martinez"];
-node0 -> node201403877;
-node201403877 -> node201709018;
-node201403877 -> node0;
-node201709018 -> node201709018;
-node201709018 -> node201403877;
-node201709018 -> node201780044;
-node201709018 -> node201709018;
-node201780044 -> node201709018;
-}
+0[label="0\n admin admin"];
+201403877[label="201403877\n Ebany Larios"];
+201709018[label="201709018\n Cristian Suy"];
+201709018[label="201709018\n Cristian Suy"];
+201780044[label="201780044\n Leonardo Martinez"];
+202210001[label="202210001\n Ana Torres"];
+0->201403877;
+201403877->201709018;
+201403877->0;
+201709018->201709018;
+201709018->201403877;
+201709018->201780044;
+201709018->201709018;
+201780044->202210001;
+201780044->201709018;
+202210001->201780044;
 }
