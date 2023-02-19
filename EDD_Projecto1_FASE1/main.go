@@ -83,12 +83,13 @@ func dashboardAdmin() {
 	println("------------------------------------------------------------------------------------------")
 	println("Bienvenido al dashboard de administrador de GoDrive")
 	opcion := 0
-	for opcion != 5 {
+	for opcion != 6 {
 		println("1. Ver estudiantes pendientes")
 		println("2. Ver estudiantes del sistema")
 		println("3. Registrar nuevo estudiante")
 		println("4. Carga masiva de estudiantes")
-		println("5. Cerar sesion")
+		println("5. Reportes")
+		println("6. Cerar sesion")
 		println("------------------------------------------------------------------------------------------")
 		fmt.Scan(&opcion)
 
@@ -189,7 +190,11 @@ func dashboardAdmin() {
 			cargaMasiva(ruta)
 			println("------------------------------------------------------------------------------------------")
 		case 5:
+			println("------------------------------------------------------------------------------------------")
+			Reportes()
+		case 6:
 			println("Saliendo del dashboard de administrador")
+			sesion = nil
 			menu()
 
 		}
@@ -228,6 +233,7 @@ func dashboardEstudiante() {
 	hora = fecha.Format("15:04:05")
 	//crear log
 	sesion.Bitacora_Estudiante.Apilar(operacion, fechaString, hora)
+	sesion = nil
 }
 
 // carga masiva de estudiantes desde un archivo csv con el siguiente formato carnet, nombre apellido ,contraseña
@@ -261,4 +267,37 @@ func cargaMasiva(ruta string) {
 	}
 	println("------------------------------------------------------------------------------------------")
 	println("!! Estudiantes cargados a la cola de pendientes de aprobación !!")
+}
+
+func Reportes() {
+	opcion := 0
+	for opcion != 5 {
+		println("------------------------------------------------------------------------------------------")
+		println("1. Reporte Lista de estudiantes")
+		println("2. Reporte de archivos")
+		println("3. Reporte de bitacora de administrador")
+		println("4. Reporte de bitacora de estudiante")
+		println("5. Salir")
+		fmt.Scan(&opcion)
+
+		switch opcion {
+		case 1:
+			println("------------------------------------------------------------------------------------------")
+			listaEstudiantes.ReporteGraphviz()
+			println("------------------------------------------------------------------------------------------")
+
+		case 2:
+			println("------------------------------------------------------------------------------------------")
+
+		case 3:
+			println("------------------------------------------------------------------------------------------")
+
+		case 4:
+			println("------------------------------------------------------------------------------------------")
+
+		case 5:
+			println("Saliendo del menu de reportes")
+			dashboardAdmin()
+		}
+	}
 }
