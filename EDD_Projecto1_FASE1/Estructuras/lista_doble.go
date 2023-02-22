@@ -1,7 +1,6 @@
 package estructuras
 
 import (
-	"encoding/json"
 	"fmt"
 	"os"
 	"os/exec"
@@ -129,7 +128,7 @@ func (lista *ListaDoble) ReporteGraphviz() {
 	file.WriteString("\tlabel = \"Lista doble de estudiantes\";\n\tlabelloc = top;\n")
 	file.WriteString("\tbgcolor=gray95;\n")
 	file.WriteString("subgraph Lista {\n")
-	file.WriteString("\tnode [shape=box,width=2.5,height=1,color=lightblue2, style=filled]];\n")
+	file.WriteString("\tnode [shape=box,width=2.5,height=1,color=lightblue2, style=filled];\n")
 	file.WriteString("\tedge [color=black];\n\n")
 	//nodo null para inicio
 
@@ -252,38 +251,34 @@ func (lista *ListaDoble) ReporteGraphviz() {
 }
 
 // crear reporte en archivo Json "alumnos": [ {nombre:"nombreEstudiante", carnet: "carnetEstudiante", password:"passEstudiante", CarpetaRaiz:"/"} ]
-func ReporteJsonEstudiantes(lista *ListaDoble) {
+func (lista *ListaDoble) ReporteJson() {
 
 	//get absolute path of the file
 	abspath, _ := os.Getwd()
 	path_reportes := abspath + "\\Reportes"
-	//crear archivo
+
 	file, err := os.Create(path_reportes + "\\Estudiantes.json")
 	if err != nil {
 		println("Error al crear el archivo")
 		return
 	}
-	//escribir en el archivo
+	defer file.Close()
 	file.WriteString("{\n")
 	file.WriteString("\t\"alumnos\": [\n")
-	aux := lista.Inicio
+	aux := lista.Inicio.Siguiente
 	for aux != nil {
-		file.WriteString(fmt.Sprintf("\t\t{\"nombre\":\"%s\", \"carnet\":\"%d\", \"password\":\"%s\", \"CarpetaRaiz\":\"/\"}", aux.Estudiante.nombre, aux.Estudiante.carnet, aux.Estudiante.password))
+		file.WriteString("\t\t{\n")
+		file.WriteString(fmt.Sprintf("\t\t\t\"nombre\": \"%s\",\n", aux.Estudiante.nombre))
+		file.WriteString(fmt.Sprintf("\t\t\t\"carnet\": \"%d\",\n", aux.Estudiante.carnet))
+		file.WriteString(fmt.Sprintf("\t\t\t\"password\": \"%s\",\n", aux.Estudiante.password))
+		file.WriteString("\t\t\t\"CarpetaRaiz\": \"/\"\n")
 		if aux.Siguiente != nil {
-			file.WriteString(",\n")
+			file.WriteString("\t\t},\n")
 		} else {
-			file.WriteString("\n")
+			file.WriteString("\t\t}\n")
 		}
 		aux = aux.Siguiente
 	}
-}
-
-// funcion para obtener el json de la lista
-func GetJson(lista *ListaDoble) (string, error) {
-	aux := lista.Inicio
-	jsonData, err := json.Marshal(aux)
-	if err != nil {
-		return "", err
-	}
-	return string(jsonData), nil
+	file.WriteString("\t]\n")
+	file.WriteString("}")
 }

@@ -2,11 +2,14 @@ package main
 
 import (
 	"EDD_Projecto1_FASE1/estructuras"
-	"bufio"
+	"encoding/csv"
 	"fmt"
+	"io"
 	"os"
 	"strings"
 	"time"
+
+	"golang.org/x/text/encoding/charmap"
 )
 
 var listaEstudiantes estructuras.ListaDoble
@@ -188,9 +191,9 @@ func dashboardAdmin() {
 			fmt.Scan(&password)
 
 			//si existe el carnet no se puede crear el estudiante
-			if listaEstudiantes.ExisteCarnet(carnet) {
+			if listaEstudiantes.ExisteCarnet(carnet) || ColaPendientes.ExisteCarnet(carnet) {
 				println("------------------------------------------------------------------------------------------")
-				println("!! El carnet ya existe en el sistema !!")
+				println("!! El carnet ", carnet, " ya existe en el sistema !!")
 				println("------------------------------------------------------------------------------------------")
 				break
 			}
@@ -207,7 +210,8 @@ func dashboardAdmin() {
 			var ruta string
 			fmt.Scan(&ruta)
 			println("ruta: ", ruta)
-			cargaMasiva(ruta)
+			//cargaMasiva(ruta)
+			cargaMasivaV2(ruta)
 			println("------------------------------------------------------------------------------------------")
 		case 5:
 			println("------------------------------------------------------------------------------------------")
@@ -255,52 +259,6 @@ func dashboardEstudiante() {
 	menu()
 }
 
-// carga masiva de estudiantes desde un archivo csv con el siguiente formato carnet, nombre apellido ,contraseña
-func cargaMasiva(ruta string) {
-	//abrir archivo
-	archivo, err := os.Open(ruta)
-	if err != nil {
-		println("Error al abrir el archivo")
-		return
-	}
-	defer archivo.Close()
-
-	//crear un scanner para leer el archivo
-	scanner := bufio.NewScanner(archivo)
-	contador := 0
-	//leer el archivo linea por linea
-	for scanner.Scan() {
-		linea := scanner.Text()
-		//si es la primera linea del archivo no se hace nada
-		if linea == "carnet,nombre,password" {
-			continue
-		}
-		contador++
-		//separar la linea por comas
-		lineaSeparada := strings.Split(linea, ",")
-		//convertir carnet a int
-		var carnet int
-		fmt.Sscan(lineaSeparada[0], &carnet)
-
-		//comprobar si el carnet ya existe
-		if listaEstudiantes.ExisteCarnet(carnet) {
-			println("------------------------------------------------------------------------------------------")
-			println("!! El carnet", carnet, "ya existe en el sistema !!")
-			println("------------------------------------------------------------------------------------------")
-			continue
-		}
-		//crear estudiante
-		nombre := strings.Split(lineaSeparada[1], " ")[0]
-		apellido := strings.Split(lineaSeparada[1], " ")[1]
-
-		estudiante := estructuras.Nuevo_Estudiante(nombre, apellido, carnet, lineaSeparada[2])
-		//insertar estudiante en la lista doble
-		ColaPendientes.Encolar(estudiante)
-	}
-	println("------------------------------------------------------------------------------------------")
-	println("!! ", contador, "estudiantes agregados a la cola de pendientes de aprobación !!")
-}
-
 func Reportes() {
 	opcion := 0
 	for opcion != 5 {
@@ -323,6 +281,8 @@ func Reportes() {
 			println("------------------------------------------------------------------------------------------")
 		case 3:
 			println("------------------------------------------------------------------------------------------")
+			listaEstudiantes.ReporteJson()
+			println("------------------------------------------------------------------------------------------")
 
 		case 4:
 			println("------------------------------------------------------------------------------------------")
@@ -332,4 +292,53 @@ func Reportes() {
 			dashboardAdmin()
 		}
 	}
+}
+
+func cargaMasivaV2(ruta string) {
+	archivo, err := os.Open(ruta)
+	if err != nil {
+		println("Error al abrir el archivo")
+		return
+	}
+	defer archivo.Close()
+
+	decoder := charmap.ISO8859_1.NewDecoder()
+	lector := csv.NewReader(decoder.Reader(archivo))
+
+	contador := 0
+
+	for {
+		linea, err := lector.Read()
+		if err == io.EOF {
+			break
+		} else if err != nil {
+			println("Error al leer el archivo")
+			return
+		}
+		if linea[0] == "carnet" {
+			continue
+		}
+		contador++
+		//convertir carnet a int
+		var carnet int
+		fmt.Sscan(linea[0], &carnet)
+
+		//comprobar si el carnet ya existe
+		if listaEstudiantes.ExisteCarnet(carnet) || ColaPendientes.ExisteCarnet(carnet) {
+			println("------------------------------------------------------------------------------------------")
+			println("!! El carnet", carnet, "ya existe en el sistema !!")
+			println("------------------------------------------------------------------------------------------")
+			continue
+		}
+		//crear estudiante
+		nombre := strings.Split(linea[1], " ")[0]
+		apellido := strings.Split(linea[1], " ")[1]
+
+		estudiante := estructuras.Nuevo_Estudiante(nombre, apellido, carnet, linea[2])
+		//insertar estudiante en la lista doble
+		ColaPendientes.Encolar(estudiante)
+	}
+	println("------------------------------------------------------------------------------------------")
+	println("!! ", contador, "estudiantes agregados a la cola [pendientes de aprobación] !!")
+	println("------------------------------------------------------------------------------------------")
 }

@@ -120,3 +120,15 @@ func (cola *Cola) ReporteGraphviz() {
 	}
 	fmt.Println(string(cmd))
 }
+
+// existe carnet en cola
+func (cola *Cola) ExisteCarnet(carnet int) bool {
+	aux := cola.Inicio
+	for aux != nil {
+		if aux.Estudiante.carnet == carnet {
+			return true
+		}
+		aux = aux.Siguiente
+	}
+	return false
+}
