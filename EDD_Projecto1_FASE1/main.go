@@ -22,9 +22,29 @@ func main() {
 	admin := estructuras.Nuevo_Estudiante("admin", "admin", 0, "admin")
 	listaEstudiantes.Insertar(admin)
 
+	/* TEST DE FUNCIONES AUTOMATICAS
+	//crear usuarios de prueba
+	estudiante1 := estructuras.Nuevo_Estudiante("estudiante1", "estudiante1", 201801231, "pass")
+	estudiante2 := estructuras.Nuevo_Estudiante("estudiante2", "estudiante2", 201801232, "pass")
+	estudiante3 := estructuras.Nuevo_Estudiante("estudiante3", "estudiante3", 201801233, "pass")
+
+	listaEstudiantes.Insertar(estudiante1)
+	listaEstudiantes.Insertar(estudiante2)
+	listaEstudiantes.Insertar(estudiante3)
+
+	//iterar 3 para simular inicio de sesion de los 3 estudiantes
+	for i := 1; i < 4; i++ {
+		carnetString := "20180123" + fmt.Sprint(i)
+		var carnetInt int
+		fmt.Sscan(carnetString, &carnetInt)
+		//crear carpeta de usuario
+		sesion = listaEstudiantes.GetEstudiante(carnetInt)
+		dashboardEstudiante()
+	}
+
 	cargaMasiva("D:\\carga.csv")
-	dashboardAdmin()
-	//menu()
+	dashboardAdmin()*/
+	menu()
 }
 func menu() {
 	println("EDD GoDrive")
@@ -194,7 +214,6 @@ func dashboardAdmin() {
 			Reportes()
 		case 6:
 			println("Saliendo del dashboard de administrador")
-			sesion = nil
 			menu()
 
 		}
@@ -210,7 +229,7 @@ func dashboardEstudiante() {
 	fechaString := fecha.Format("2006-01-02")
 	hora := fecha.Format("15:04:05")
 
-	//crear log
+	//obtener el estudiante de la sesion actual en memoria
 	sesion.Bitacora_Estudiante.Apilar(operacion, fechaString, hora)
 
 	println("------------------------------------------------------------------------------------------")
@@ -233,7 +252,7 @@ func dashboardEstudiante() {
 	hora = fecha.Format("15:04:05")
 	//crear log
 	sesion.Bitacora_Estudiante.Apilar(operacion, fechaString, hora)
-	sesion = nil
+	menu()
 }
 
 // carga masiva de estudiantes desde un archivo csv con el siguiente formato carnet, nombre apellido ,contraseña
@@ -248,15 +267,28 @@ func cargaMasiva(ruta string) {
 
 	//crear un scanner para leer el archivo
 	scanner := bufio.NewScanner(archivo)
-
+	contador := 0
 	//leer el archivo linea por linea
 	for scanner.Scan() {
 		linea := scanner.Text()
+		//si es la primera linea del archivo no se hace nada
+		if linea == "carnet,nombre,password" {
+			continue
+		}
+		contador++
 		//separar la linea por comas
 		lineaSeparada := strings.Split(linea, ",")
 		//convertir carnet a int
 		var carnet int
 		fmt.Sscan(lineaSeparada[0], &carnet)
+
+		//comprobar si el carnet ya existe
+		if listaEstudiantes.ExisteCarnet(carnet) {
+			println("------------------------------------------------------------------------------------------")
+			println("!! El carnet", carnet, "ya existe en el sistema !!")
+			println("------------------------------------------------------------------------------------------")
+			continue
+		}
 		//crear estudiante
 		nombre := strings.Split(lineaSeparada[1], " ")[0]
 		apellido := strings.Split(lineaSeparada[1], " ")[1]
@@ -266,7 +298,7 @@ func cargaMasiva(ruta string) {
 		ColaPendientes.Encolar(estudiante)
 	}
 	println("------------------------------------------------------------------------------------------")
-	println("!! Estudiantes cargados a la cola de pendientes de aprobación !!")
+	println("!! ", contador, "estudiantes agregados a la cola de pendientes de aprobación !!")
 }
 
 func Reportes() {
@@ -274,9 +306,8 @@ func Reportes() {
 	for opcion != 5 {
 		println("------------------------------------------------------------------------------------------")
 		println("1. Reporte Lista de estudiantes")
-		println("2. Reporte de archivos")
-		println("3. Reporte de bitacora de administrador")
-		println("4. Reporte de bitacora de estudiante")
+		println("2. Reporte cola de estudiantes pendientes")
+		println("3. Reporte Json")
 		println("5. Salir")
 		fmt.Scan(&opcion)
 
@@ -288,7 +319,8 @@ func Reportes() {
 
 		case 2:
 			println("------------------------------------------------------------------------------------------")
-
+			ColaPendientes.ReporteGraphviz()
+			println("------------------------------------------------------------------------------------------")
 		case 3:
 			println("------------------------------------------------------------------------------------------")
 

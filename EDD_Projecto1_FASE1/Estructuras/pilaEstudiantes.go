@@ -56,3 +56,31 @@ func (pila *PilaEstudiante) Desapilar() *NodoPilaEstudiante {
 		return nodo
 	}
 }
+
+// gets
+func (pila *PilaEstudiante) GetInicio() *NodoPilaEstudiante {
+	return pila.Inicio
+}
+
+func (pila *PilaEstudiante) GetFin() *NodoPilaEstudiante {
+	return pila.Fin
+}
+
+func (pila *PilaEstudiante) GetLongitud() int {
+	return pila.Longitud
+}
+
+// get operacion
+func (nodo *NodoPilaEstudiante) GetOperacion() string {
+	return nodo.operacion
+}
+
+// get fecha
+func (nodo *NodoPilaEstudiante) GetFecha() string {
+	return nodo.fecha
+}
+
+// get hora
+func (nodo *NodoPilaEstudiante) GetHora() string {
+	return nodo.hora
+}

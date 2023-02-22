@@ -1,23 +1,78 @@
 digraph G {
-rankdir=LR;
-node [shape=record];
-node [color=lightblue2, style=filled];
-edge [color=black];
-label = "Lista doble de estudiantes";
-0[label="0\n admin admin"];
-201403877[label="201403877\n Ebany Larios"];
-201709018[label="201709018\n Cristian Suy"];
-201709018[label="201709018\n Cristian Suy"];
-201780044[label="201780044\n Leonardo Martinez"];
-202210001[label="202210001\n Ana Torres"];
-0->201403877;
-201403877->201709018;
-201403877->0;
-201709018->201709018;
-201709018->201403877;
-201709018->201780044;
-201709018->201709018;
-201780044->202210001;
-201780044->201709018;
-202210001->201780044;
+	label = "Lista doble de estudiantes";
+	labelloc = top;
+	bgcolor=gray95;
+subgraph Lista {
+	node [shape=box,width=2.5];
+	node [color=lightblue2, style=filled];
+	edge [color=black, len = 5];
+
+//Crear Nodos 
+
+	null [label = "Nil"];
+	0 [label="0\n admin admin"];
+	201403877 [label="201403877\n Ebany Larios"];
+	201709018 [label="201709018\n Cristian Suy"];
+	201780044 [label="201780044\n Leonardo Martinez"];
+	202210001 [label="202210001\n Ana Torres"];
+	null2 [label = "Nil"];
+
+//Crear Enlaces lista enlazada 
+	null->0;
+	0->null;
+	0->201403877;
+	201403877->0;
+	201403877->201709018;
+	201709018->201403877;
+	201709018->201780044;
+	201780044->201709018;
+	201780044->202210001;
+	202210001->201780044;
+	null2->202210001;
+	202210001->null2;
+
+	{rank=same; null;0;201403877;201709018;201780044;202210001;null2}
+
+}
+//Crear Pilas bitacora
+subgraph cluster_201709018 {
+	label = "Bitacora 201709018";
+	labelloc = bottom;
+	color = blue;
+	bgcolor = gray75;
+	node [color=lightblue2, style=filled, shape=box];
+	edge [color=black];
+	pila201709018_0 [label="Cierre de sesion\n 2023-02-19 22:47:47"];
+	pila201709018_1 [label="Inicio de sesion\n 2023-02-19 22:47:45"];
+	pila201709018_0->pila201709018_1;
+}
+201709018->pila201709018_0;
+subgraph cluster_201780044 {
+	label = "Bitacora 201780044";
+	labelloc = bottom;
+	color = blue;
+	bgcolor = gray75;
+	node [color=lightblue2, style=filled, shape=box];
+	edge [color=black];
+	pila201780044_0 [label="Cierre de sesion\n 2023-02-19 22:47:35"];
+	pila201780044_1 [label="Inicio de sesion\n 2023-02-19 22:47:27"];
+	pila201780044_0->pila201780044_1;
+}
+201780044->pila201780044_0;
+subgraph cluster_0 {
+	label = "Bitacora Admin";
+	labelloc = bottom;
+	color = blue;
+	bgcolor = gray75;
+	node [color=lightblue2, style=filled, shape=box];
+	edge [color=black];
+	pila0_0 [label="Se aprobo al estudiante \n Ana Torres\n 2023-02-19 22:47:11"];
+	pila0_1 [label="Se aprobo al estudiante \n Ebany Larios\n 2023-02-19 22:47:08"];
+	pila0_2 [label="Se aprobo al estudiante \n Cristian Suy\n 2023-02-19 22:47:08"];
+	pila0_3 [label="Se aprobo al estudiante \n Leonardo Martinez\n 2023-02-19 22:47:08"];
+	pila0_0->pila0_1;
+	pila0_1->pila0_2;
+	pila0_2->pila0_3;
+0->pila0_0;
+}
 }

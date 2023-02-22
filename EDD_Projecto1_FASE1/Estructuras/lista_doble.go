@@ -1,9 +1,11 @@
 package estructuras
 
 import (
+	"encoding/json"
 	"fmt"
 	"os"
 	"os/exec"
+	"strings"
 )
 
 type ListaDoble struct {
@@ -124,33 +126,164 @@ func (lista *ListaDoble) ReporteGraphviz() {
 	defer file.Close()
 	//escribir en el archivo dot Carnet\n Nombre Apellido
 	file.WriteString("digraph G {\n")
-	file.WriteString("rankdir=LR;\n")
-	file.WriteString("node [shape=record];\n")
-	file.WriteString("node [color=lightblue2, style=filled];\n")
-	file.WriteString("edge [color=black];\nlabel = \"Lista doble de estudiantes\";\n")
+	file.WriteString("\tlabel = \"Lista doble de estudiantes\";\n\tlabelloc = top;\n")
+	file.WriteString("\tbgcolor=gray95;\n")
+	file.WriteString("subgraph Lista {\n")
+	file.WriteString("\tnode [shape=box,width=2.5,height=1,color=lightblue2, style=filled]];\n")
+	file.WriteString("\tedge [color=black];\n\n")
+	//nodo null para inicio
+
+	//comentario en dot
+	file.WriteString("//Crear Nodos \n\n")
+	file.WriteString("\tnull [label = \"Nil\"];\n")
 
 	for aux != nil {
-		file.WriteString(fmt.Sprintf("%d[label=\"%d\\n %s %s\"];\n", aux.Estudiante.carnet, aux.Estudiante.carnet, aux.Estudiante.nombre, aux.Estudiante.apellido))
+		file.WriteString(fmt.Sprintf("\t%d [label=\"%d\\n %s %s\"];\n", aux.Estudiante.carnet, aux.Estudiante.carnet, aux.Estudiante.nombre, aux.Estudiante.apellido))
 		aux = aux.Siguiente
 	}
+	//nodo null para fin
+	file.WriteString("\tnull2 [label = \"Nil\"];\n\n")
+
+	file.WriteString("//Crear Enlaces lista enlazada \n")
+	file.WriteString("\tnull->" + fmt.Sprintf("%d", lista.Inicio.Estudiante.carnet) + ";\n")
+	file.WriteString(fmt.Sprintf("\t%d->null;\n", lista.Inicio.Estudiante.carnet))
+
 	aux = lista.Inicio
 	for aux != nil {
 		if aux.Siguiente != nil {
-			file.WriteString(fmt.Sprintf("%d->%d;\n", aux.Estudiante.carnet, aux.Siguiente.Estudiante.carnet))
-		}
-		if aux.Anterior != nil {
-			file.WriteString(fmt.Sprintf("%d->%d;\n", aux.Estudiante.carnet, aux.Anterior.Estudiante.carnet))
+			file.WriteString(fmt.Sprintf("\t%d->%d;\n", aux.Estudiante.carnet, aux.Siguiente.Estudiante.carnet))
+			file.WriteString(fmt.Sprintf("\t%d->%d;\n", aux.Siguiente.Estudiante.carnet, aux.Estudiante.carnet))
 		}
 		aux = aux.Siguiente
 	}
+
+	file.WriteString("\tnull2->" + fmt.Sprintf("%d", lista.Fin.Estudiante.carnet) + ";\n")
+	file.WriteString(fmt.Sprintf("\t%d->null2;\n\n", lista.Fin.Estudiante.carnet))
+
+	//rank same para todos los estudiantes y null
+	file.WriteString("\t{rank=same; null;")
+	aux = lista.Inicio
+	for aux != nil {
+		file.WriteString(fmt.Sprintf("%d;", aux.Estudiante.carnet))
+		aux = aux.Siguiente
+	}
+	file.WriteString("null2}\n\n")
+	file.WriteString("}\n")
+	file.WriteString("//Crear Pilas bitacora\n")
+	//para cada pila de cada estudiante crear un subgrafo con la operacion\n fecha y hora. Pila vertical
+	aux = lista.Inicio.Siguiente
+	for aux != nil {
+		if aux.Estudiante.Bitacora_Estudiante.GetLongitud() != 0 {
+			file.WriteString(fmt.Sprintf("subgraph cluster_%d {\n", aux.Estudiante.carnet))
+			file.WriteString(fmt.Sprintf("\tlabel = \"Bitacora %d\";\n", aux.Estudiante.carnet))
+			file.WriteString("\tlabelloc = bottom;\n")
+			file.WriteString("\tcolor = blue;\n")
+			file.WriteString("\tbgcolor = gray75;\n")
+
+			file.WriteString("\tnode [color=lightblue2, style=filled, shape=box];\n")
+			file.WriteString("\tedge [color=black];\n")
+			aux2 := aux.Estudiante.Bitacora_Estudiante.Inicio
+			contadorPila := 0
+			for aux2 != nil {
+				file.WriteString(fmt.Sprintf("\tpila%d_%d [label=\"%s\\n %s %s\"];\n", aux.Estudiante.carnet, contadorPila, aux2.operacion, aux2.fecha, aux2.hora))
+				contadorPila++
+				aux2 = aux2.Siguiente
+			}
+			//crear enlaces de la pila desde el ultimo al primero
+			for i := 0; i < contadorPila; i++ {
+				if i+1 < contadorPila {
+					file.WriteString(fmt.Sprintf("\tpila%d_%d->pila%d_%d;\n", aux.Estudiante.carnet, i, aux.Estudiante.carnet, i+1))
+				}
+			}
+			file.WriteString("}\n")
+
+			//INCLUIR A LA MISMA DIRECCION QUE LA LISTA DOBLE si la bitacora no esta vacia
+			if aux.Estudiante.Bitacora_Estudiante.GetLongitud() != 0 {
+				file.WriteString(fmt.Sprintf("%d->pila%d_%d;\n", aux.Estudiante.carnet, aux.Estudiante.carnet, 0))
+			}
+		}
+		aux = aux.Siguiente
+	}
+
+	//bitacora para admin
+	admin := lista.Inicio
+	file.WriteString(fmt.Sprintf("subgraph cluster_%d {\n", admin.Estudiante.carnet))
+	file.WriteString("\tlabel = \"Bitacora Admin\";\n")
+	file.WriteString("\tlabelloc = bottom;\n")
+	file.WriteString("\tcolor = blue;\n")
+	file.WriteString("\tbgcolor = gray75;\n")
+
+	file.WriteString("\tnode [color=lightblue2, style=filled, shape=box];\n")
+	file.WriteString("\tedge [color=black];\n")
+	aux2 := admin.Estudiante.Bitacora.Inicio
+	contadorPila := 0
+
+	for aux2 != nil {
+		/* Tipo\n Nombre Apellido\n Fecha Hora */
+		Nombre := strings.ReplaceAll(aux2.Estudiante.nombre, " ", "_")
+		Apellido := strings.ReplaceAll(aux2.Estudiante.apellido, " ", "_")
+		file.WriteString(fmt.Sprintf("\tpila%d_%d [label=\"%s\\n %s %s\\n %s %s\"];\n", admin.Estudiante.carnet, contadorPila, aux2.tipo, Nombre, Apellido, aux2.fecha, aux2.hora))
+		contadorPila++
+		aux2 = aux2.Siguiente
+	}
+	//crear enlaces de la pila desde el ultimo al primero
+	for i := 0; i < contadorPila; i++ {
+		if i+1 < contadorPila {
+			file.WriteString(fmt.Sprintf("\tpila%d_%d->pila%d_%d;\n", admin.Estudiante.carnet, i, admin.Estudiante.carnet, i+1))
+
+		}
+	}
+	if contadorPila != 0 {
+		file.WriteString(fmt.Sprintf("%d->pila%d_%d;\n", admin.Estudiante.carnet, admin.Estudiante.carnet, 0))
+	}
+
+	file.WriteString("}\n")
+
 	file.WriteString("}")
+	file.Close()
 
 	// ejecutar comando para generar la imagen
-	cmd, err := exec.Command("dot", "-Tpng", path_reportes+"\\ListaDobleEstudiantes.dot", "-o", path_reportes+"\\ListaDobleEstudiantes.png").Output()
+	cmd, err := exec.Command("dot", "-Tsvg", path_reportes+"\\ListaDobleEstudiantes.dot", "-o", path_reportes+"\\ListaDobleEstudiantes.svg").Output()
 	if err != nil {
 		println("Error al generar la imagen")
 		return
 	}
 	println(string(cmd))
+}
 
+// crear reporte en archivo Json "alumnos": [ {nombre:"nombreEstudiante", carnet: "carnetEstudiante", password:"passEstudiante", CarpetaRaiz:"/"} ]
+func ReporteJsonEstudiantes(lista *ListaDoble) {
+
+	//get absolute path of the file
+	abspath, _ := os.Getwd()
+	path_reportes := abspath + "\\Reportes"
+	//crear archivo
+	file, err := os.Create(path_reportes + "\\Estudiantes.json")
+	if err != nil {
+		println("Error al crear el archivo")
+		return
+	}
+	//escribir en el archivo
+	file.WriteString("{\n")
+	file.WriteString("\t\"alumnos\": [\n")
+	aux := lista.Inicio
+	for aux != nil {
+		file.WriteString(fmt.Sprintf("\t\t{\"nombre\":\"%s\", \"carnet\":\"%d\", \"password\":\"%s\", \"CarpetaRaiz\":\"/\"}", aux.Estudiante.nombre, aux.Estudiante.carnet, aux.Estudiante.password))
+		if aux.Siguiente != nil {
+			file.WriteString(",\n")
+		} else {
+			file.WriteString("\n")
+		}
+		aux = aux.Siguiente
+	}
+}
+
+// funcion para obtener el json de la lista
+func GetJson(lista *ListaDoble) (string, error) {
+	aux := lista.Inicio
+	jsonData, err := json.Marshal(aux)
+	if err != nil {
+		return "", err
+	}
+	return string(jsonData), nil
 }

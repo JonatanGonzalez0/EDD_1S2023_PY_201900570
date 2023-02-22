@@ -15,3 +15,7 @@ func Nuevo_NodoAdmin(tipo string, estudiante *Estudiante, fecha string, hora str
 	return &NodoAdmin{tipo: tipo, Estudiante: estudiante, fecha: fecha, hora: hora, Siguiente: nil, Anterior: nil}
 }
 
+// get estudiante
+func (nodo *NodoAdmin) GetEstudiante() *Estudiante {
+	return nodo.Estudiante
+}
