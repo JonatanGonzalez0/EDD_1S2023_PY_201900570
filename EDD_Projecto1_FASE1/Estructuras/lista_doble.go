@@ -22,20 +22,24 @@ func Nueva_ListaDoble() *ListaDoble {
 
 // insertar ordenadamente por carnet menor a mayor en la lista doble
 func (lista *ListaDoble) Insertar(estudiante *Estudiante) {
-
+	//nuevo estudiante a insertar
 	nuevo := Nuevo_Nodo(estudiante)
 	if lista.Inicio == nil {
 		lista.Inicio = nuevo
 		lista.Fin = nuevo
 	} else {
+		//nodo auxiliar para recorrer la lista
 		aux := lista.Inicio
 		for aux != nil {
+			//si el carnet del nuevo estudiante es menor al del auxiliar se inserta antes de auxiliar en la lista
 			if aux.Estudiante.carnet > estudiante.carnet {
+				//si auxiliar es el inicio de la lista se inserta al inicio
 				if aux == lista.Inicio {
 					nuevo.Siguiente = aux
 					aux.Anterior = nuevo
 					lista.Inicio = nuevo
 				} else {
+					//si auxiliar no es el inicio de la lista se inserta en medio de la lista
 					nuevo.Siguiente = aux
 					nuevo.Anterior = aux.Anterior
 					aux.Anterior.Siguiente = nuevo
@@ -43,8 +47,11 @@ func (lista *ListaDoble) Insertar(estudiante *Estudiante) {
 				}
 				return
 			}
+			//si el carnet del nuevo estudiante es mayor al del auxiliar se inserta despues de auxiliar en la lista
+			//se recorre la lista hasta encontrar un nodo con carnet mayor al del nuevo estudiante
 			aux = aux.Siguiente
 		}
+		//si el carnet del nuevo estudiante es mayor a todos los carnet de la lista se inserta al final de la lista
 		nuevo.Anterior = lista.Fin
 		lista.Fin.Siguiente = nuevo
 		lista.Fin = nuevo
