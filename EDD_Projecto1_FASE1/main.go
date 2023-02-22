@@ -340,5 +340,4 @@ func cargaMasivaV2(ruta string) {
 	}
 	println("------------------------------------------------------------------------------------------")
 	println("!! ", contador, "estudiantes agregados a la cola [pendientes de aprobación] !!")
-	println("------------------------------------------------------------------------------------------")
 }
