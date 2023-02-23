@@ -8,7 +8,7 @@
 ## Ejecutando el proyecto
 
 - Clonar el repositorio
-- Dentro de la carpeta EDD_Projecto1_FASE1 entonctraras el archivo 'run.exe' el cual ejecutara el proyecto en la terminal de windows.
+- Dentro de la carpeta EDD_Projecto1_FASE1 entonctraras el archivo `run.exe` el cual ejecutara el proyecto en la terminal de windows.
 
 ## Manual técnico: Estructuras de datos lineales en Go
 
