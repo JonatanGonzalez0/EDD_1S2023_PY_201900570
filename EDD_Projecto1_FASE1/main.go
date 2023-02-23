@@ -22,7 +22,7 @@ func main() {
 	ColaPendientes = *estructuras.Nueva_Cola()
 
 	//crear Estudiante admin "admin", "admin",0,"admin"
-	admin := estructuras.Nuevo_Estudiante("admin", "admin", 0, "admin")
+	admin := estructuras.Nuevo_Estudiante("admin", "admin", 1, "admin")
 	listaEstudiantes.Insertar(admin)
 
 	/* TEST DE FUNCIONES AUTOMATICAS
@@ -84,7 +84,7 @@ func login() {
 	var password string
 	fmt.Scan(&password)
 	if usuario == "admin" && password == "admin" {
-		sesion = listaEstudiantes.GetEstudiante(0)
+		sesion = listaEstudiantes.GetEstudiante(1)
 		dashboardAdmin()
 	} else {
 		//convertir usuario a int
@@ -140,7 +140,7 @@ func dashboardAdmin() {
 					estudiante := ColaPendientes.Desencolar()
 					//insertar estudiante en la lista doble
 					listaEstudiantes.Insertar(estudiante)
-					admin := listaEstudiantes.GetEstudiante(0)
+					admin := listaEstudiantes.GetEstudiante(1)
 					operacion := "Se aprobo al estudiante "
 					//obtejer la fecha en string
 					fecha := time.Now()
@@ -153,7 +153,7 @@ func dashboardAdmin() {
 					println("Estudiante aprobado con exito")
 				case 2:
 					estudiante := ColaPendientes.Desencolar()
-					admin := listaEstudiantes.GetEstudiante(0)
+					admin := listaEstudiantes.GetEstudiante(1)
 					operacion := "Se rechazo al estudiante"
 					//obtejer la fecha en string
 					fecha := time.Now()
@@ -214,7 +214,6 @@ func dashboardAdmin() {
 			var ruta string
 			fmt.Scan(&ruta)
 			println("ruta: ", ruta)
-			//cargaMasiva(ruta)
 			cargaMasivaV2(ruta)
 			println("------------------------------------------------------------------------------------------")
 		case 5:
