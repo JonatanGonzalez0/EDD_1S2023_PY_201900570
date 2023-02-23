@@ -66,6 +66,8 @@ func menu() {
 			login()
 		case 2:
 			println("Gracias por usar GoDrive")
+			//salir
+			opcion = 2
 		default:
 			println("Opcion no valida")
 
@@ -124,7 +126,7 @@ func dashboardAdmin() {
 			opcion := 0
 			for !ColaPendientes.EstaVacia() && opcion != 3 {
 				fmt.Printf("\n------------------------ Estudiantes pendientes de aprobacion : %d ------------------------\n", ColaPendientes.GetLongitud())
-				estudiante := ColaPendientes.Desencolar()
+				estudiante := ColaPendientes.ObtenerInicio()
 				println("Nombre: ", estudiante.GetNombre(), estudiante.GetApellido())
 				println("Carnet: ", estudiante.GetCarnet())
 				println("------------------------------------------------------------------------------------------")
@@ -135,6 +137,7 @@ func dashboardAdmin() {
 
 				switch opcion {
 				case 1:
+					estudiante := ColaPendientes.Desencolar()
 					//insertar estudiante en la lista doble
 					listaEstudiantes.Insertar(estudiante)
 					admin := listaEstudiantes.GetEstudiante(0)
@@ -149,6 +152,7 @@ func dashboardAdmin() {
 
 					println("Estudiante aprobado con exito")
 				case 2:
+					estudiante := ColaPendientes.Desencolar()
 					admin := listaEstudiantes.GetEstudiante(0)
 					operacion := "Se rechazo al estudiante"
 					//obtejer la fecha en string
@@ -261,12 +265,12 @@ func dashboardEstudiante() {
 
 func Reportes() {
 	opcion := 0
-	for opcion != 5 {
+	for opcion != 4 {
 		println("------------------------------------------------------------------------------------------")
 		println("1. Reporte Lista de estudiantes")
 		println("2. Reporte cola de estudiantes pendientes")
 		println("3. Reporte Json")
-		println("5. Salir")
+		println("4. Salir")
 		fmt.Scan(&opcion)
 
 		switch opcion {
@@ -283,11 +287,7 @@ func Reportes() {
 			println("------------------------------------------------------------------------------------------")
 			listaEstudiantes.ReporteJson()
 			println("------------------------------------------------------------------------------------------")
-
 		case 4:
-			println("------------------------------------------------------------------------------------------")
-
-		case 5:
 			println("Saliendo del menu de reportes")
 			dashboardAdmin()
 		}
