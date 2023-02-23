@@ -206,8 +206,49 @@ Acontinuación se muestra los reportes generados por Graphviz:
 
 #### Reporte de Estudiantes
 
-![Lista Doble + Pilas](https://imgur.com/a/AaSaOAi.png)
+![Lista Doble + Pilas](https://i.imgur.com/Xy2bvgq.png)
 
 #### Reporte de Cola de estudiantes pendientes
 
-![Cola](https://drive.google.com/file/d/14xw3QDqFdz-hxvIZN-h-QMH0TxF-Jfen.png)
+![Cola](https://i.imgur.com/8PZ8IFJ.png)
+
+#### Reporte de Estudiantes JSON
+
+Para la creación del reporte de estudiantes en formato JSON se utilizo la libreria [encoding/json](https://golang.org/pkg/encoding/json/).
+
+```json
+{
+    "alumnos": [
+        {
+            "nombre": "Ebany",
+            "carnet": "201403877",
+            "password": "qwerty12",
+            "CarpetaRaiz": "/"
+        },
+        {
+            "nombre": "Cristian",
+            "carnet": "201700918",
+            "password": "Cris123",
+            "CarpetaRaiz": "/"
+        },
+        {
+            "nombre": "Leonardo",
+            "carnet": "201780044",
+            "password": "leo123",
+            "CarpetaRaiz": "/"
+        },
+        {
+            "nombre": "Lourdes",
+            "carnet": "201902259",
+            "password": "Lourdes123",
+            "CarpetaRaiz": "/"
+        },
+        {
+            "nombre": "Alejandro",
+            "carnet": "201903549",
+            "password": "Alejandro124",
+            "CarpetaRaiz": "/"
+        }
+    ]
+}
+```
