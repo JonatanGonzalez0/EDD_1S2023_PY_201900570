@@ -206,8 +206,8 @@ Acontinuación se muestra los reportes generados por Graphviz:
 
 #### Reporte de Estudiantes
 
-![Lista Doble + Pilas](https://drive.google.com/file/d/1OUmBaDAa5hSwY1NMT-XR6UYf0YR8kOcT/view?usp=share_link)
+![Lista Doble + Pilas](https://imgur.com/a/AaSaOAi.png)
 
 #### Reporte de Cola de estudiantes pendientes
 
-![Cola](https://drive.google.com/file/d/14xw3QDqFdz-hxvIZN-h-QMH0TxF-Jfen/view?usp=share_link)
+![Cola](https://drive.google.com/file/d/14xw3QDqFdz-hxvIZN-h-QMH0TxF-Jfen.png)
