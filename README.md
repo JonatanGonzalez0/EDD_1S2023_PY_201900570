@@ -20,6 +20,18 @@ Este manual técnico tiene como objetivo presentar la implementación de diversa
 
 La lista doblemente enlazada es una estructura de datos que permite el almacenamiento y acceso de datos de manera secuencial. Para la implementación en Go se utilizo:
 
+La estructura principal esta basada en un Estudiante, el cual contiene los atributos carnet, nombre, apellido, contraseña, y una pila de bitacora con los inicios y cierres de secion realizados  por el estudiante.
+
+```go
+type Estudiante struct {
+    nombre              string
+    apellido            string
+    carnet              int
+    password            string
+    Bitacora_Estudiante *PilaEstudiante
+}
+```
+
 ```go
 type Nodo struct {
     Estudiante *Estudiante
