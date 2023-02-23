@@ -1,39 +1,9 @@
 {
 	"alumnos": [
 		{
-			"nombre": "Ethel",
-			"carnet": "200819325",
-			"password": "Ethel139",
-			"CarpetaRaiz": "/"
-		},
-		{
-			"nombre": "Jose",
-			"carnet": "201325511",
-			"password": "Jose138",
-			"CarpetaRaiz": "/"
-		},
-		{
 			"nombre": "Ebany",
 			"carnet": "201403877",
 			"password": "qwerty12",
-			"CarpetaRaiz": "/"
-		},
-		{
-			"nombre": "Bryan",
-			"carnet": "201700375",
-			"password": "Bryan131",
-			"CarpetaRaiz": "/"
-		},
-		{
-			"nombre": "Marvin",
-			"carnet": "201700490",
-			"password": "Marvin142",
-			"CarpetaRaiz": "/"
-		},
-		{
-			"nombre": "Kevyn",
-			"carnet": "201700653",
-			"password": "Kevyn126",
 			"CarpetaRaiz": "/"
 		},
 		{
@@ -49,123 +19,15 @@
 			"CarpetaRaiz": "/"
 		},
 		{
-			"nombre": "José",
-			"carnet": "201801444",
-			"password": "José141",
-			"CarpetaRaiz": "/"
-		},
-		{
-			"nombre": "Juan",
-			"carnet": "201801683",
-			"password": "Juan130",
-			"CarpetaRaiz": "/"
-		},
-		{
-			"nombre": "Jonatan",
-			"carnet": "201900570",
-			"password": "Jonatan125",
-			"CarpetaRaiz": "/"
-		},
-		{
-			"nombre": "Karen",
-			"carnet": "201900603",
-			"password": "Karen132",
-			"CarpetaRaiz": "/"
-		},
-		{
 			"nombre": "Lourdes",
 			"carnet": "201902259",
 			"password": "Lourdes123",
 			"CarpetaRaiz": "/"
 		},
 		{
-			"nombre": "Julio",
-			"carnet": "201902416",
-			"password": "Julio159",
-			"CarpetaRaiz": "/"
-		},
-		{
 			"nombre": "Alejandro",
 			"carnet": "201903549",
 			"password": "Alejandro124",
-			"CarpetaRaiz": "/"
-		},
-		{
-			"nombre": "Sergio",
-			"carnet": "201906468",
-			"password": "Sergio140",
-			"CarpetaRaiz": "/"
-		},
-		{
-			"nombre": "Ludwing",
-			"carnet": "201907608",
-			"password": "Ludwing143",
-			"CarpetaRaiz": "/"
-		},
-		{
-			"nombre": "Roberto",
-			"carnet": "202000544",
-			"password": "Roberto128",
-			"CarpetaRaiz": "/"
-		},
-		{
-			"nombre": "Sebastián",
-			"carnet": "202002940",
-			"password": "Sebastián129",
-			"CarpetaRaiz": "/"
-		},
-		{
-			"nombre": "Diego",
-			"carnet": "202003585",
-			"password": "Diego134",
-			"CarpetaRaiz": "/"
-		},
-		{
-			"nombre": "Eduardo",
-			"carnet": "202004703",
-			"password": "Eduardo127",
-			"CarpetaRaiz": "/"
-		},
-		{
-			"nombre": "Hugo",
-			"carnet": "202004807",
-			"password": "Hugo160",
-			"CarpetaRaiz": "/"
-		},
-		{
-			"nombre": "Juan",
-			"carnet": "202101648",
-			"password": "Juan137",
-			"CarpetaRaiz": "/"
-		},
-		{
-			"nombre": "Sergio",
-			"carnet": "202103216",
-			"password": "Sergio136",
-			"CarpetaRaiz": "/"
-		},
-		{
-			"nombre": "Anthony",
-			"carnet": "202104782",
-			"password": "Anthony158",
-			"CarpetaRaiz": "/"
-		},
-		{
-			"nombre": "Mario",
-			"carnet": "202109554",
-			"password": "Mario161",
-			"CarpetaRaiz": "/"
-		},
-		{
-			"nombre": "Josue",
-			"carnet": "202112026",
-			"password": "Josue135",
-			"CarpetaRaiz": "/"
-		},
-		{
-			"nombre": "Kevin",
-			"carnet": "202113553",
-			"password": "Kevin133",
 			"CarpetaRaiz": "/"
 		}
 	]

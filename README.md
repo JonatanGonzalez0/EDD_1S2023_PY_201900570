@@ -1,19 +1,22 @@
-#Requirements
+# Proyecto 1 - Fase 1 - EDD 2023
+
+## Requirements
 
 - [Go](https://golang.org/dl/)
 - [Graphviz](https://graphviz.org/download/)
 
-# Ejecutando el proyecto
+## Ejecutando el proyecto
+
 - Clonar el repositorio
 - Dentro de la carpeta EDD_Projecto1_FASE1 entonctraras el archivo 'run.exe' el cual ejecutara el proyecto en la terminal de windows.
 
-# Manual técnico: Estructuras de datos lineales en Go
+## Manual técnico: Estructuras de datos lineales en Go
 
-## Introducción
+### Introducción
 
 Este manual técnico tiene como objetivo presentar la implementación de diversas estructuras de datos lineales utilizando el lenguaje de programación Go. En particular, se han implementado una lista doblemente enlazada, dos pilas y una cola. Además, se utilizará la herramienta Graphviz para graficar estas estructuras de datos.
 
-## Lista doblemente enlazada
+### Lista doblemente enlazada
 
 La lista doblemente enlazada es una estructura de datos que permite el almacenamiento y acceso de datos de manera secuencial. Para la implementación en Go se utilizo:
 
@@ -82,7 +85,7 @@ func (lista *ListaDoble) Insertar(estudiante *Estudiante) {
 }
 ```
 
-## Pilas
+### Pilas
 
 Las pilas son estructuras de datos que permiten el almacenamiento y acceso de datos de manera LIFO (Last In First Out). Para la implementación en Go se utilizo:
 
@@ -141,7 +144,7 @@ func (pila *PilaEstudiante) Desapilar() *NodoPilaEstudiante {
 }
 ```
 
-## Cola
+### Cola
 
 Las colas son estructuras de datos que permiten el almacenamiento y acceso de datos de manera FIFO (First In First Out). Para la implementación en Go se utilizo:
 
@@ -194,3 +197,17 @@ func (cola *Cola) Desencolar() *Estudiante {
     }
 }
 ```
+
+### Graphviz
+
+Graphviz es una herramienta de código abierto que permite la creación de gráficos de estructuras de datos.
+
+Acontinuación se muestra los reportes generados por Graphviz:
+
+#### Reporte de Estudiantes
+
+![Lista Doble + Pilas](https://drive.google.com/file/d/1OUmBaDAa5hSwY1NMT-XR6UYf0YR8kOcT/view?usp=share_link)
+
+#### Reporte de Cola de estudiantes pendientes
+
+![Cola](https://drive.google.com/file/d/14xw3QDqFdz-hxvIZN-h-QMH0TxF-Jfen/view?usp=share_link)

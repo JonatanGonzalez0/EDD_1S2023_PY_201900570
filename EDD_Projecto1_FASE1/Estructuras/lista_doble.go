@@ -255,6 +255,14 @@ func (lista *ListaDoble) ReporteGraphviz() {
 		return
 	}
 	println(string(cmd))
+
+	//generar png
+	cmd, err = exec.Command("dot", "-Tpng", path_reportes+"\\ListaDobleEstudiantes.dot", "-o", path_reportes+"\\ListaDobleEstudiantes.png").Output()
+	if err != nil {
+		println("Error al generar la imagen")
+		return
+	}
+	println(string(cmd))
 }
 
 // crear reporte en archivo Json "alumnos": [ {nombre:"nombreEstudiante", carnet: "carnetEstudiante", password:"passEstudiante", CarpetaRaiz:"/"} ]
