@@ -39,7 +39,7 @@ func (lista *ListaDoble) Insertar(estudiante *Estudiante) {
 					aux.Anterior = nuevo
 					lista.Inicio = nuevo
 				} else {
-					//si auxiliar no es el inicio de la lista se inserta en medio de la lista
+					//si auxiliar no es el inicio de la lista se inserta en medio de la lista , actualizando los enlaces de los nodos adyacentes a auxiliar y nuevo
 					nuevo.Siguiente = aux
 					nuevo.Anterior = aux.Anterior
 					aux.Anterior.Siguiente = nuevo
