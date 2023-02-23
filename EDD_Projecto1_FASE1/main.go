@@ -171,7 +171,7 @@ func dashboardAdmin() {
 					println("Opcion no valida")
 				}
 			}
-			fmt.Println("------------------- Estudiantes pendientes de aprobacion : 0 -----------------------------")
+			fmt.Println("------------------- Estudiantes pendientes de aprobacion : ", ColaPendientes.GetLongitud(), " -------------------")
 
 		case 2:
 			println("------------------------------------------------------------------------------------------")
