@@ -1,5 +1,7 @@
 package estructuras
 
+import "fmt"
+
 type NodoPilaEstudiante struct {
 	operacion string
 	fecha     string
@@ -83,4 +85,18 @@ func (nodo *NodoPilaEstudiante) GetFecha() string {
 // get hora
 func (nodo *NodoPilaEstudiante) GetHora() string {
 	return nodo.hora
+}
+
+// imprimir en consola
+func (pila *PilaEstudiante) Imprimir() {
+	if pila.Inicio == nil {
+		return
+	} else {
+		nodo := pila.Inicio
+		for nodo != nil {
+			// Operacion - Fecha - Hora
+			fmt.Println(nodo.GetOperacion() + " a las " + nodo.GetHora() + " del " + nodo.GetFecha())
+			nodo = nodo.Siguiente
+		}
+	}
 }

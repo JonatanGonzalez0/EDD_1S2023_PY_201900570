@@ -240,15 +240,29 @@ func dashboardEstudiante() {
 	sesion.Bitacora_Estudiante.Apilar(operacion, fechaString, hora)
 
 	println("------------------------------------------------------------------------------------------")
-	println("Bienvenido al dashboard de estudiante de GoDrive")
+	println("Bienvenido ", sesion.GetNombre(), sesion.GetApellido())
+	println("------------------------------------------------------------------------------------------")
+	//mostrar datos del inicio de sesion
+	println("Fecha de inicio de sesion: ", fechaString+" "+hora)
+	println("------------------------------------------------------------------------------------------")
 	opcion := 0
-	for opcion != 5 {
-		println("1. Ver archivos")
-		println("2. Subir archivos")
-		println("3. Descargar archivos")
-		println("4. Eliminar archivos")
-		println("5. Cerrar sesion")
+	for opcion != 2 {
+		println("1. Ver bitacora de inicio de sesion")
+		println("2. Cerrar sesion")
 		fmt.Scan(&opcion)
+
+		switch opcion {
+		case 1:
+			println("------------------------------------------------------------------------------------------")
+			sesion.Bitacora_Estudiante.Imprimir()
+			println("------------------------------------------------------------------------------------------")
+		case 2:
+			println("------------------------------------------------------------------------------------------")
+			println("Cerrando sesion")
+			println("------------------------------------------------------------------------------------------")
+		default:
+			println("Opcion no valida")
+		}
 
 	}
 	//agregar log a bitacoraEstudiante
