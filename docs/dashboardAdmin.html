@@ -4,11 +4,12 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Sign up - EDD-DRIVE</title>
+    <title>EDD-DRIVE</title>
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&amp;display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Adamina&amp;display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+JP&amp;display=swap">
+    <link rel="stylesheet" href="assets/css/animate.min.css">
 </head>
 
 <body>
@@ -25,32 +26,59 @@
             </div>
         </div>
     </nav><!-- End: Navbar Centered Links -->
-    <section class="py-5">
-        <div class="container py-5">
-            <div class="row mb-4 mb-lg-5">
-                <div class="col-md-8 col-xl-6 text-center mx-auto">
-                    <p class="fw-bold text-success mb-2">Sign up</p>
-                    <h2 class="fw-bold">Welcome</h2>
-                </div>
-            </div>
-            <div class="row d-flex justify-content-center">
-                <div class="col-md-6 col-xl-4">
+    <header class="bg-dark" style="padding: 0;"></header><!-- Start: Table Users -->
+    <section class="py-5" style="height: 179.961px;">
+        <div class="container text-center bounce animated py-5" style="text-align: center;">
+            <p data-bss-hover-animate="pulse" class="mb-4" style="font-size: 1.6rem;color: rgb(25,245,170);width: 1295px;padding-top: 0px;text-align: center;">BIENVENIDO AL DASHBOARD ADMINISTRADOR</p>
+        </div>
+    </section><!-- End: Table Users -->
+    <section class="py-5 mt-5">
+        <div class="container">
+            <div class="row">
+                <div class="col">
                     <div class="card">
-                        <div class="card-body text-center d-flex flex-column align-items-center">
-                            <div class="bs-icon-xl bs-icon-circle bs-icon-primary shadow bs-icon my-4"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-person">
-                                    <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"></path>
-                                </svg></div>
-                            <form method="post">
-                                <div class="mb-3"><input class="form-control" type="email" name="email" placeholder="Email"></div>
-                                <div class="mb-3"><input class="form-control" type="password" name="password" placeholder="Password"></div>
-                                <div class="mb-3"><button class="btn btn-primary shadow d-block w-100" type="submit">Sign up</button></div>
-                                <p class="text-muted">Already have an account?&nbsp;<a href="login.html">Log in</a></p>
-                            </form>
+                        <div class="card-header">
+                            <h5 class="mb-0">Alumos registrados en el sistema</h5>
+                        </div>
+                        <div class="card-body">
+                            <!-- Start: TableUsers -->
+                            <div class="table-responsive">
+                                <table class="table">
+                                    <thead>
+                                        <tr>
+                                            <th>Carnet</th>
+                                            <th>Nombre</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody>
+                                        <tr>
+                                            <td>20190001</td>
+                                            <td>User1</td>
+                                        </tr>
+                                        <tr>
+                                            <td>20190002</td>
+                                            <td>User2</td>
+                                        </tr>
+                                    </tbody>
+                                </table>
+                            </div><!-- End: TableUsers -->
                         </div>
                     </div>
                 </div>
             </div>
         </div>
+        <div class="row" style="text-align: center;">
+            <div class="col" style="text-align: center;">
+                <p data-bss-hover-animate="pulse" class="mb-4" style="font-size: 2.6rem;color: rgb(25,245,170);text-align: center;font-family: Inter, sans-serif;font-weight: bold;">Opciones</p>
+            </div>
+        </div><!-- Start: 1 Row 3 Columns -->
+        <div class="container" style="padding-top: 54px;font-size: 0;">
+            <div class="row">
+                <div class="col-md-4" style="text-align: center;padding-top: 0px;"><button class="btn btn-primary" type="button" style="font-size: 19px;">Carga Masiva (json)</button></div>
+                <div class="col-md-4" style="text-align: center;"><button class="btn btn-primary" type="button" style="font-size: 19px;">Arbol de estudiantes ( AVL )</button></div>
+                <div class="col-md-4" style="text-align: center;"><button class="btn btn-primary" type="button" style="font-size: 19px;">Otro reporte</button></div>
+            </div>
+        </div><!-- End: 1 Row 3 Columns -->
     </section><!-- Start: Footer Multi Column -->
     <footer class="bg-dark">
         <div class="container py-4 py-lg-5">
