@@ -1,3 +1,5 @@
+import AVL from './avl.js';
+import Usuario from './usuario.js';
 document.addEventListener("DOMContentLoaded", function () {
   function cargarArchivo() {
     const inputCargaMasiva = document.getElementById("InputFileCargaMasiva");

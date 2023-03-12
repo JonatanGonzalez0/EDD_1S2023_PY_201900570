@@ -38,5 +38,4 @@ class Usuario {
         this.carpetaRaiz = carpetaRaiz;
     }
 }
-
 export default Usuario;
