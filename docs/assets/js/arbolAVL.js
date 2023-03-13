@@ -1,6 +1,3 @@
-// Importar la clase Usuario
-import Usuario from "./usuario.js";
-
 // Clase NodoAVL
 class NodoAVL {
   constructor(usuario) {

@@ -1,9 +1,9 @@
 class Usuario {
-  constructor(nombre, carnet, contraseña, carpetaRaiz) {
+  constructor(nombre, carnet, password, CarpetaRaiz) {
     this.nombre = nombre;
     this.carnet = carnet;
-    this.contraseña = contraseña;
-    this.carpetaRaiz = carpetaRaiz;
+    this.password = password;
+    this.CarpetaRaiz = CarpetaRaiz;
   }
 
     getNombre() {
@@ -14,12 +14,12 @@ class Usuario {
         return this.carnet;
     }
 
-    getContraseña() {
-        return this.contraseña;
+    getpassword() {
+        return this.password;
     }
 
     getCarpetaRaiz() {
-        return this.carpetaRaiz;
+        return this.CarpetaRaiz;
     }
 
     setNombre(nombre) {
@@ -30,12 +30,12 @@ class Usuario {
         this.carnet = carnet;
     }
 
-    setContraseña(contraseña) {
-        this.contraseña = contraseña;
+    setpassword(password) {
+        this.password = password;
     }
 
-    setCarpetaRaiz(carpetaRaiz) {
-        this.carpetaRaiz = carpetaRaiz;
+    setCarpetaRaiz(CarpetaRaiz) {
+        this.CarpetaRaiz = CarpetaRaiz;
     }
 }
 export default Usuario;
