@@ -57,13 +57,8 @@ document.addEventListener("DOMContentLoaded", function () {
       inputCargaMasiva.value = "";
       
       //mostrar mensaje de exito
-      Swal.fire({
-        icon: "success",
-        title: "Carga masiva exitosa",
-        text: "Se han agregado los usuarios al sistema",
-        showConfirmButton: false,
-        timer: 1500,
-      });
+      alert("Carga masiva exitosa");
+      console.log("LOCAL STORAGE: ", localStorage.getItem("arbolAVL"));
       
     };
   }
