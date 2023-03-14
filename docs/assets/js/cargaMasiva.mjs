@@ -55,7 +55,7 @@ document.addEventListener("DOMContentLoaded", function () {
       localStorage.setItem("arbolAVL", arbolAVL.toJSON());
       //limpiar el input file
       inputCargaMasiva.value = "";
-
+      
       //mostrar mensaje de exito
       Swal.fire({
         icon: "success",
