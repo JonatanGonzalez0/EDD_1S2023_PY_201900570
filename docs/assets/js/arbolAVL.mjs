@@ -8,7 +8,7 @@ class NodoAVL {
   }
 }
 
-// Clase AVL 
+// Clase AVL
 export default class AVL {
   constructor() {
     this.raiz = null;
@@ -209,5 +209,29 @@ export default class AVL {
     // Crear la raíz a partir del objeto JSON
     this.raiz = jsonToNode(obj.raiz);
   }
-}
+  
+  // Función para generar un grafo DOT a partir del árbol AVL
+  generarDot() {
+    let dot = "digraph G {\n";
 
+    // Recorrer el árbol en preorden y agregar los nodos al grafo DOT
+    function preorden(nodo) {
+      if (nodo) {
+        dot += `  "${nodo.usuario.carnet}" [label="${nodo.usuario.nombre}"];\n`;
+        if (nodo.izquierdo) {
+          dot += `  "${nodo.usuario.carnet}" -> "${nodo.izquierdo.usuario.carnet}" [label="L"];\n`;
+        }
+        if (nodo.derecho) {
+          dot += `  "${nodo.usuario.carnet}" -> "${nodo.derecho.usuario.carnet}" [label="R"];\n`;
+        }
+        preorden(nodo.izquierdo);
+        preorden(nodo.derecho);
+      }
+    }
+
+    preorden(this.raiz);
+    dot += "}\n";
+
+    return dot;
+  }
+}
