@@ -1,26 +1,9 @@
-import AVL from "./arbolAVL.mjs";
-import Usuario from "./usuario.mjs";
+import AVL from "../Estructuras/arbolAVL.mjs";
+import Usuario from "../Estructuras/usuario.mjs";
 
 document.addEventListener("DOMContentLoaded", function () {
   function cargarArchivo() {
     const inputCargaMasiva = document.getElementById("InputFileCargaMasiva");
-
-    /* leer json usuarios.csv  sintaxins {
-	"alumnos": [
-		{
-			"nombre": "Ebany",
-			"carnet": "201403877",
-			"password": "qwerty12",
-			"CarpetaRaiz": "/"
-		},
-		{
-			"nombre": "Bryan",
-			"carnet": "201700375",
-			"password": "Bryan131",
-			"CarpetaRaiz": "/"
-		}
-	]
-} */
     const file = inputCargaMasiva.files[0];
     const reader = new FileReader();
     reader.readAsText(file);
@@ -56,7 +39,7 @@ document.addEventListener("DOMContentLoaded", function () {
       //limpiar el input file
       inputCargaMasiva.value = "";
       
-      //mostrar mensaje de exito
+      //mostrar mensaje de exito alerta
       alert("Carga masiva exitosa");
       console.log("LOCAL STORAGE: ", localStorage.getItem("arbolAVL"));
       
