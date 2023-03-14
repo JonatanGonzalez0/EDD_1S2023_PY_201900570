@@ -211,59 +211,56 @@ export default class AVL {
   }
 
   // Función para obtener la posición de un nodo en el grafo DOT
-getPosition(nodo, pos) {
-  if (nodo) {
-    const nodePos = pos[nodo.usuario.carnet];
-    if (nodo.izquierdo) {
-      const leftPos = getPosition(nodo.izquierdo, pos);
-      const x = Math.min(nodePos.x, leftPos.x - 1);
-      const y = leftPos.y - 1;
-      pos[nodo.izquierdo.usuario.carnet] = { x, y };
-    }
-    if (nodo.derecho) {
-      const rightPos = getPosition(nodo.derecho, pos);
-      const x = Math.max(nodePos.x, rightPos.x + 1);
-      const y = rightPos.y - 1;
-      pos[nodo.derecho.usuario.carnet] = { x, y };
-    }
-    return nodePos;
-  }
-}
-
-// Función para generar un grafo DOT a partir del árbol AVL
-generarDot() {
-  let dot = "digraph G {\n";
-
-  // Crear un objeto para almacenar la posición de cada nodo
-  const pos = {};
-  pos[this.raiz.usuario.carnet] = { x: 0, y: 0 };
-
-  // Recorrer el árbol en preorden y agregar los nodos al grafo DOT
-  function preorden(nodo) {
+  getPosition(nodo, pos) {
     if (nodo) {
       const nodePos = pos[nodo.usuario.carnet];
-      dot += `  "${nodo.usuario.carnet}" [label="${nodo.usuario.carnet} \\n ${nodo.usuario.nombre} \\n Altura: ${nodo.altura}", shape=square, pos="${nodePos.x},${-nodePos.y}!"];\n`;
       if (nodo.izquierdo) {
-        dot += `  "${nodo.usuario.carnet}" -> "${nodo.izquierdo.usuario.carnet}" [label="L"];\n`;
+        const leftPos = getPosition(nodo.izquierdo, pos);
+        const x = Math.min(nodePos.x, leftPos.x - 1);
+        const y = leftPos.y - 1;
+        pos[nodo.izquierdo.usuario.carnet] = { x, y };
       }
       if (nodo.derecho) {
-        dot += `  "${nodo.usuario.carnet}" -> "${nodo.derecho.usuario.carnet}" [label="R"];\n`;
+        const rightPos = getPosition(nodo.derecho, pos);
+        const x = Math.max(nodePos.x, rightPos.x + 1);
+        const y = rightPos.y - 1;
+        pos[nodo.derecho.usuario.carnet] = { x, y };
       }
-      preorden(nodo.izquierdo);
-      preorden(nodo.derecho);
+      return nodePos;
     }
   }
 
-  preorden(this.raiz);
+  // Función para generar un grafo DOT a partir del árbol AVL
+  generarDot() {
+    let dot = "digraph G {\n";
 
-  // Calcular la posición de cada nodo en el grafo DOT
-  getPosition(this.raiz, pos);
+    // Crear un objeto para almacenar la posición de cada nodo
+    const pos = {};
+    pos[this.raiz.usuario.carnet] = { x: 0, y: 0 };
 
-  dot += "}\n";
+    // Recorrer el árbol en preorden y agregar los nodos al grafo DOT
+    function preorden(nodo) {
+      if (nodo) {
+        const nodePos = pos[nodo.usuario.carnet];
+        dot += `  "${nodo.usuario.carnet}" [label="${nodo.usuario.carnet} \\n ${nodo.usuario.nombre} \\n Altura: ${nodo.altura}", shape=square, pos="${nodePos.x},${-nodePos.y}!"];\n`;
+        if (nodo.izquierdo) {
+          dot += `  "${nodo.usuario.carnet}" -> "${nodo.izquierdo.usuario.carnet}" [label="L"];\n`;
+        }
+        if (nodo.derecho) {
+          dot += `  "${nodo.usuario.carnet}" -> "${nodo.derecho.usuario.carnet}" [label="R"];\n`;
+        }
+        preorden(nodo.izquierdo);
+        preorden(nodo.derecho);
+      }
+    }
 
-  return dot;
-}
+    preorden(this.raiz);
 
+    // Calcular la posición de cada nodo en el grafo DOT
+    getPosition(this.raiz, pos);
 
-  
+    dot += "}\n";
+
+    return dot;
+  }
 }
