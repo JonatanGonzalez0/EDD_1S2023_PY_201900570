@@ -214,10 +214,20 @@ export default class AVL {
   generarDot() {
     let dot = "digraph G {\n";
 
-    // Recorrer el árbol en preorden y agregar los nodos al grafo DOT
+    // Función para recorrer el árbol en orden de altura y agregar los nodos al grafo DOT
+    function enOrdenAltura(nodo) {
+      if (nodo) {
+        enOrdenAltura(nodo.izquierdo);
+        dot += `  "${nodo.usuario.carnet}" [label="${nodo.usuario.carnet} \\n ${nodo.usuario.nombre} \\n Altura: ${nodo.altura}", shape=square];\n`;
+        enOrdenAltura(nodo.derecho);
+      }
+    }
+
+    enOrdenAltura(this.raiz);
+
+    // Recorrer el árbol en preorden y agregar las relaciones entre los nodos al grafo DOT
     function preorden(nodo) {
       if (nodo) {
-        dot += `  "${nodo.usuario.carnet}" [label="${nodo.usuario.nombre}"];\n`;
         if (nodo.izquierdo) {
           dot += `  "${nodo.usuario.carnet}" -> "${nodo.izquierdo.usuario.carnet}" [label="L"];\n`;
         }
@@ -233,5 +243,7 @@ export default class AVL {
     dot += "}\n";
 
     return dot;
-  }
+}
+
+  
 }
