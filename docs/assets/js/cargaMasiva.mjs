@@ -56,7 +56,7 @@ document.addEventListener("DOMContentLoaded", function () {
       //limpiar el input file
       inputCargaMasiva.value = "";
       
-      //mostrar mensaje de exito
+      //mostrar mensaje de exito alerta
       alert("Carga masiva exitosa");
       console.log("LOCAL STORAGE: ", localStorage.getItem("arbolAVL"));
       
