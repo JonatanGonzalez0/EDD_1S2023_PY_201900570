@@ -210,39 +210,49 @@ export default class AVL {
     this.raiz = jsonToNode(obj.raiz);
   }
 
-  // Función para obtener la posición de un nodo en el grafo DOT
-  getPosition(nodo, pos) {
-    if (nodo) {
-      const nodePos = pos[nodo.usuario.carnet];
-      if (nodo.izquierdo) {
-        const leftPos = getPosition(nodo.izquierdo, pos);
-        const x = Math.min(nodePos.x, leftPos.x - 1);
-        const y = leftPos.y - 1;
-        pos[nodo.izquierdo.usuario.carnet] = { x, y };
-      }
-      if (nodo.derecho) {
-        const rightPos = getPosition(nodo.derecho, pos);
-        const x = Math.max(nodePos.x, rightPos.x + 1);
-        const y = rightPos.y - 1;
-        pos[nodo.derecho.usuario.carnet] = { x, y };
-      }
-      return nodePos;
-    }
-  }
-
-  // Función para generar un grafo DOT a partir del árbol AVL
+  //generarDot
   generarDot() {
-    let dot = "digraph G {\n";
+    // Recorrido en inorden para obtener los nodos ordenados por altura
+    function inorden(nodo) {
+      if (nodo) {
+        inorden(nodo.izquierdo);
+        nodos.push(nodo);
+        inorden(nodo.derecho);
+      }
+    }
 
-    // Crear un objeto para almacenar la posición de cada nodo
-    const pos = {};
-    pos[this.raiz.usuario.carnet] = { x: 0, y: 0 };
+    inorden(this.raiz);
 
-    // Recorrer el árbol en preorden y agregar los nodos al grafo DOT
+    // Asignar posiciones a los nodos
+    let y = 0;
+    let x = 0;
+    let i = 0;
+    let levels = {};
+
+    for (let j = 0; j < nodos.length; j++) {
+      const node = nodos[j];
+      if (!levels[node.altura]) {
+        levels[node.altura] = [];
+      }
+      levels[node.altura].push(node);
+    }
+
+    Object.keys(levels).forEach((level) => {
+      const nodes = levels[level];
+      const separacion = 120 / Math.pow(2, level - 1);
+      y -= 100;
+      x = (-separacion * (nodes.length - 1)) / 2;
+      nodes.forEach((node) => {
+        pos[node.usuario.carnet] = { x: x, y: y };
+        x += separacion;
+      });
+    });
+
+    // Recorrido en preorden para generar el DOT
     function preorden(nodo) {
       if (nodo) {
         const nodePos = pos[nodo.usuario.carnet];
-        dot += `  "${nodo.usuario.carnet}" [label="${nodo.usuario.carnet} \\n ${nodo.usuario.nombre} \\n Altura: ${nodo.altura}", shape=square, pos="${nodePos.x},${-nodePos.y}!"];\n`;
+        dot += `  "${nodo.usuario.carnet}" [label="${nodo.usuario.carnet} \\n ${nodo.usuario.nombre} \\n Altura: ${nodo.altura}", shape=square, pos="${nodePos.x},${nodePos.y}!"];\n`;
         if (nodo.izquierdo) {
           dot += `  "${nodo.usuario.carnet}" -> "${nodo.izquierdo.usuario.carnet}" [label="L"];\n`;
         }
@@ -255,10 +265,6 @@ export default class AVL {
     }
 
     preorden(this.raiz);
-
-    // Calcular la posición de cada nodo en el grafo DOT
-    getPosition(this.raiz, pos);
-
     dot += "}\n";
 
     return dot;
