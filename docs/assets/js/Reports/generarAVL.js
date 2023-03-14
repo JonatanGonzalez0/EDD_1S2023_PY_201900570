@@ -1,4 +1,5 @@
 import AVL from "../Estructuras/arbolAVL.mjs";
+
 document.addEventListener("DOMContentLoaded", function () {
     const btnGenerar = document.getElementById("btn-Arbol-AVL");
     btnGenerar.addEventListener("click", generarAVL);
@@ -7,5 +8,4 @@ document.addEventListener("DOMContentLoaded", function () {
         arbolAVL.fromJSON(localStorage.getItem("arbolAVL"));
         console.log(arbolAVL.generarDot())
     }   
-    
 });
