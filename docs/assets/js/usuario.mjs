@@ -1,4 +1,4 @@
-class Usuario {
+export default class Usuario {
   constructor(nombre, carnet, password, CarpetaRaiz) {
     this.nombre = nombre;
     this.carnet = carnet;
@@ -38,4 +38,3 @@ class Usuario {
         this.CarpetaRaiz = CarpetaRaiz;
     }
 }
-export default Usuario;

@@ -8,8 +8,8 @@ class NodoAVL {
   }
 }
 
-// Clase AVL
-class AVL {
+// Clase AVL 
+export default class AVL {
   constructor() {
     this.raiz = null;
   }
@@ -210,4 +210,4 @@ class AVL {
     this.raiz = jsonToNode(obj.raiz);
   }
 }
-export default AVL;
+

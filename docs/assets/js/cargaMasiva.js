@@ -1,9 +1,10 @@
-import AVL from './avl.js';
-import Usuario from './usuario.js';
+import AVL from "./arbolAVL.mjs";
+import Usuario from "./usuario.mjs";
+
 document.addEventListener("DOMContentLoaded", function () {
   function cargarArchivo() {
     const inputCargaMasiva = document.getElementById("InputFileCargaMasiva");
-    
+
     /* leer json usuarios.csv  sintaxins {
 	"alumnos": [
 		{
@@ -33,12 +34,12 @@ document.addEventListener("DOMContentLoaded", function () {
       if (localStorage.getItem("arbolAVL") === null) {
         //si no existe, crear el arbol
         arbolAVL = new AVL();
-      }else{
+      } else {
         //si existe, cargar el arbol
         arbolAVL = new AVL();
         arbolAVL.fromJSON(localStorage.getItem("arbolAVL"));
       }
-      
+
       //recorrer el json y agregar los usuarios
       usuarios.alumnos.forEach((usuario) => {
         const nuevoUsuario = new Usuario(
@@ -52,10 +53,19 @@ document.addEventListener("DOMContentLoaded", function () {
       });
       //guardar o actualizar el arbol en localstorage
       localStorage.setItem("arbolAVL", arbolAVL.toJSON());
+      //limpiar el input file
+      inputCargaMasiva.value = "";
 
+      //mostrar mensaje de exito
+      Swal.fire({
+        icon: "success",
+        title: "Carga masiva exitosa",
+        text: "Se han agregado los usuarios al sistema",
+        showConfirmButton: false,
+        timer: 1500,
+      });
+      
     };
-
-
   }
 
   //agregar listener al boton de subir archivo
