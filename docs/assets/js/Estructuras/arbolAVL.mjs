@@ -209,25 +209,44 @@ export default class AVL {
     // Crear la raíz a partir del objeto JSON
     this.raiz = jsonToNode(obj.raiz);
   }
-  
+
+  // Función para obtener la posición de un nodo en el grafo DOT
+  getPosition(nodo, pos) {
+    if (nodo) {
+      const nodePos = pos[nodo.usuario.carnet];
+      if (nodo.izquierdo) {
+        const leftPos = getPosition(nodo.izquierdo, pos);
+        const x = Math.min(nodePos.x, leftPos.x - 1);
+        const y = leftPos.y - 1;
+        pos[nodo.izquierdo.usuario.carnet] = { x, y };
+      }
+      if (nodo.derecho) {
+        const rightPos = getPosition(nodo.derecho, pos);
+        const x = Math.max(nodePos.x, rightPos.x + 1);
+        const y = rightPos.y - 1;
+        pos[nodo.derecho.usuario.carnet] = { x, y };
+      }
+      return nodePos;
+    }
+  }
+
   // Función para generar un grafo DOT a partir del árbol AVL
   generarDot() {
     let dot = "digraph G {\n";
 
-    // Función para recorrer el árbol en orden de altura y agregar los nodos al grafo DOT
-    function enOrdenAltura(nodo) {
-      if (nodo) {
-        enOrdenAltura(nodo.izquierdo);
-        dot += `  "${nodo.usuario.carnet}" [label="${nodo.usuario.carnet} \\n ${nodo.usuario.nombre} \\n Altura: ${nodo.altura}", shape=square];\n`;
-        enOrdenAltura(nodo.derecho);
-      }
-    }
+    // Crear un objeto para almacenar la posición de cada nodo
+    const pos = {};
+    pos[this.raiz.usuario.carnet] = { x: 0, y: 0 };
 
-    enOrdenAltura(this.raiz);
-
-    // Recorrer el árbol en preorden y agregar las relaciones entre los nodos al grafo DOT
+    // Recorrer el árbol en preorden y agregar los nodos al grafo DOT
     function preorden(nodo) {
       if (nodo) {
+        const nodePos = pos[nodo.usuario.carnet];
+        dot += `  "${nodo.usuario.carnet}" [label="${nodo.usuario.carnet} \\n ${
+          nodo.usuario.nombre
+        } \\n Altura: ${nodo.altura}", shape=square, pos="${
+          nodePos.x
+        },${-nodePos.y}!"];\n`;
         if (nodo.izquierdo) {
           dot += `  "${nodo.usuario.carnet}" -> "${nodo.izquierdo.usuario.carnet}" [label="L"];\n`;
         }
@@ -240,10 +259,12 @@ export default class AVL {
     }
 
     preorden(this.raiz);
+
+    // Calcular la posición de cada nodo en el grafo DOT
+    getPosition(this.raiz, pos);
+
     dot += "}\n";
 
     return dot;
-}
-
-  
+  }
 }
