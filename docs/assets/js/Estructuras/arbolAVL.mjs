@@ -210,49 +210,33 @@ export default class AVL {
     this.raiz = jsonToNode(obj.raiz);
   }
 
-  //generarDot
+  //funcion para generar el dot del arbol AVL
+  // Función para generar una cadena en formato DOT que represente al árbol AVL
   generarDot() {
-    // Recorrido en inorden para obtener los nodos ordenados por altura
-    function inorden(nodo) {
+    const header = "digraph G {\n  rankdir=TB;\n";
+    const footer = "}\n";
+    const dot = header + this.generarDotRecursivo(this.raiz) + footer;
+    return dot;
+  }
+
+  // Función auxiliar recursiva para generar la cadena en formato DOT
+  generarDot() {
+    let dot = "digraph G {\n";
+
+    // Función para recorrer el árbol en orden de altura y agregar los nodos al grafo DOT
+    function enOrdenAltura(nodo) {
       if (nodo) {
-        inorden(nodo.izquierdo);
-        nodos.push(nodo);
-        inorden(nodo.derecho);
+        enOrdenAltura(nodo.izquierdo);
+        dot += `  "${nodo.usuario.carnet}" [label="${nodo.usuario.carnet} \\n ${nodo.usuario.nombre} \\n Altura: ${nodo.altura}", shape=square];\n`;
+        enOrdenAltura(nodo.derecho);
       }
     }
 
-    inorden(this.raiz);
+    enOrdenAltura(this.raiz);
 
-    // Asignar posiciones a los nodos
-    let y = 0;
-    let x = 0;
-    let i = 0;
-    let levels = {};
-
-    for (let j = 0; j < nodos.length; j++) {
-      const node = nodos[j];
-      if (!levels[node.altura]) {
-        levels[node.altura] = [];
-      }
-      levels[node.altura].push(node);
-    }
-
-    Object.keys(levels).forEach((level) => {
-      const nodes = levels[level];
-      const separacion = 120 / Math.pow(2, level - 1);
-      y -= 100;
-      x = (-separacion * (nodes.length - 1)) / 2;
-      nodes.forEach((node) => {
-        pos[node.usuario.carnet] = { x: x, y: y };
-        x += separacion;
-      });
-    });
-
-    // Recorrido en preorden para generar el DOT
+    // Recorrer el árbol en preorden y agregar las relaciones entre los nodos al grafo DOT
     function preorden(nodo) {
       if (nodo) {
-        const nodePos = pos[nodo.usuario.carnet];
-        dot += `  "${nodo.usuario.carnet}" [label="${nodo.usuario.carnet} \\n ${nodo.usuario.nombre} \\n Altura: ${nodo.altura}", shape=square, pos="${nodePos.x},${nodePos.y}!"];\n`;
         if (nodo.izquierdo) {
           dot += `  "${nodo.usuario.carnet}" -> "${nodo.izquierdo.usuario.carnet}" [label="L"];\n`;
         }
