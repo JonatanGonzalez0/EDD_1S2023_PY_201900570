@@ -213,44 +213,38 @@ export default class AVL {
   //funcion para generar el dot del arbol AVL
   // Función para generar una cadena en formato DOT que represente al árbol AVL
   generarDot() {
-    const header = "digraph G {\n  rankdir=TB;\n";
-    const footer = "}\n";
+    const header = "digraph G {\n\trankdir=TB;\n\tnode [shape=record, style=filled, fillcolor=seashell2];\n";
+    const footer = "}";
     const dot = header + this.generarDotRecursivo(this.raiz) + footer;
     return dot;
   }
 
-  // Función auxiliar recursiva para generar la cadena en formato DOT
-  generarDot() {
-    let dot = "digraph G {\n";
-
-    // Función para recorrer el árbol en orden de altura y agregar los nodos al grafo DOT
-    function enOrdenAltura(nodo) {
-      if (nodo) {
-        enOrdenAltura(nodo.izquierdo);
-        dot += `  "${nodo.usuario.carnet}" [label="${nodo.usuario.carnet} \\n ${nodo.usuario.nombre} \\n Altura: ${nodo.altura}", shape=square];\n`;
-        enOrdenAltura(nodo.derecho);
-      }
+  // Función auxiliar para generar una cadena en formato DOT que represente al árbol AVL Nodo debe incluir carnet \\n nombre \\n Altura: altura
+  generarDotRecursivo(nodo) {
+    if (!nodo) {
+      return "";
     }
 
-    enOrdenAltura(this.raiz);
+    let dot = "";
 
-    // Recorrer el árbol en preorden y agregar las relaciones entre los nodos al grafo DOT
-    function preorden(nodo) {
-      if (nodo) {
-        if (nodo.izquierdo) {
-          dot += `  "${nodo.usuario.carnet}" -> "${nodo.izquierdo.usuario.carnet}" [label="L"];\n`;
-        }
-        if (nodo.derecho) {
-          dot += `  "${nodo.usuario.carnet}" -> "${nodo.derecho.usuario.carnet}" [label="R"];\n`;
-        }
-        preorden(nodo.izquierdo);
-        preorden(nodo.derecho);
-      }
+    // Agregar el nodo actual
+    dot += `\t"${nodo.usuario.carnet}" [label="<C0>|${nodo.usuario.carnet}\\n${nodo.usuario.nombre}\\nAltura: ${nodo.altura}|<C1>"];\n`;
+
+    // Agregar el enlace al hijo izquierdo
+    if (nodo.izquierdo) {
+      dot += `\t"${nodo.usuario.carnet}":C0 -> "${nodo.izquierdo.usuario.carnet}";\n`;
     }
 
-    preorden(this.raiz);
-    dot += "}\n";
+    // Agregar el enlace al hijo derecho
+    if (nodo.derecho) {
+      dot += `\t"${nodo.usuario.carnet}":C1 -> "${nodo.derecho.usuario.carnet}";\n`;
+    }
+
+    // Agregar los nodos hijos
+    dot += this.generarDotRecursivo(nodo.izquierdo);
+    dot += this.generarDotRecursivo(nodo.derecho);
 
     return dot;
   }
+
 }
