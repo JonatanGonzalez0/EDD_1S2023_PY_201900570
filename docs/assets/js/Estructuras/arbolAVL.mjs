@@ -210,41 +210,36 @@ export default class AVL {
     this.raiz = jsonToNode(obj.raiz);
   }
 
-  //funcion para generar el dot del arbol AVL
-  // Función para generar una cadena en formato DOT que represente al árbol AVL
+  // Función para generar el código DOT del árbol AVL
   generarDot() {
-    const header = "digraph G {\n\trankdir=TB;\n\tnode [shape=record, style=filled, fillcolor=seashell2];\n";
-    const footer = "}";
-    const dot = header + this.generarDotRecursivo(this.raiz) + footer;
-    return dot;
+    let codigoDot = "digraph ArbolAVL {\n";
+    codigoDot += "  node [shape=circle, style=filled, fillcolor=skyblue];\n";
+    codigoDot += "  edge [arrowhead=normal];\n";
+
+    // Función para generar el código DOT recursivamente
+    const generarDotRecursivo = (nodo) => {
+      if (nodo === null) {
+        return "";
+      }
+
+      let codigo = `  ${nodo.usuario.carnet} [label="Carnet: ${nodo.usuario.carnet} \\nNombre: ${nodo.usuario.nombre} \\nAltura: ${nodo.altura}", fillcolor=lightblue];\n`;
+
+      if (nodo.izquierdo !== null) {
+        codigo += `  ${nodo.usuario.carnet} -> ${nodo.izquierdo.usuario.carnet};\n`;
+        codigo += generarDotRecursivo(nodo.izquierdo);
+      }
+
+      if (nodo.derecho !== null) {
+        codigo += `  ${nodo.usuario.carnet} -> ${nodo.derecho.usuario.carnet};\n`;
+        codigo += generarDotRecursivo(nodo.derecho);
+      }
+
+      return codigo;
+    };
+
+    codigoDot += generarDotRecursivo(this.raiz);
+    codigoDot += "}\n";
+
+    return codigoDot;
   }
-
-  // Función auxiliar para generar una cadena en formato DOT que represente al árbol AVL Nodo debe incluir carnet \\n nombre \\n Altura: altura
-  generarDotRecursivo(nodo) {
-    if (!nodo) {
-      return "";
-    }
-
-    let dot = "";
-
-    // Agregar el nodo actual
-    dot += `\t"${nodo.usuario.carnet}" [label="<C0>|${nodo.usuario.carnet}\\n${nodo.usuario.nombre}\\nAltura: ${nodo.altura}|<C1>"];\n`;
-
-    // Agregar el enlace al hijo izquierdo
-    if (nodo.izquierdo) {
-      dot += `\t"${nodo.usuario.carnet}":C0 -> "${nodo.izquierdo.usuario.carnet}";\n`;
-    }
-
-    // Agregar el enlace al hijo derecho
-    if (nodo.derecho) {
-      dot += `\t"${nodo.usuario.carnet}":C1 -> "${nodo.derecho.usuario.carnet}";\n`;
-    }
-
-    // Agregar los nodos hijos
-    dot += this.generarDotRecursivo(nodo.izquierdo);
-    dot += this.generarDotRecursivo(nodo.derecho);
-
-    return dot;
-  }
-
 }
