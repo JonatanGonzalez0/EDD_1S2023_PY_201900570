@@ -1,0 +1,76 @@
+{
+	"alumnos": [
+		{
+			"nombre": "Ebany",
+			"carnet": "201403877",
+			"password": "qwerty12",
+			"CarpetaRaiz": "/"
+		},
+		{
+			"nombre": "Bryan",
+			"carnet": "201700375",
+			"password": "Bryan131",
+			"CarpetaRaiz": "/"
+		},
+		{
+			"nombre": "Kevyn",
+			"carnet": "201700653",
+			"password": "Kevyn126",
+			"CarpetaRaiz": "/"
+		},
+		{
+			"nombre": "Cristian",
+			"carnet": "201700918",
+			"password": "Cris123",
+			"CarpetaRaiz": "/"
+		},
+		{
+			"nombre": "Leonardo",
+			"carnet": "201780044",
+			"password": "leo123",
+			"CarpetaRaiz": "/"
+		},
+		{
+			"nombre": "Juan",
+			"carnet": "201801683",
+			"password": "Juan130",
+			"CarpetaRaiz": "/"
+		},
+		{
+			"nombre": "Jonatan",
+			"carnet": "201900570",
+			"password": "Jonatan125",
+			"CarpetaRaiz": "/"
+		},
+		{
+			"nombre": "Lourdes",
+			"carnet": "201902259",
+			"password": "Lourdes123",
+			"CarpetaRaiz": "/"
+		},
+		{
+			"nombre": "Alejandro",
+			"carnet": "201903549",
+			"password": "Alejandro124",
+			"CarpetaRaiz": "/"
+		},
+		{
+			"nombre": "Roberto",
+			"carnet": "202000544",
+			"password": "Roberto128",
+			"CarpetaRaiz": "/"
+		},
+		{
+			"nombre": "Sebastian",
+			"carnet": "202002940",
+			"password": "Sebastián129",
+			"CarpetaRaiz": "/"
+		},
+		{
+			"nombre": "Eduardo",
+			"carnet": "202004703",
+			"password": "Eduardo127",
+			"CarpetaRaiz": "/"
+		}
+	]
+}

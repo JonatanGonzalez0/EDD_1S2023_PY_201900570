@@ -134,6 +134,19 @@ export default class AVL {
     return resultado;
   }
 
+  comprobarLogin(carnet, password) {
+    let resultado = false;
+    const recorrer = (nodo) => {
+      if (nodo.usuario.carnet == carnet && nodo.usuario.password == password) { 
+        resultado = true;
+      }
+      if (nodo.izquierda) recorrer(nodo.izquierda);
+      if (nodo.derecha) recorrer(nodo.derecha);
+    };
+    recorrer(this.raiz);
+    return resultado;
+  }
+
   toJSON() {
     const json = {};
 
