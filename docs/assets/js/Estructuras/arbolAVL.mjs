@@ -2,8 +2,8 @@
 class NodoAVL {
   constructor(usuario) {
     this.usuario = usuario;
-    this.izquierdo = null;
-    this.derecho = null;
+    this.izquierda = null;
+    this.derecha = null;
     this.altura = 1;
   }
 }
@@ -13,238 +13,175 @@ export default class AVL {
   constructor() {
     this.raiz = null;
   }
-
-  // Función para obtener la altura de un nodo
-  altura(nodo) {
-    if (!nodo) {
-      return 0;
-    }
-    return nodo.altura;
-  }
-
-  // Función para obtener el balance de un nodo
-  balance(nodo) {
-    if (!nodo) {
-      return 0;
-    }
-    return this.altura(nodo.izquierdo) - this.altura(nodo.derecho);
-  }
-
-  // Función para rotar a la derecha un nodo
-  rotacionDerecha(nodo) {
-    const nuevoPadre = nodo.izquierdo;
-    const temp = nuevoPadre.derecho;
-
-    nuevoPadre.derecho = nodo;
-    nodo.izquierdo = temp;
-
-    nodo.altura =
-      Math.max(this.altura(nodo.izquierdo), this.altura(nodo.derecho)) + 1;
-    nuevoPadre.altura =
-      Math.max(
-        this.altura(nuevoPadre.izquierdo),
-        this.altura(nuevoPadre.derecho)
-      ) + 1;
-
-    return nuevoPadre;
-  }
-
-  // Función para rotar a la izquierda un nodo
-  rotacionIzquierda(nodo) {
-    const nuevoPadre = nodo.derecho;
-    const temp = nuevoPadre.izquierdo;
-
-    nuevoPadre.izquierdo = nodo;
-    nodo.derecho = temp;
-
-    nodo.altura =
-      Math.max(this.altura(nodo.izquierdo), this.altura(nodo.derecho)) + 1;
-    nuevoPadre.altura =
-      Math.max(
-        this.altura(nuevoPadre.izquierdo),
-        this.altura(nuevoPadre.derecho)
-      ) + 1;
-
-    return nuevoPadre;
-  }
-
-  // Función para insertar un nodo en el árbol
+  
   insertar(usuario) {
-    const nodo = new NodoAVL(usuario);
-
-    // Si el árbol está vacío, el nuevo nodo es la raíz
+    const nuevoNodo = new NodoAVL(usuario);
     if (!this.raiz) {
-      this.raiz = nodo;
-      return this.raiz;
+      this.raiz = nuevoNodo;
+      return;
     }
 
-    // Insertar el nodo de forma recursiva y actualizar la altura
-    this.raiz = this._insertar(this.raiz, nodo);
-
-    return this.raiz;
+    this.raiz = this.insertarNodo(this.raiz, nuevoNodo);
+    return this;
   }
 
-  // Función auxiliar para insertar un nodo de forma recursiva
-  _insertar(nodoActual, nodoNuevo) {
-    // Insertar el nodo en el lugar correcto del árbol
-    if (!nodoActual) {
-      return nodoNuevo;
+  insertarNodo(nodoActual, nuevoNodo) {
+    if (!nodoActual) return nuevoNodo;
+
+    if (nuevoNodo.usuario.carnet < nodoActual.usuario.carnet) {
+      nodoActual.izquierda = this.insertarNodo(nodoActual.izquierda, nuevoNodo);
+    }
+    else {
+      nodoActual.derecha = this.insertarNodo(nodoActual.derecha, nuevoNodo);
     }
 
-    if (nodoNuevo.usuario.carnet < nodoActual.usuario.carnet) {
-      nodoActual.izquierdo = this._insertar(nodoActual.izquierdo, nodoNuevo);
-    } else if (nodoNuevo.usuario.carnet > nodoActual.usuario.carnet) {
-      nodoActual.derecho = this._insertar(nodoActual.derecho, nodoNuevo);
-    } else {
-      // Si el carnet ya existe, no se hace nada
-      return nodoActual;
-    }
+    nodoActual.altura = 1 + Math.max(this.altura(nodoActual.izquierda), this.altura(nodoActual.derecha));
 
-    // Actualizar la altura del nodo actual
-    nodoActual.altura =
-      Math.max(
-        this.altura(nodoActual.izquierdo),
-        this.altura(nodoActual.derecho)
-      ) + 1;
+    const balance = this.getBalance(nodoActual);
 
-    // Obtener el balance del nodo actual
-    const balance = this.balance(nodoActual);
-
-    // Si el nodo está desbalanceado, aplicar una rotación
-    if (
-      balance > 1 &&
-      nodoNuevo.usuario.carnet < nodoActual.izquierdo.usuario.carnet
-    ) {
-      // Rotación derecha
+    // Left Left Case
+    if (balance > 1 && nuevoNodo.usuario.carnet < nodoActual.izquierda.usuario.carnet) {
       return this.rotacionDerecha(nodoActual);
     }
 
-    if (
-      balance < -1 &&
-      nodoNuevo.usuario.carnet > nodoActual.derecho.usuario.carnet
-    ) {
-      // Rotación izquierda
+    // Right Right Case
+    if (balance < -1 && nuevoNodo.usuario.carnet > nodoActual.derecha.usuario.carnet) {
       return this.rotacionIzquierda(nodoActual);
     }
 
-    if (
-      balance > 1 &&
-      nodoNuevo.usuario.carnet > nodoActual.izquierdo.usuario.carnet
-    ) {
-      // Rotación doble izquierda
-      nodoActual.izquierdo = this.rotacionIzquierda(nodoActual.izquierdo);
+    // Left Right Case
+    if (balance > 1 && nuevoNodo.usuario.carnet > nodoActual.izquierda.usuario.carnet) {
+      nodoActual.izquierda = this.rotacionIzquierda(nodoActual.izquierda);
       return this.rotacionDerecha(nodoActual);
     }
 
-    if (
-      balance < -1 &&
-      nodoNuevo.usuario.carnet < nodoActual.derecho.usuario.carnet
-    ) {
-      // Rotación doble derecha
-      nodoActual.derecho = this.rotacionDerecha(nodoActual.derecho);
+    // Right Left Case
+    if (balance < -1 && nuevoNodo.usuario.carnet < nodoActual.derecha.usuario.carnet) {
+      nodoActual.derecha = this.rotacionDerecha(nodoActual.derecha);
       return this.rotacionIzquierda(nodoActual);
     }
 
     return nodoActual;
   }
-
-  // Función para buscar un nodo en el árbol
-  buscar(carnet) {
-    let nodoActual = this.raiz;
-    while (nodoActual) {
-      if (carnet < nodoActual.usuario.carnet) {
-        nodoActual = nodoActual.izquierdo;
-      } else if (carnet > nodoActual.usuario.carnet) {
-        nodoActual = nodoActual.derecho;
-      } else {
-        return nodoActual;
-      }
-    }
-
-    return null;
+  
+  altura(nodo) {
+    if (!nodo) return 0;
+    return nodo.altura;
   }
 
-  // Función para convertir el árbol en una cadena JSON
+  getBalance(nodo) {
+    if (!nodo) return 0;
+    return this.altura(nodo.izquierda) - this.altura(nodo.derecha);
+  }
+
+  rotacionDerecha(nodo) {
+    const nodoIzquierda = nodo.izquierda;
+    const nodoIzquierdaDerecha = nodoIzquierda.derecha;
+
+    nodoIzquierda.derecha = nodo;
+    nodo.izquierda = nodoIzquierdaDerecha;
+
+    nodo.altura = 1 + Math.max(this.altura(nodo.izquierda), this.altura(nodo.derecha));
+    nodoIzquierda.altura = 1 + Math.max(this.altura(nodoIzquierda.izquierda), this.altura(nodoIzquierda.derecha));
+    return nodoIzquierda;
+  }
+
+  rotacionIzquierda(nodo) {
+    const nodoDerecha = nodo.derecha;
+    const nodoDerechaIzquierda = nodoDerecha.izquierda;
+
+    nodoDerecha.izquierda = nodo;
+    nodo.derecha = nodoDerechaIzquierda;
+
+    nodo.altura = 1 + Math.max(this.altura(nodo.izquierda), this.altura(nodo.derecha));
+    nodoDerecha.altura = 1 + Math.max(this.altura(nodoDerecha.izquierda), this.altura(nodoDerecha.derecha));
+    return nodoDerecha;
+  }
+
+  //funcion para recorrer el arbol en preorden
+  preOrden() {
+    let resultado = [];
+    const recorrer = (nodo) => {
+      resultado.push(nodo.usuario.carnet);
+      if (nodo.izquierda) recorrer(nodo.izquierda);
+      if (nodo.derecha) recorrer(nodo.derecha);
+    };
+    recorrer(this.raiz);
+    return resultado;
+  }
+
+  //funcion para recorrer el arbol en inorden
+  inOrden() {
+    let resultado = [];
+    const recorrer = (nodo) => {
+      if (nodo.izquierda) recorrer(nodo.izquierda);
+      resultado.push(nodo.usuario.carnet);
+      if (nodo.derecha) recorrer(nodo.derecha);
+    };
+    recorrer(this.raiz);
+    return resultado;
+  }
+
+  //funcion para recorrer el arbol en postorden
+  postOrden() {
+    let resultado = [];
+    const recorrer = (nodo) => {
+      if (nodo.izquierda) recorrer(nodo.izquierda);
+      if (nodo.derecha) recorrer(nodo.derecha);
+      resultado.push(nodo.usuario.carnet);
+    };
+    recorrer(this.raiz);
+    return resultado;
+  }
+
   toJSON() {
     const json = {};
 
-    // Función auxiliar para convertir cada nodo en un objeto
-    function nodeToJSON(node) {
-      if (!node) {
-        return null;
-      }
-
+    function nodeToJSON(node){
+      if(!node) return null;
       return {
         valor: node.usuario,
         altura: node.altura,
-        izquierdo: nodeToJSON(node.izquierdo),
-        derecho: nodeToJSON(node.derecho),
+        izquierda: nodeToJSON(node.izquierda),
+        derecha: nodeToJSON(node.derecha)
       };
     }
 
-    // Convertir la raíz a un objeto JSON
     json.raiz = nodeToJSON(this.raiz);
-
-    // Devolver la cadena JSON
     return JSON.stringify(json);
   }
 
-  // Función para cargar un árbol desde una cadena JSON
   fromJSON(json) {
     const obj = JSON.parse(json);
 
-    // Función auxiliar para crear cada nodo a partir del objeto JSON
-    function jsonToNode(jsonNode) {
-      if (!jsonNode) {
-        return null;
-      }
-
+    function jsonToNode(jsonNode){
+      if(!jsonNode) return null;
       const node = new NodoAVL(jsonNode.valor);
       node.altura = jsonNode.altura;
-      node.izquierdo = jsonToNode(jsonNode.izquierdo);
-      node.derecho = jsonToNode(jsonNode.derecho);
+      node.izquierda = jsonToNode(jsonNode.izquierda);
+      node.derecha = jsonToNode(jsonNode.derecha);
       return node;
     }
 
-    // Crear la raíz a partir del objeto JSON
     this.raiz = jsonToNode(obj.raiz);
   }
 
-  //funcion para generar el dot del arbol AVL
-  // Función para generar una cadena en formato DOT que represente al árbol AVL
-  generarDot() {
-    const header = "digraph G {\n\trankdir=TB;\n\tnode [shape=record, style=filled, fillcolor=seashell2];\n";
-    const footer = "}";
-    const dot = header + this.generarDotRecursivo(this.raiz) + footer;
-    return dot;
+  toGraphviz() {
+    let resultado = "digraph G {\n\tnode [shape=record, style=filled, fillcolor=skyblue];\n";
+    const recorrer = (nodo) => {
+      resultado += `\t${nodo.usuario.carnet} [label="Carnet: ${nodo.usuario.carnet} \\n Nombre: ${nodo.usuario.nombre} \\n Altura: ${nodo.altura}"];\n`;
+      if (nodo.izquierda) {
+        resultado += `\t${nodo.usuario.carnet} -> ${nodo.izquierda.usuario.carnet}\n`;
+        recorrer(nodo.izquierda);
+      }
+      if (nodo.derecha) {
+        resultado += `\t${nodo.usuario.carnet} -> ${nodo.derecha.usuario.carnet}\n`;
+        recorrer(nodo.derecha);
+      }
+    };
+    recorrer(this.raiz);
+    resultado += "}";
+    return resultado;
   }
-
-  // Función auxiliar para generar una cadena en formato DOT que represente al árbol AVL Nodo debe incluir carnet \\n nombre \\n Altura: altura
-  generarDotRecursivo(nodo) {
-    if (!nodo) {
-      return "";
-    }
-
-    let dot = "";
-
-    // Agregar el nodo actual
-    dot += `\t"${nodo.usuario.carnet}" [label="<C0>|${nodo.usuario.carnet}\\n${nodo.usuario.nombre}\\nAltura: ${nodo.altura}|<C1>"];\n`;
-
-    // Agregar el enlace al hijo izquierdo
-    if (nodo.izquierdo) {
-      dot += `\t"${nodo.usuario.carnet}":C0 -> "${nodo.izquierdo.usuario.carnet}";\n`;
-    }
-
-    // Agregar el enlace al hijo derecho
-    if (nodo.derecho) {
-      dot += `\t"${nodo.usuario.carnet}":C1 -> "${nodo.derecho.usuario.carnet}";\n`;
-    }
-
-    // Agregar los nodos hijos
-    dot += this.generarDotRecursivo(nodo.izquierdo);
-    dot += this.generarDotRecursivo(nodo.derecho);
-
-    return dot;
-  }
-
+  
 }
