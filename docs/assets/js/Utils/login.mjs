@@ -29,8 +29,7 @@ document.addEventListener("DOMContentLoaded", function () {
         }else{
           alert("Error de inicio de sesión: Usuario o contraseña incorrectos");
         }
-      }
-      alert("Error de inicio de sesión: Usuario o contraseña incorrectos");
+      }      
     }
   });
 });
