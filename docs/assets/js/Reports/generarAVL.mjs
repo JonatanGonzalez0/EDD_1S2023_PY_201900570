@@ -6,7 +6,6 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("reportContainer").classList.remove("visually-hidden");
         
         const arbolAVL = new AVL();
-        
         let graph = "";
         //si existe el arbol en el local storage, cargarlo
         if (localStorage.getItem("arbolAVL") !== null) {
