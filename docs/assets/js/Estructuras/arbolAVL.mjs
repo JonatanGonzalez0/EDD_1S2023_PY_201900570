@@ -178,23 +178,34 @@ export default class AVL {
 
     this.raiz = jsonToNode(obj.raiz);
   }
-
+  //"[label=\" Carnet:" + raiz.usuario.carnet + " Nombre:" + raiz.usuario.nombre + " Altura:" + raiz.altura + "\"]\n"
+  retornarValoresArbol(raiz){
+    var cadena = ""
+    if(raiz !== null){
+        cadena += raiz.usuario.carnet + "[label=\" Carnet:" + raiz.usuario.carnet + " \\n Nombre:" + raiz.usuario.nombre + " \\n Altura:" + raiz.altura + "\"];"
+        if(raiz.izquierda !== null){
+            cadena += this.retornarValoresArbol(raiz.izquierda)
+            cadena += raiz.usuario.carnet + "->" + raiz.izquierda.usuario.carnet + ";"
+        }
+        if(raiz.derecha !== null){
+            cadena += this.retornarValoresArbol(raiz.derecha)
+            cadena += raiz.usuario.carnet + "->" + raiz.derecha.usuario.carnet + ";"
+        }
+    }
+      return cadena
+    }
+              
   toGraphviz() {
-    let resultado = "digraph G {\n\tnode [shape=record, style=filled, fillcolor=skyblue];\n";
-    const recorrer = (nodo) => {
-      resultado += `\t${nodo.usuario.carnet} [label="Carnet: ${nodo.usuario.carnet} \\n Nombre: ${nodo.usuario.nombre} \\n Altura: ${nodo.altura}"];\n`;
-      if (nodo.izquierda) {
-        resultado += `\t${nodo.usuario.carnet} -> ${nodo.izquierda.usuario.carnet}\n`;
-        recorrer(nodo.izquierda);
-      }
-      if (nodo.derecha) {
-        resultado += `\t${nodo.usuario.carnet} -> ${nodo.derecha.usuario.carnet}\n`;
-        recorrer(nodo.derecha);
-      }
-    };
-    recorrer(this.raiz);
-    resultado += "}";
-    return resultado;
+    var cadena = ""
+        if(this.raiz !== null){
+            cadena += "digraph AVL {"
+            cadena += "bgcolor = \"gray\";"
+            cadena += "node [shape=record, style=filled, fillcolor=skyblue];"
+            cadena += this.retornarValoresArbol(this.raiz)
+            cadena += "}"
+        }
+        return cadena
+    
   }
   
 }

@@ -13,7 +13,7 @@
     <link rel="stylesheet" href="assets/css/animate.min.css">
 </head>
 
-<body>
+<body style="background: rgb(45, 44, 56);">
     <!-- Start: Navbar Centered Links -->
     <nav class="navbar navbar-dark navbar-expand-md sticky-top py-3" id="mainNav" style="width: 1883px;">
         <div class="container"><a class="navbar-brand d-flex align-items-center" href="/"><span class="bs-icon-sm bs-icon-circle bs-icon-primary shadow d-flex justify-content-center align-items-center me-2 bs-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-cloud">
@@ -34,6 +34,7 @@
         </div>
     </section><!-- End: Table Users -->
     <section class="py-5 mt-5" style="padding-top: 48px;">
+        <!-- Start: Usuarios Registrados -->
         <div class="container" style="width: 1474px;">
             <div class="row">
                 <div class="col">
@@ -77,7 +78,8 @@
                     </div>
                 </div>
             </div>
-        </div><!-- Start: 1 Row 3 Columns -->
+        </div><!-- End: Usuarios Registrados -->
+        <!-- Start: Opciones -->
         <div class="container" style="padding-top: 35px;font-size: 0;">
             <div class="row">
                 <div class="col">
@@ -89,9 +91,14 @@
                     <p class="d-xxl-flex justify-content-xxl-center align-items-xxl-center mb-4" data-aos="fade" style="text-align: center;font-weight: bold;font-family: Inter, sans-serif;font-size: 1.6rem;color: rgb(25,245,170);">Carga Masiva</p><input class="bg-primary shadow-sm form-control-sm" type="file" data-aos="fade-up" id="InputFileCargaMasiva" name="cargaMasiva" accept="application/json"><button class="btn btn-primary" data-aos="fade-up" id="SubirCargaMasiva" type="button" style="width: 117.484px;height: 45.7812px;margin: 16px;background: var(--bs-info);">Subir</button>
                 </div>
                 <div class="col-md-4 text-center d-flex flex-column justify-content-xxl-center align-items-xxl-center" style="text-align: center;"><button class="btn btn-primary" data-aos="fade-up" id="btn-Arbol-AVL" type="button" style="font-size: 19px;text-align: center;">Arbol de estudiantes ( AVL )</button></div>
-                <div class="col-md-4 d-xxl-flex justify-content-xxl-center align-items-xxl-center" style="text-align: center;"><button class="btn btn-primary d-xxl-flex" data-aos="fade-up-left" type="button" style="font-size: 19px;text-align: center;">Otro reporte</button></div>
+                <div class="col-md-4 d-xxl-flex justify-content-xxl-center align-items-xxl-center" style="text-align: center;"><button class="btn btn-danger d-xxl-flex" data-aos="fade-up-left" id="limpiarArbol" type="button" style="font-size: 19px;text-align: center;">Limpiar Arbol</button></div>
             </div>
-        </div><!-- End: 1 Row 3 Columns -->
+        </div><!-- End: Opciones -->
+        <div class="container visually-hidden visible" id="reportContainer"><img id="imageAVL" style="position: relative;width: 1200px;height: 713px;">
+            <div class="row">
+                <div class="col" style="text-align: center;"><button class="btn btn-info" id="cerrarGrafico" type="button" style="width: 183.633px;height: 57.7812px;transform: translate(-59px);">Cerrar Grafico</button></div>
+            </div>
+        </div>
     </section><!-- Start: Footer Multi Column -->
     <footer class="bg-dark">
         <div class="container py-4 py-lg-5" style="width: 1920px;max-width: 1851px;">
