@@ -53,3 +53,4 @@ document.getElementById("PostOrden").addEventListener("click", () => {
     refresh("postorden");
 });
 
+export { refresh };

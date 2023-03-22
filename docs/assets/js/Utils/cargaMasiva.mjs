@@ -1,5 +1,6 @@
 import AVL from "../Estructuras/arbolAVL.mjs";
 import Usuario from "../Estructuras/usuario.mjs";
+import { refresh } from "../Utils/refreshTable.mjs";
 
 document.addEventListener("DOMContentLoaded", function () {
   function cargarArchivo() {
@@ -42,6 +43,8 @@ document.addEventListener("DOMContentLoaded", function () {
       //mostrar mensaje de exito alerta
       alert("Carga masiva exitosa");
       console.log("LOCAL STORAGE: ", localStorage.getItem("arbolAVL"));
+      //refrescar la tabla
+      refresh("inorden");
       
     };
   }

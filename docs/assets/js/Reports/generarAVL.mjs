@@ -1,4 +1,5 @@
 import AVL from "../Estructuras/arbolAVL.mjs";
+import { refresh } from "../Utils/refreshTable.mjs";
 
 document.addEventListener("DOMContentLoaded", function () {
     function generarAVL() {
@@ -13,7 +14,7 @@ document.addEventListener("DOMContentLoaded", function () {
             graph = arbolAVL.toGraphviz();
         }else{
             //grafico solo mostrara el mensaje arbol vacio
-            graph = "digraph AVL {bgcolor = \"gray\";node [shape=record, style=filled, fillcolor=skyblue];Arbol_Vacio;}";
+            graph = "digraph AVL {bgcolor = \"gray35\";node [shape=record, style=filled, fillcolor=skyblue];Arbol_Vacio;}";
         }
         let url = 'https://quickchart.io/graphviz?format=svg&width=1200&height=713&&graph=';
     
@@ -28,10 +29,12 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("reportContainer").classList.add("visually-hidden");
     }
     
-    function limpiarArbio(){
+    function limpiarArbol(){
         localStorage.removeItem("arbolAVL");
         alert("Arbol eliminado del local storage");
         generarAVL();
+        refresh("inorden");
+        
     }
 
     const btnGenerar = document.getElementById("btn-Arbol-AVL");
@@ -41,7 +44,7 @@ document.addEventListener("DOMContentLoaded", function () {
     btnCerrar.addEventListener("click", hidecontainer);
 
     const btnLimpiar = document.getElementById("limpiarArbol");
-    btnLimpiar.addEventListener("click", limpiarArbio);
+    btnLimpiar.addEventListener("click", limpiarArbol);
 });
 
 
