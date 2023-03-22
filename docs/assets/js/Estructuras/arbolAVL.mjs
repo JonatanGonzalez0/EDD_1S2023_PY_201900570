@@ -102,7 +102,7 @@ export default class AVL {
   preOrden() {
     let resultado = [];
     const recorrer = (nodo) => {
-      resultado.push(nodo.usuario.carnet);
+      resultado.push(nodo.usuario);
       if (nodo.izquierda) recorrer(nodo.izquierda);
       if (nodo.derecha) recorrer(nodo.derecha);
     };
@@ -115,7 +115,7 @@ export default class AVL {
     let resultado = [];
     const recorrer = (nodo) => {
       if (nodo.izquierda) recorrer(nodo.izquierda);
-      resultado.push(nodo.usuario.carnet);
+      resultado.push(nodo.usuario);
       if (nodo.derecha) recorrer(nodo.derecha);
     };
     recorrer(this.raiz);
@@ -128,7 +128,7 @@ export default class AVL {
     const recorrer = (nodo) => {
       if (nodo.izquierda) recorrer(nodo.izquierda);
       if (nodo.derecha) recorrer(nodo.derecha);
-      resultado.push(nodo.usuario.carnet);
+      resultado.push(nodo.usuario);
     };
     recorrer(this.raiz);
     return resultado;
