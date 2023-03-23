@@ -4,6 +4,9 @@ import { refresh } from "../Utils/refreshTable.mjs";
 
 document.addEventListener("DOMContentLoaded", function () {
   function cargarArchivo() {
+    //make container invisible
+    document.getElementById("reportContainer").classList.add("visually-hidden");
+
     const inputCargaMasiva = document.getElementById("InputFileCargaMasiva");
     const file = inputCargaMasiva.files[0];
     const reader = new FileReader();
@@ -41,13 +44,19 @@ document.addEventListener("DOMContentLoaded", function () {
       inputCargaMasiva.value = "";
       
       //mostrar mensaje de exito alerta
-      alert("Carga masiva exitosa");
       console.log("LOCAL STORAGE: ", localStorage.getItem("arbolAVL"));
       //refrescar la tabla
       refresh("inorden");
       
     };
   }
+
+  //cuando se suba el archivo al input file se ejecutara la funcion cargarArchivo
+  const inputCargaMasiva = document.getElementById("InputFileCargaMasiva");
+  inputCargaMasiva.addEventListener("change", cargarArchivo);
+
+
+  
 
   //agregar listener al boton de subir archivo
   document.getElementById("SubirCargaMasiva").addEventListener("click", () => {

@@ -31,7 +31,7 @@ document.addEventListener("DOMContentLoaded", function () {
     
     function limpiarArbol(){
         localStorage.removeItem("arbolAVL");
-        alert("Arbol eliminado del local storage");
+        
         generarAVL();
         refresh("inorden");
         
