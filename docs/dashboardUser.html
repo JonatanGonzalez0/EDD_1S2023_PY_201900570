@@ -4,7 +4,7 @@
 <head>
     <meta charset="utf-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0, shrink-to-fit=no">
-    <title>Log in - EDD-DRIVE</title>
+    <title>EDD-DRIVE</title>
     <link rel="stylesheet" href="assets/bootstrap/css/bootstrap.min.css">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Inter:300italic,400italic,600italic,700italic,800italic,400,300,600,700,800&amp;display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Adamina&amp;display=swap">
@@ -13,51 +13,64 @@
     <link rel="stylesheet" href="assets/css/animate.min.css">
 </head>
 
-<body>
+<body style="background: rgb(45, 44, 56);">
     <!-- Start: Navbar Centered Links -->
-    <nav class="navbar navbar-dark navbar-expand-md sticky-top py-3" id="mainNav">
+    <nav class="navbar navbar-dark navbar-expand-md sticky-top py-3" id="mainNav" style="width: 1883px;">
         <div class="container"><a class="navbar-brand d-flex align-items-center" href="/"><span class="bs-icon-sm bs-icon-circle bs-icon-primary shadow d-flex justify-content-center align-items-center me-2 bs-icon"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-cloud">
                         <path d="M4.406 3.342A5.53 5.53 0 0 1 8 2c2.69 0 4.923 2 5.166 4.579C14.758 6.804 16 8.137 16 9.773 16 11.569 14.502 13 12.687 13H3.781C1.708 13 0 11.366 0 9.318c0-1.763 1.266-3.223 2.942-3.593.143-.863.698-1.723 1.464-2.383zm.653.757c-.757.653-1.153 1.44-1.153 2.056v.448l-.445.049C2.064 6.805 1 7.952 1 9.318 1 10.785 2.23 12 3.781 12h8.906C13.98 12 15 10.988 15 9.773c0-1.216-1.02-2.228-2.313-2.228h-.5v-.5C12.188 4.825 10.328 3 8 3a4.53 4.53 0 0 0-2.941 1.1z"></path>
-                    </svg></span><span style="font-size: 24px;">EDD GoDrive</span></a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
-            <div class="collapse navbar-collapse" id="navcol-1">
+                    </svg></span><span style="font-size: 30px;">EDD GoDrive</span></a><button data-bs-toggle="collapse" class="navbar-toggler" data-bs-target="#navcol-1"><span class="visually-hidden">Toggle navigation</span><span class="navbar-toggler-icon"></span></button>
+            <div class="collapse navbar-collapse" id="navcol-1" style="font-size: 20px;">
                 <ul class="navbar-nav mx-auto">
-                    <li class="nav-item"><a class="nav-link" href="index.html" style="height: 21.5938px;width: 57.6641px;">Inicio</a></li>
-                    <li class="nav-item"></li>
-                    <li class="nav-item"><a class="nav-link active" href="login.html" style="margin: 0;height: 30.5938px;width: 141.0469px;">Log in</a></li>
-                    <li class="nav-item"></li>
+                    <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
+                    <li class="nav-item"><a class="nav-link" href="login.html"></a></li>
                 </ul>
-            </div>
+            </div><a class="btn btn-danger" role="button" id="bnt-logout" style="font-size: 21px;text-align: center;" href="index.html">Logout</a>
         </div>
     </nav><!-- End: Navbar Centered Links -->
-    <section class="py-5">
-        <div class="container py-5">
-            <div class="row mb-4 mb-lg-5" data-aos="slide-up">
-                <div class="col-md-8 col-xl-6 text-center mx-auto">
-                    <p class="fw-bold text-success mb-2">Login</p>
-                    <h2 class="fw-bold" data-aos="fade">Bienvenido</h2>
+    <header class="bg-dark" style="padding: 0;"></header><!-- Start: User -->
+    <section class="py-5" style="height: 179.961px;">
+        <div class="container text-center bounce animated py-5" style="text-align: center;height: 128.188px;max-width: 1333px;">
+            <p data-bss-hover-animate="pulse" id="txt-Bienvenida" class="mb-4" style="font-size: 42px;color: rgb(25,245,170);width: 1295px;padding-top: 0px;text-align: center;">!BIENVENIDO AL DASHBOARD!</p>
+        </div>
+    </section><!-- End: User -->
+    <section class="py-5 mt-5" style="padding-top: 48px;">
+        <!-- Start: Container Busquedas y eliminacion -->
+        <div class="container" style="width: 1474px;">
+            <div class="row">
+                <div class="col">
+                    <p style="font-size: 21px;">BUSQUEDA</p><input class="border rounded-pill" type="search" id="inputBusqueda" placeholder="   Ej : Documentos/2023/Clase" autofocus="" style="width: 1290px;height: 49.5938px;font-size: 20px;">
                 </div>
             </div>
-            <div class="row d-flex justify-content-center">
-                <div class="col-md-6 col-xl-4">
-                    <div class="card">
-                        <div class="card-body text-center d-flex flex-column align-items-center">
-                            <div class="bs-icon-xl bs-icon-circle bs-icon-primary shadow bs-icon my-4" data-aos="flip-right"><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-person" data-aos="flip-right">
-                                    <path d="M8 8a3 3 0 1 0 0-6 3 3 0 0 0 0 6zm2-3a2 2 0 1 1-4 0 2 2 0 0 1 4 0zm4 8c0 1-1 1-1 1H3s-1 0-1-1 1-4 6-4 6 3 6 4zm-1-.004c-.001-.246-.154-.986-.832-1.664C11.516 10.68 10.289 10 8 10c-2.29 0-3.516.68-4.168 1.332-.678.678-.83 1.418-.832 1.664h10z"></path>
-                                </svg></div>
-                            <form method="post">
-                                <div class="mb-3"><input class="form-control" type="text" name="usuario" id="usuario" placeholder="Usuario" /></div>
-                                <div class="mb-3"><input class="form-control" type="password" id="password" name="password" placeholder="Contraseña"></div>
-                                <div class="mb-3"><button class="btn btn-primary shadow bounce animated d-block w-100" id="btnLogin" type="submit">Iniciar&nbsp;</button></div>
-                                <p class="text-muted" data-aos="zoom-in-down">Olvide mi contraseña?</p>
-                            </form>
-                        </div>
-                    </div>
+            <div class="row" style="font-size: 18px;height: 122.7656px;">
+                <div class="col d-xxl-flex justify-content-xxl-center align-items-xxl-center" style="height: 84.7812px;font-size: 18px;"><button class="btn btn-primary" data-aos="fade-right" id="nuevaCarpeta" type="button" style="font-size: 18px;height: 53.9844px;">Nueva Carpeta</button></div>
+                <div class="col d-xxl-flex justify-content-xxl-center align-items-xxl-center" style="height: 84.7812px;font-size: 18px;"><button class="btn btn-primary" data-aos="fade-right" id="eliminarCarpeta" type="button" style="font-size: 18px;height: 52.9844px;">Eliminar Carpeta</button></div>
+            </div>
+        </div><!-- End: Container Busquedas y eliminacion -->
+        <!-- Start: Panel de carpetas -->
+        <div class="container"></div><!-- End: Panel de carpetas -->
+        <!-- Start: Reportes -->
+        <div class="container" style="padding-top: 35px;font-size: 0;">
+            <div class="row">
+                <div class="col">
+                    <h1 data-aos="fade-up" style="color: rgb(25,245,170);text-align: center;">Reportes</h1>
                 </div>
+            </div>
+        </div><!-- End: Reportes -->
+        <!-- Start: 1 Row 2 Columns -->
+        <div class="container">
+            <div class="row" style="text-align: center;height: 82.5781px;">
+                <div class="col-md-6 d-xxl-flex justify-content-xxl-center align-items-xxl-center" style="text-align: center;"><button class="btn btn-primary" data-aos="fade-up-left" id="reporteCarpetas" type="button" style="font-size: 19px;text-align: center;height: 59.5781px;">Reporte de Carpetas</button></div>
+                <div class="col-md-6 d-xxl-flex justify-content-xxl-center align-items-xxl-center"><button class="btn btn-primary" data-aos="fade-up" id="reporteArchivos" type="button" style="font-size: 19px;text-align: center;height: 59.5781px;">Reporte de&nbsp; Archivos</button></div>
+            </div>
+        </div><!-- End: 1 Row 2 Columns -->
+        <div class="container visually-hidden visible" id="reportContainer"><img id="imageAVL" style="position: relative;width: 1200px;height: 713px;">
+            <div class="row">
+                <div class="col" style="text-align: center;"><button class="btn btn-info" id="cerrarGrafico" type="button" style="width: 183.633px;height: 57.7812px;transform: translate(-59px);">Cerrar Grafico</button></div>
             </div>
         </div>
     </section><!-- Start: Footer Multi Column -->
     <footer class="bg-dark">
-        <div class="container py-4 py-lg-5">
+        <div class="container py-4 py-lg-5" style="width: 1920px;max-width: 1851px;">
             <hr>
             <div class="text-muted d-flex justify-content-between align-items-center pt-3">
                 <p class="mb-0">Copyright © 2023 EDD GoDrive PROJECT</p>
@@ -82,7 +95,7 @@
     <script src="assets/js/Estructuras/arbolAVL.mjs" type="module"></script>
     <script src="assets/js/Estructuras/usuario.mjs" type="module"></script>
     <script src="assets/js/Users/bienvenida.js"></script>
-    <script src="assets/js/Utils/login.mjs" type="module"></script>
+    <script src="assets/js/Utils/logout.js"></script>
 </body>
 
 </html>
