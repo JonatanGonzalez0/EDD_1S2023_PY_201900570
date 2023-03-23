@@ -38,8 +38,6 @@ document.addEventListener("DOMContentLoaded", function () {
         arbolAVL.fromJSON(localStorage.getItem("arbolAVL"));
         //comprobar que el usuario y contraseña sean correctos
         if (arbolAVL.comprobarLogin(usuario, password) ===true ) {
-          //si son correctos, redirigir a la pagina de inicio
-          alert("Inicio de sesión correcto para el usuario: " + usuario);
           //sesionsStorage.setItem("sesion", usuario);
           sessionStorage.setItem("sesion", usuario);
           window.location.href = "./dashboardUser.html";
