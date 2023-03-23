@@ -15,6 +15,13 @@ export default class AVL {
   }
   
   insertar(usuario) {
+    //validar que el usuario no exista si existe, sobreescribirlo
+    const nodo = this.buscarNodo(this.raiz, usuario.carnet);
+    if (nodo) {
+      nodo.usuario = usuario;
+      return this;
+    }
+    
     const nuevoNodo = new NodoAVL(usuario);
     if (!this.raiz) {
       this.raiz = nuevoNodo;
@@ -25,13 +32,17 @@ export default class AVL {
     return this;
   }
 
+  //insertar nuevo nodo al arbol AVL
   insertarNodo(nodoActual, nuevoNodo) {
     if (!nodoActual) return nuevoNodo;
 
     if (nuevoNodo.usuario.carnet < nodoActual.usuario.carnet) {
+      console.log(nuevoNodo.usuario.carnet, "<", nodoActual.usuario.carnet);
+      console.log("izquierda");
       nodoActual.izquierda = this.insertarNodo(nodoActual.izquierda, nuevoNodo);
-    }
-    else {
+    } else {
+      console.log(nuevoNodo.usuario.carnet, ">", nodoActual.usuario.carnet);
+      console.log("derecha");
       nodoActual.derecha = this.insertarNodo(nodoActual.derecha, nuevoNodo);
     }
 
@@ -39,42 +50,50 @@ export default class AVL {
 
     const balance = this.getBalance(nodoActual);
 
-    // Left Left Case
+    //rotacion simple izquierda
     if (balance > 1 && nuevoNodo.usuario.carnet < nodoActual.izquierda.usuario.carnet) {
-      return this.rotacionDerecha(nodoActual);
+      console.log("rotacion simple izquierda");
+      return this.rotacionSimpleDerecha(nodoActual);
     }
 
-    // Right Right Case
+    //rotacion simple derecha
     if (balance < -1 && nuevoNodo.usuario.carnet > nodoActual.derecha.usuario.carnet) {
-      return this.rotacionIzquierda(nodoActual);
+      console.log("rotacion simple derecha");
+      return this.rotacionSimpleIzquierda(nodoActual);
     }
 
-    // Left Right Case
+    //rotacion doble izquierda
     if (balance > 1 && nuevoNodo.usuario.carnet > nodoActual.izquierda.usuario.carnet) {
-      nodoActual.izquierda = this.rotacionIzquierda(nodoActual.izquierda);
-      return this.rotacionDerecha(nodoActual);
+      console.log("rotacion doble izquierda");
+      nodoActual.izquierda = this.rotacionSimpleIzquierda(nodoActual.izquierda);
+      return this.rotacionSimpleDerecha(nodoActual);
     }
 
-    // Right Left Case
+    //rotacion doble derecha
     if (balance < -1 && nuevoNodo.usuario.carnet < nodoActual.derecha.usuario.carnet) {
-      nodoActual.derecha = this.rotacionDerecha(nodoActual.derecha);
-      return this.rotacionIzquierda(nodoActual);
+      console.log("rotacion doble derecha");
+      nodoActual.derecha = this.rotacionSimpleDerecha(nodoActual.derecha);
+      return this.rotacionSimpleIzquierda(nodoActual);
     }
 
     return nodoActual;
   }
-  
-  altura(nodo) {
-    if (!nodo) return 0;
-    return nodo.altura;
-  }
 
+
+  //funcion getBalance
   getBalance(nodo) {
     if (!nodo) return 0;
     return this.altura(nodo.izquierda) - this.altura(nodo.derecha);
   }
 
-  rotacionDerecha(nodo) {
+  //funcion altura
+  altura(nodo) {
+    if (!nodo) return 0;
+    return nodo.altura;
+  }
+
+  //funcion rotacion simple derecha
+  rotacionSimpleDerecha(nodo) {
     const nodoIzquierda = nodo.izquierda;
     const nodoIzquierdaDerecha = nodoIzquierda.derecha;
 
@@ -83,20 +102,32 @@ export default class AVL {
 
     nodo.altura = 1 + Math.max(this.altura(nodo.izquierda), this.altura(nodo.derecha));
     nodoIzquierda.altura = 1 + Math.max(this.altura(nodoIzquierda.izquierda), this.altura(nodoIzquierda.derecha));
+
     return nodoIzquierda;
   }
 
-  rotacionIzquierda(nodo) {
+  //funcion rotacion simple izquierda
+  rotacionSimpleIzquierda(nodo) {
     const nodoDerecha = nodo.derecha;
     const nodoDerechaIzquierda = nodoDerecha.izquierda;
 
     nodoDerecha.izquierda = nodo;
     nodo.derecha = nodoDerechaIzquierda;
-
+    
     nodo.altura = 1 + Math.max(this.altura(nodo.izquierda), this.altura(nodo.derecha));
     nodoDerecha.altura = 1 + Math.max(this.altura(nodoDerecha.izquierda), this.altura(nodoDerecha.derecha));
+
     return nodoDerecha;
   }
+
+  //funcion buscar nodo
+  buscarNodo(nodoActual, carnet) {
+    if (!nodoActual) return null;
+    if (carnet === nodoActual.usuario.carnet) return nodoActual;
+    if (carnet < nodoActual.usuario.carnet) return this.buscarNodo(nodoActual.izquierda, carnet);
+    return this.buscarNodo(nodoActual.derecha, carnet);
+  }
+
 
   //funcion para recorrer el arbol en preorden
   preOrden() {
@@ -178,7 +209,10 @@ export default class AVL {
 
     this.raiz = jsonToNode(obj.raiz);
   }
-  //"[label=\" Carnet:" + raiz.usuario.carnet + " Nombre:" + raiz.usuario.nombre + " Altura:" + raiz.altura + "\"]\n  *Ademas si tiene hijo izquierda nullo se crea un nodo invisible solo para no perder la forma de la estructura igual que al derecho. y hacer sameRank a los nodos izquierdas y derechas para que se vean en la misma linea
+
+
+
+  //funcion para retornar valores del arbol
   retornarValoresArbol(raiz, id){
     var cadena = "";
     var numero = id + 1;
@@ -244,9 +278,7 @@ export default class AVL {
         }
     }
     return cadena;
-}
-
-          
+}         
   toGraphviz() {
     var cadena = ""
         if(this.raiz !== null){
