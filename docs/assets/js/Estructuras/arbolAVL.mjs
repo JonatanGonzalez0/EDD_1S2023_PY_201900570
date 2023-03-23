@@ -178,30 +178,82 @@ export default class AVL {
 
     this.raiz = jsonToNode(obj.raiz);
   }
-  //"[label=\" Carnet:" + raiz.usuario.carnet + " Nombre:" + raiz.usuario.nombre + " Altura:" + raiz.altura + "\"]\n"
-  retornarValoresArbol(raiz){
-    var cadena = ""
+  //"[label=\" Carnet:" + raiz.usuario.carnet + " Nombre:" + raiz.usuario.nombre + " Altura:" + raiz.altura + "\"]\n  *Ademas si tiene hijo izquierda nullo se crea un nodo invisible solo para no perder la forma de la estructura igual que al derecho. y hacer sameRank a los nodos izquierdas y derechas para que se vean en la misma linea
+  retornarValoresArbol(raiz, id){
+    var cadena = "";
+    var numero = id + 1;
     if(raiz !== null){
-        cadena += raiz.usuario.carnet + "[label=\" Carnet:" + raiz.usuario.carnet + " \\n Nombre:" + raiz.usuario.nombre + " \\n Altura:" + raiz.altura + "\"];"
-        if(raiz.izquierda !== null){
-            cadena += this.retornarValoresArbol(raiz.izquierda)
-            cadena += raiz.usuario.carnet + "->" + raiz.izquierda.usuario.carnet + ";"
-        }
-        if(raiz.derecha !== null){
-            cadena += this.retornarValoresArbol(raiz.derecha)
-            cadena += raiz.usuario.carnet + "->" + raiz.derecha.usuario.carnet + ";"
+      cadena += "\"" + raiz.usuario.carnet + "\" ";
+        if(!(raiz.izquierda === null) && !(raiz.derecha === null)){
+            //crear nodos raiz izquierda y derecha
+            cadena += "\"" + raiz.usuario.carnet + "\" "
+            cadena +="[label=\"" + raiz.usuario.carnet + "\\n" + raiz.usuario.nombre + "\\nAltura: " + raiz.altura + "\"];"
+
+            cadena += "\"" + raiz.izquierda.usuario.carnet + "\" "
+            cadena +="[label=\"" + raiz.izquierda.usuario.carnet + "\\n" + raiz.izquierda.usuario.nombre + "\\nAltura: " + raiz.izquierda.altura + "\"];"
+
+            cadena += "\"" + raiz.derecha.usuario.carnet + "\" "
+            cadena +="[label=\"" + raiz.derecha.usuario.carnet + "\\n" + raiz.derecha.usuario.nombre + "\\nAltura: " + raiz.derecha.altura + "\"];"
+
+            cadena += "\"";
+            cadena += raiz.usuario.carnet;
+            cadena += "\" -> ";
+            cadena += this.retornarValoresArbol(raiz.izquierda, numero)
+            cadena += "\"";
+            cadena += raiz.usuario.carnet;
+            cadena += "\" -> ";
+            cadena += this.retornarValoresArbol(raiz.derecha, numero)
+            cadena += "{rank=same" + "\"" + raiz.izquierda.usuario.carnet + "\"" + " -> " + "\"" + raiz.derecha.usuario.carnet + "\""  + " [style=invis]}; "
+        }else if(!(raiz.izquierda === null) && (raiz.derecha === null)){
+            //crear nodos raiz izquierda y derecha
+            cadena += "\"" + raiz.usuario.carnet + "\" "
+            cadena +="[label=\"" + raiz.usuario.carnet + "\\n" + raiz.usuario.nombre + "\\nAltura: " + raiz.altura + "\"];"
+
+            cadena += "\"" + raiz.izquierda.usuario.carnet + "\" "
+            cadena +="[label=\"" + raiz.izquierda.usuario.carnet + "\\n" + raiz.izquierda.usuario.nombre + "\\nAltura: " + raiz.izquierda.altura + "\"];"
+
+            //nodo invisible
+            cadena += " x" + numero + " [label=\"\",width=.1,style=invis];"
+            cadena += "\"";
+            cadena += raiz.usuario.carnet;
+            cadena += "\" -> ";
+            cadena += this.retornarValoresArbol(raiz.izquierda, numero)
+            cadena += "\"";
+            cadena += raiz.usuario.carnet;
+            cadena += "\" -> ";
+            cadena += "x" + numero + "[style=invis]";
+            cadena += "{rank=same" + "\"" + raiz.izquierda.usuario.carnet + "\"" + " -> " + "x" + numero + " [style=invis]}; "
+        }else if((raiz.izquierda === null) && !(raiz.derecha === null)){
+            //crear nodos raiz izquierda y derecha
+            cadena += "\"" + raiz.usuario.carnet + "\" "
+            cadena +="[label=\"" + raiz.usuario.carnet + "\\n" + raiz.usuario.nombre + "\\nAltura: " + raiz.altura + "\"];"
+            
+            cadena += "\"" + raiz.derecha.usuario.carnet + "\" "
+            cadena +="[label=\"" + raiz.derecha.usuario.carnet + "\\n" + raiz.derecha.usuario.nombre + "\\nAltura: " + raiz.derecha.altura + "\"];"
+
+            cadena += " x" + numero + " [label=\"\",width=.1,style=invis];"
+            cadena += "\"";
+            cadena += raiz.usuario.carnet;
+            cadena += "\" -> ";
+            cadena += "x" + numero + "[style=invis]";
+            cadena += "; \"";
+            cadena += raiz.usuario.carnet;
+            cadena += "\" -> ";
+            cadena += this.retornarValoresArbol(raiz.derecha, numero)
+            cadena += "{rank=same" + " x" + numero + " -> \"" + raiz.derecha.usuario.carnet + "\"" +  " [style=invis]}; "
         }
     }
-      return cadena
-    }
-              
+    return cadena;
+}
+
+          
   toGraphviz() {
     var cadena = ""
         if(this.raiz !== null){
             cadena += "digraph AVL {"
             cadena += "bgcolor = \"gray\";"
-            cadena += "node [shape=record, style=filled, fillcolor=skyblue];"
-            cadena += this.retornarValoresArbol(this.raiz)
+            cadena += "node [style=filled, fillcolor=skyblue];"
+            cadena += this.retornarValoresArbol(this.raiz, 0)
             cadena += "}"
         }
         return cadena
