@@ -4,6 +4,7 @@ export default class Usuario {
     this.carnet = carnet;
     this.password = password;
     this.CarpetaRaiz = CarpetaRaiz;
+      //agregar arbol Nario para carpetas
   }
 
     getNombre() {
