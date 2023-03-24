@@ -34,12 +34,14 @@
             <p data-bss-hover-animate="pulse" id="txt-Bienvenida" class="mb-4" style="font-size: 42px;color: rgb(25,245,170);width: 1295px;padding-top: 0px;text-align: center;">!BIENVENIDO AL DASHBOARD!</p>
         </div>
     </section><!-- End: User -->
-    <section class="py-5 mt-5" style="padding-top: 48px;">
+    <section class="text-white py-5 mt-5" style="padding-top: 48px;">
         <!-- Start: Container Busquedas y eliminacion -->
         <div class="container" style="width: 1474px;">
             <div class="row">
                 <div class="col">
-                    <p style="font-size: 21px;">BUSQUEDA</p><input class="border rounded-pill" type="search" id="inputBusqueda" placeholder="   Ej : Documentos/2023/Clase" autofocus="" style="width: 1290px;height: 49.5938px;font-size: 20px;">
+                    <p style="font-size: 21px;">BUSQUEDA</p><svg xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" class="bi bi-search text-white" id="icon-busqueda" style="width: 64px;height: 52px;">
+                        <path d="M11.742 10.344a6.5 6.5 0 1 0-1.397 1.398h-.001c.03.04.062.078.098.115l3.85 3.85a1 1 0 0 0 1.415-1.414l-3.85-3.85a1.007 1.007 0 0 0-.115-.1zM12 6.5a5.5 5.5 0 1 1-11 0 5.5 5.5 0 0 1 11 0z"></path>
+                    </svg><input class="border rounded-pill" type="search" id="inputBusqueda" placeholder="   Ej : Documentos/2023/Clase" autofocus="" style="width: 1213px;height: 49.5938px;font-size: 20px;">
                 </div>
             </div>
             <div class="row" style="font-size: 18px;height: 122.7656px;">
@@ -49,20 +51,32 @@
         </div><!-- End: Container Busquedas y eliminacion -->
         <!-- Start: Panel de carpetas -->
         <div class="container">
-            <!-- Start: Lightbox Gallery -->
-            <section class="py-4 py-xl-5">
-                <div class="container">
-                    <!-- Start: Photos -->
-                    <div class="row gx-2 gy-2 row-cols-1 row-cols-md-2 row-cols-xl-3" data-bss-baguettebox="">
-                        <div class="col"><a href="https://cdn.bootstrapstudio.io/placeholders/1400x800.png"><img class="img-fluid" src="https://cdn.bootstrapstudio.io/placeholders/1400x800.png"></a></div>
-                        <div class="col"><a href="https://cdn.bootstrapstudio.io/placeholders/1400x800.png"><img class="img-fluid" src="https://cdn.bootstrapstudio.io/placeholders/1400x800.png"></a></div>
-                        <div class="col"><a href="https://cdn.bootstrapstudio.io/placeholders/1400x800.png"><img class="img-fluid" src="https://cdn.bootstrapstudio.io/placeholders/1400x800.png"></a></div>
-                        <div class="col"><a href="https://cdn.bootstrapstudio.io/placeholders/1400x800.png"><img class="img-fluid" src="https://cdn.bootstrapstudio.io/placeholders/1400x800.png"></a></div>
-                        <div class="col"><a href="https://cdn.bootstrapstudio.io/placeholders/1400x800.png"><img class="img-fluid" src="https://cdn.bootstrapstudio.io/placeholders/1400x800.png"></a></div>
-                        <div class="col"><a href="https://cdn.bootstrapstudio.io/placeholders/1400x800.png"><img class="img-fluid" src="https://cdn.bootstrapstudio.io/placeholders/1400x800.png"></a></div>
-                    </div><!-- End: Photos -->
+            <p style="font-size: 27px;">Directorio actual</p><input class="border rounded-0" type="search" id="txt-carpeta-actual" placeholder="  /" autofocus="" style="font-size: 20px;width: 1296px;background: rgb(0,0,0);color: rgb(255,255,255);border-width: 19px;box-shadow: 0px 0px;" readonly=""><!-- Start: Espacio de carpeta actual -->
+            <div class="row" style="padding-top: 16px;width: 1307PX;height: 674px;">
+                <div class="col">
+                    <!-- Start: Tabla de directorio actual -->
+                    <div class="table-responsive" id="tablaDirectorioActual">
+                        <table class="table">
+                            <thead>
+                                <tr>
+                                    <th>Nombre</th>
+                                    <th>Tipo</th>
+                                </tr>
+                            </thead>
+                            <tbody id="cuerpoTablaDirectorioActual">
+                                <tr>
+                                    <td>Documentos</td>
+                                    <td>Carpeta</td>
+                                </tr>
+                                <tr>
+                                    <td>Imagenes</td>
+                                    <td>Carpeta</td>
+                                </tr>
+                            </tbody>
+                        </table>
+                    </div><!-- End: Tabla de directorio actual -->
                 </div>
-            </section><!-- End: Lightbox Gallery -->
+            </div><!-- End: Espacio de carpeta actual -->
         </div><!-- End: Panel de carpetas -->
         <!-- Start: Reportes -->
         <div class="container" style="padding-top: 35px;font-size: 0;">
@@ -112,7 +126,7 @@
     <script src="assets/js/Estructuras/usuario.mjs" type="module"></script>
     <script src="assets/js/Lightbox-Gallery-baguetteBox.min.js"></script>
     <script src="assets/js/Lightbox-Gallery.js"></script>
-    <script src="assets/js/Users/bienvenida.js"></script>
+    <script src="assets/js/Users/cargaInicial.js"></script>
     <script src="assets/js/Utils/logout.js"></script>
 </body>
 
