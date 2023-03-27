@@ -15,25 +15,16 @@ window.onload = function () {
     document.getElementById("txt-Bienvenida").innerHTML = "!Bienvenido " + sessionStorage.getItem("sesion") + "!";
 }
 
-icono_busqueda = document.getElementById("icono-busqueda");
-icono_busqueda.addEventListener("click", function () {
+//txt-busqueda id inputBusqueda detectar el evento enter
+inputBusqueda = document.getElementById("inputBusqueda");
+
+inputBusqueda.addEventListener("keyup", function (event) {
     //obtener la ruta buscada en el input inputBusqueda
     let rutaBuscada = document.getElementById("inputBusqueda").value;
-    
-    //por el momento solo mostrar alerta con la ruta buscada
-    alert("Ruta buscada: " + rutaBuscada);
-});
 
-// nueva carpeta 
-btn_nueva_carpeta = document.getElementById("nuevaCarpeta");
-btn_nueva_carpeta.addEventListener("click", function () {
-    //por el momento solo mostrar alerta
-    alert("Crear nueva carpeta");
-}); 
-
-//eliminar carpeta
-btn_eliminar_carpeta = document.getElementById("eliminarCarpeta");
-btn_eliminar_carpeta.addEventListener("click", function () {
-    //por el momento solo mostrar alerta
-    alert("Eliminar carpeta");
+    //si se presiona enter
+    if (event.keyCode === 13) {
+        //por el momento solo mostrar alerta con la ruta buscada
+        alert("Ruta buscada: " + rutaBuscada);
+    }
 });

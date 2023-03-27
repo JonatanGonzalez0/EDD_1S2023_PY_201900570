@@ -1,3 +1,5 @@
+import arbolNario from "./arbolNario.mjs";
+
 // Clase NodoAVL
 class NodoAVL {
   constructor(usuario) {
@@ -5,6 +7,7 @@ class NodoAVL {
     this.izquierda = null;
     this.derecha = null;
     this.altura = 1;
+    this.arbolCarpetas = new arbolNario();
   }
 }
 
@@ -37,12 +40,8 @@ export default class AVL {
     if (!nodoActual) return nuevoNodo;
 
     if (nuevoNodo.usuario.carnet < nodoActual.usuario.carnet) {
-      console.log(nuevoNodo.usuario.carnet, "<", nodoActual.usuario.carnet);
-      console.log("izquierda");
       nodoActual.izquierda = this.insertarNodo(nodoActual.izquierda, nuevoNodo);
-    } else {
-      console.log(nuevoNodo.usuario.carnet, ">", nodoActual.usuario.carnet);
-      console.log("derecha");
+    } else { 
       nodoActual.derecha = this.insertarNodo(nodoActual.derecha, nuevoNodo);
     }
 
@@ -52,27 +51,22 @@ export default class AVL {
 
     //rotacion simple izquierda
     if (balance > 1 && nuevoNodo.usuario.carnet < nodoActual.izquierda.usuario.carnet) {
-      console.log("rotacion simple izquierda");
       return this.rotacionSimpleDerecha(nodoActual);
     }
 
     //rotacion simple derecha
     if (balance < -1 && nuevoNodo.usuario.carnet > nodoActual.derecha.usuario.carnet) {
-      console.log("rotacion simple derecha");
       return this.rotacionSimpleIzquierda(nodoActual);
     }
 
     //rotacion doble izquierda
     if (balance > 1 && nuevoNodo.usuario.carnet > nodoActual.izquierda.usuario.carnet) {
-      console.log("rotacion doble izquierda");
       nodoActual.izquierda = this.rotacionSimpleIzquierda(nodoActual.izquierda);
       return this.rotacionSimpleDerecha(nodoActual);
     }
 
     //rotacion doble derecha
     if (balance < -1 && nuevoNodo.usuario.carnet < nodoActual.derecha.usuario.carnet) {
-      console.log("rotacion doble derecha");
-      nodoActual.derecha = this.rotacionSimpleDerecha(nodoActual.derecha);
       return this.rotacionSimpleIzquierda(nodoActual);
     }
 
@@ -128,6 +122,9 @@ export default class AVL {
     return this.buscarNodo(nodoActual.derecha, carnet);
   }
 
+  getNodo(carnet) {
+    return this.buscarNodo(this.raiz, carnet);
+  }
 
   //funcion para recorrer el arbol en preorden
   preOrden() {
@@ -184,7 +181,8 @@ export default class AVL {
     function nodeToJSON(node){
       if(!node) return null;
       return {
-        valor: node.usuario,
+        usuario: node.usuario,
+        arbolCarpetas: node.arbolCarpetas.toJSON(),
         altura: node.altura,
         izquierda: nodeToJSON(node.izquierda),
         derecha: nodeToJSON(node.derecha)
@@ -200,7 +198,11 @@ export default class AVL {
 
     function jsonToNode(jsonNode){
       if(!jsonNode) return null;
-      const node = new NodoAVL(jsonNode.valor);
+      const node = new NodoAVL(jsonNode.usuario);
+      
+      node.arbolCarpetas = new arbolNario();
+      node.arbolCarpetas.fromJSON(jsonNode.arbolCarpetas);
+
       node.altura = jsonNode.altura;
       node.izquierda = jsonToNode(jsonNode.izquierda);
       node.derecha = jsonToNode(jsonNode.derecha);

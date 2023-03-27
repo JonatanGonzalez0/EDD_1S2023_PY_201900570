@@ -1,0 +1,43 @@
+import AVL from "../Estructuras/arbolAVL.mjs";
+
+
+document.addEventListener("DOMContentLoaded", function () {
+    function generarNario() {
+        //make container visible
+        document.getElementById("reportContainer").classList.remove("visually-hidden");
+        
+        const arbolAVL = new AVL();
+        let graph = "";
+        //si existe el arbol en el local storage, cargarlo
+        if (localStorage.getItem("arbolAVL") !== null) {
+            arbolAVL.fromJSON(localStorage.getItem("arbolAVL"));
+            //obtener el carnet del usuario actual tipo entero
+            let carnet = parseInt(sessionStorage.getItem("sesion"));
+            //obtener el nodo del usuario actual
+            let nodoUsuario = arbolAVL.getNodo(carnet);
+            graph = nodoUsuario.arbolCarpetas.grafica_arbol();
+        }else{
+            //grafico solo mostrara el mensaje arbol vacio
+            graph = "digraph NARIO {bgcolor = \"gray35\";node [style=filled, fillcolor=skyblue];Arbol_Vacio;}";
+        }
+        let url = 'https://quickchart.io/graphviz?format=svg&width=1200&height=713&&graph=';
+    
+        url += graph;   
+
+        document.getElementById("reportImage").src = url;
+
+        console.log(url)
+    }   
+
+    function hidecontainer() {
+        document.getElementById("reportContainer").classList.add("visually-hidden");
+    }
+    
+
+    const btnreporteCarpetas = document.getElementById("reporteCarpetas");
+    btnreporteCarpetas.addEventListener("click", generarNario);
+
+    const btnCerrar = document.getElementById("cerrarGrafico");
+    btnCerrar.addEventListener("click", hidecontainer);
+
+});
