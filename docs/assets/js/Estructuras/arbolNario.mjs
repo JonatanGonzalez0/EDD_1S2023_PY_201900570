@@ -1,3 +1,5 @@
+import { btnreporteCarpetas } from "../Reports/reporteUsuarios.mjs";
+
 class nodoArbolNario{
     constructor(ruta, id){
         this.siguiente = null;
@@ -11,36 +13,6 @@ export default class arbolNArio{
     constructor(){
         this.raiz = new nodoArbolNario("/", 0)
         this.nodo_creados = 1;
-    }
-
-    //funcion para ir a la ruta especificada
-    irRuta(ruta){
-        let lista_carpeta = ruta.split("/")
-        let aux = this.raiz.primero
-        let nivel = lista_carpeta.length
-        let posicion = 1;
-        for(var i = 1; i < nivel; i++){
-            if(aux !== null){
-                while(aux){
-                    if(posicion < lista_carpeta.length && lista_carpeta[posicion] === aux.ruta){
-                        posicion++
-                        if(aux.primero !== null && posicion < lista_carpeta.length){
-                            aux = aux.primero
-                        }
-                        break;
-                    }else{
-                        aux = aux.siguiente
-                    }
-                }
-            }else{
-                break;
-            }
-        }
-        if(aux !== null){
-            return aux
-        }else{
-            return 0
-        }
     }
 
     BuscarCarpeta(carpeta_nueva, lista_carpeta){
@@ -186,11 +158,15 @@ export default class arbolNArio{
         let existe_carpeta = this.BuscarCarpeta(carpeta_nueva, lista_carpeta)
         switch(existe_carpeta){
             case 1:
-                alert("La carpeta ya existe")
+                alert("La carpeta ya existe se creara una copia:" + "copia_"+carpeta_nueva)
+                //crear carpeta con el nombre de la copia_carpeta
+                this.insertarRuta(ruta,"copia_"+carpeta_nueva)
                 break;
             case 2:
-                this.insertarHijos(carpeta_nueva, lista_carpeta)
-                alert("Carpeta creada")
+                this.insertarHijos(carpeta_nueva, lista_carpeta);
+                //generarNario();
+                btnreporteCarpetas.click();
+                
                 break;
             case 3:
                 alert("La ruta actual no existe")
@@ -200,6 +176,7 @@ export default class arbolNArio{
                 break;
             case 5:
                 this.insertarHijos(carpeta_nueva, lista_carpeta)
+                btnreporteCarpetas.click();
                 break;
         }
     }
@@ -267,20 +244,29 @@ export default class arbolNArio{
 
     toJSON(){
         const json = {};
-
         function nodeToJSON(node) {
             if (node === null) {
                 return null;
             }
+
+            //variables a guardar
+            var ruta = node.ruta
+            var id = node.id
+            var primero = node.primero
+            var siguiente = node.siguiente
+            
+
+            //retornar json
             return {
-                ruta: node.ruta,
-                id: node.id,
-                primero: nodeToJSON(node.primero),
-                siguiente: nodeToJSON(node.siguiente)
+                ruta: ruta,
+                id: id,
+                primero: nodeToJSON(primero),
+                siguiente: nodeToJSON(siguiente),
             };
         }
-
+        
         json.raiz = nodeToJSON(this.raiz);
+        json.nodos_creados = this.nodo_creados
         return json;
     }
 
@@ -296,27 +282,7 @@ export default class arbolNArio{
         }
 
         this.raiz = nodeFromJSON(json.raiz);
+        this.nodo_creados = json.nodos_creados
     }
 
 }
-/*
-const arbolnario = new ArbolNArio()
-function agregarVarios(){
-    let ruta = document.getElementById("ruta").value
-    let carpeta = document.getElementById("carpeta").value
-    try{
-        arbolnario.insertarRuta(ruta,carpeta)
-    }catch(error){
-        alert("Hubo un error al insertar el nodo")
-    }
-    document.getElementById("carpeta").value = "";
-    refrescarArbol();  
-
-}
-
-function refrescarArbol(){
-    let url = 'https://quickchart.io/graphviz?graph=';
-    let body = arbolnario.grafica_arbol();
-    $("#image").attr("src", url + body);
-    document.getElementById("carpeta").value = "";
-}   */

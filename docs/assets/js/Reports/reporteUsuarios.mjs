@@ -1,43 +1,48 @@
 import AVL from "../Estructuras/arbolAVL.mjs";
 
+export function generarNario() {
+  //make container visible
+  document
+    .getElementById("reportContainer")
+    .classList.remove("visually-hidden");
 
-document.addEventListener("DOMContentLoaded", function () {
-    function generarNario() {
-        //make container visible
-        document.getElementById("reportContainer").classList.remove("visually-hidden");
-        
-        const arbolAVL = new AVL();
-        let graph = "";
-        //si existe el arbol en el local storage, cargarlo
-        if (localStorage.getItem("arbolAVL") !== null) {
-            arbolAVL.fromJSON(localStorage.getItem("arbolAVL"));
-            //obtener el carnet del usuario actual tipo entero
-            let carnet = parseInt(sessionStorage.getItem("sesion"));
-            //obtener el nodo del usuario actual
-            let nodoUsuario = arbolAVL.getNodo(carnet);
-            graph = nodoUsuario.arbolCarpetas.grafica_arbol();
-        }else{
-            //grafico solo mostrara el mensaje arbol vacio
-            graph = "digraph NARIO {bgcolor = \"gray35\";node [style=filled, fillcolor=skyblue];Arbol_Vacio;}";
-        }
-        let url = 'https://quickchart.io/graphviz?format=svg&width=1200&height=713&&graph=';
-    
-        url += graph;   
+  const arbolAVL = new AVL();
+  let graph = "";
+  //si existe el arbol en el local storage, cargarlo
+  if (localStorage.getItem("arbolAVL") !== null) {
+    arbolAVL.fromJSON(localStorage.getItem("arbolAVL"));
+    //obtener el carnet del usuario actual tipo entero
+    let carnet = parseInt(sessionStorage.getItem("sesion"));
+    //obtener el nodo del usuario actual
+    let nodoUsuario = arbolAVL.getNodo(carnet);
+    graph = nodoUsuario.arbolCarpetas.grafica_arbol();
+  } else {
+    //grafico solo mostrara el mensaje arbol vacio
+    graph =
+      'digraph NARIO {bgcolor = "gray35";node [style=filled, fillcolor=skyblue];Arbol_Vacio;}';
+  }
+  let url =
+    "https://quickchart.io/graphviz?format=svg&width=1200&height=713&&graph=";
 
-        document.getElementById("reportImage").src = url;
+  url += graph;
+  var imagen = document.getElementById("reportImage");
+  imagen.src = url;
 
-        console.log(url)
-    }   
+  // agregar evento 'load' a la imagen para asegurarse de que se cargue completamente antes de llamar al método 'focus()'
+  imagen.addEventListener("load", function () {
+    imagen.focus();
+  });
 
-    function hidecontainer() {
-        document.getElementById("reportContainer").classList.add("visually-hidden");
-    }
-    
+  console.log(url);
+}
 
-    const btnreporteCarpetas = document.getElementById("reporteCarpetas");
-    btnreporteCarpetas.addEventListener("click", generarNario);
+function hidecontainer() {
+  document.getElementById("reportContainer").classList.add("visually-hidden");
+}
 
-    const btnCerrar = document.getElementById("cerrarGrafico");
-    btnCerrar.addEventListener("click", hidecontainer);
+export const btnreporteCarpetas = document.getElementById("reporteCarpetas");
 
-});
+btnreporteCarpetas.addEventListener("click", generarNario);
+
+const btnCerrar = document.getElementById("cerrarGrafico");
+btnCerrar.addEventListener("click", hidecontainer);

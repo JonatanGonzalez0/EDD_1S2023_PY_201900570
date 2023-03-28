@@ -16,6 +16,7 @@
   z-index: 1000000;
   background-color: #222;
   background-color: rgba(0,0,0,.8);
+  -webkit-transition: opacity .5s ease;
   transition: opacity .5s ease;
 }
 
@@ -44,6 +45,7 @@
   max-height: 100%;
   max-width: 100%;
   vertical-align: middle;
+  -webkit-box-shadow: 0 0 8px rgba(0,0,0,.6);
   -moz-box-shadow: 0 0 8px rgba(0,0,0,.6);
   box-shadow: 0 0 8px rgba(0,0,0,.6);
 }
@@ -77,16 +79,19 @@
   height: 100%;
   width: 100%;
   white-space: nowrap;
+  -webkit-transition: left .4s ease,-webkit-transform .4s ease;
   transition: left .4s ease,-webkit-transform .4s ease;
   transition: left .4s ease,transform .4s ease;
   transition: left .4s ease,transform .4s ease,-webkit-transform .4s ease,-moz-transform .4s ease;
 }
 
 #baguetteBox-slider.bounce-from-right {
+  -webkit-animation: bounceFromRight .4s ease-out;
   animation: bounceFromRight .4s ease-out;
 }
 
 #baguetteBox-slider.bounce-from-left {
+  -webkit-animation: bounceFromLeft .4s ease-out;
   animation: bounceFromLeft .4s ease-out;
 }
 
@@ -128,6 +133,7 @@
   background-color: rgba(50,50,50,.5);
   color: #ddd;
   font: 1.6em sans-serif;
+  -webkit-transition: background-color .4s ease;
   transition: background-color .4s ease;
 }
 
@@ -178,10 +184,12 @@
   position: absolute;
   top: 0;
   left: 0;
+  -webkit-animation: bounce 2s infinite ease-in-out;
   animation: bounce 2s infinite ease-in-out;
 }
 
 .baguetteBox-double-bounce2 {
+  -webkit-animation-delay: -1s;
   animation-delay: -1s;
 }
 
