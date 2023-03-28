@@ -10,7 +10,6 @@ window.onload = function () {
         //si no existe una sesion iniciada, redirigir a la pagina de login
         window.location.href = "./login.html";
     }
-    
     //txt-Bienvenida es el elemento que muestra el nombre del usuario
     document.getElementById("txt-Bienvenida").innerHTML = "!Bienvenido " + sessionStorage.getItem("sesion") + "!";
 }

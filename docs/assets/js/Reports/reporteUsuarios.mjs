@@ -22,7 +22,7 @@ export function generarNario() {
       'digraph NARIO {bgcolor = "gray35";node [style=filled, fillcolor=skyblue];Arbol_Vacio;}';
   }
   let url =
-    "https://quickchart.io/graphviz?format=svg&width=1200&height=713&&graph=";
+    "https://quickchart.io/graphviz?format=svg&width=1300&height=1000&&graph=";
 
   url += graph;
   var imagen = document.getElementById("reportImage");
