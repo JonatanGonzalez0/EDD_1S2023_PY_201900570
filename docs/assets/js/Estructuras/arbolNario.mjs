@@ -1,5 +1,3 @@
-import { btnreporteCarpetas } from "../Reports/reporteUsuarios.mjs";
-
 class nodoArbolNario{
     constructor(ruta, id){
         this.siguiente = null;
@@ -164,8 +162,7 @@ export default class arbolNArio{
                 break;
             case 2:
                 this.insertarHijos(carpeta_nueva, lista_carpeta);
-                //generarNario();
-                btnreporteCarpetas.click();
+                alert("La carpeta se creo correctamente")
                 
                 break;
             case 3:
@@ -176,7 +173,7 @@ export default class arbolNArio{
                 break;
             case 5:
                 this.insertarHijos(carpeta_nueva, lista_carpeta)
-                btnreporteCarpetas.click();
+               alert("La carpeta se creo correctamente")
                 break;
         }
     }
