@@ -12,6 +12,103 @@ export default class arbolNArio{
         this.raiz = new nodoArbolNario("/", 0)
         this.nodo_creados = 1;
     }
+    
+    buscarDirectorio(ruta){
+        //si la ruta es / no se busca nada retorna 2
+        if(ruta === "/"){
+            return 2
+        }
+
+        //comprobar si existe directorio Ej: /home/usuario
+        let lista_carpeta = ruta.split("/")
+        let aux = this.raiz.primero
+        let contador = 0
+        while(aux){
+            if(aux.ruta === lista_carpeta[1]){
+                contador++
+                break
+            }
+            aux = aux.siguiente
+        }
+        if(contador === 0){
+            //si llega aqui es porque no existe el directorio
+            return 1
+        }
+        else{
+            let aux2 = aux.primero
+            let contador2 = 0
+            for(let i = 2; i < lista_carpeta.length; i++){
+                while(aux2){
+                    if(aux2.ruta === lista_carpeta[i]){
+                        contador2++
+                        break
+                    }
+                    aux2 = aux2.siguiente
+                }
+                if(contador2 === 0){
+                    return 1
+                }
+                aux2 = aux2.primero
+            }
+            //si llega aqui es porque existe el directorio
+            return 2
+        }
+    }
+    //eliminarCarpeta (directorio)  esta funcion elimina al nodo y sus hijos del arbol nario. directorio "/DOCS/IMG" return 1 si no existe el directorio, 2 si se elimino correctamente
+    eliminarCarpeta(directorio){
+        let lista_carpeta = directorio.split("/")
+        let aux = this.raiz.primero
+        let contador = 0
+        while(aux){
+            if(aux.ruta === lista_carpeta[1]){
+                contador++
+                break
+            }
+            aux = aux.siguiente
+        }
+        if(contador === 0){
+            //si llega aqui es porque no existe el directorio
+            return 1
+        }
+        else{
+            let aux2 = aux.primero
+            let contador2 = 0
+            for(let i = 2; i < lista_carpeta.length; i++){
+                while(aux2){
+                    if(aux2.ruta === lista_carpeta[i]){
+                        contador2++
+                        break
+                    }
+                    aux2 = aux2.siguiente
+                }
+                if(contador2 === 0){
+                    return 1
+                }
+                aux2 = aux2.primero
+            }
+            //si llega aqui es porque existe el directorio
+            //aux2 es el nodo que se quiere eliminar
+            //aux es el padre del nodo que se quiere eliminar
+            //aux3 es el nodo que se encuentra antes del nodo que se quiere eliminar
+            let aux3 = aux.primero
+            while(aux3){
+                if(aux3.siguiente === aux2){
+                    break
+                }
+                aux3 = aux3.siguiente
+            }
+            if(aux3 === null){
+                aux.primero = aux2.siguiente
+            }else{
+                aux3.siguiente = aux2.siguiente
+            }
+            return 2
+        }
+    }
+
+    
+
+
 
     BuscarCarpeta(carpeta_nueva, lista_carpeta){
         //Si la nueva carpeta se creara en la raiz, se buscara si existe o no
