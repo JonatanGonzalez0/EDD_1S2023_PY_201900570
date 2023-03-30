@@ -48,18 +48,56 @@
                 <div class="col d-xxl-flex justify-content-xxl-center align-items-xxl-center" style="text-align: center;height: 53.5938px;"><input class="border rounded-pill" type="text" id="txt-carpeta-nueva" style="width: 310px;height: 30px;"></div>
                 <div class="col d-xxl-flex justify-content-xxl-center align-items-xxl-center" style="text-align: center;"><input class="border rounded-pill d-xxl-flex justify-content-xxl-center" type="text" id="txt-carpeta-eliminar" style="height: 30px;width: 310px;"></div>
             </div>
-            <div class="row" style="font-size: 18px;height: 122.7656px;">
+            <div class="row" style="font-size: 18px;height: 91.7656px;">
                 <div class="col d-xxl-flex justify-content-xxl-center align-items-xxl-center" style="height: 84.7812px;font-size: 18px;"><button class="btn btn-primary" data-aos="fade-right" id="btn-nuevaCarpeta" type="button" style="font-size: 18px;height: 50px;">Nueva Carpeta</button></div>
                 <div class="col d-xxl-flex justify-content-xxl-center align-items-xxl-center" style="height: 84.7812px;font-size: 18px;"><button class="btn btn-primary" data-aos="fade-right" id="btn-eliminarCarpeta" type="button" style="font-size: 18px;height: 50px;">Eliminar Carpeta</button></div>
             </div>
         </div><!-- End: Container Busquedas y eliminacion -->
+        <!-- Start: Open seccion Permisos -->
+        <div class="container">
+            <div class="row">
+                <div class="col-md-12 d-xxl-flex justify-content-xxl-center align-items-xxl-center" style="height: 69.7812px;"><button class="btn btn-light" id="makeVisiblePERMS" type="button" style="font-size: 18px;">Compartir permisos a usuarios</button></div>
+            </div>
+        </div><!-- End: Open seccion Permisos -->
+        <!-- Start: 1 Row 3 Columns (PERMISOS) -->
+        <div class="container visually-hidden" id="container-sec-Perms">
+            <div class="row">
+                <div class="col-md-4">
+                    <p class="d-xxl-flex justify-content-xxl-center">USUARIO</p>
+                    <div class="dropdown d-xxl-flex justify-content-xxl-center"><button class="btn btn-light dropdown-toggle" aria-expanded="false" data-bs-toggle="dropdown" data-aos="fade-up" type="button">Seleccionar el usuario&nbsp;</button>
+                        <div class="dropdown-menu" id="dropdown-menu-usuarios"><a class="dropdown-item" href="#">First Item</a><a class="dropdown-item" href="#">Second Item</a><a class="dropdown-item" href="#">Third Item</a></div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <p class="text-center d-xxl-flex justify-content-xxl-center">ARCHIVO</p>
+                    <div class="dropdown d-xxl-flex justify-content-xxl-center"><button class="btn btn-warning dropdown-toggle" aria-expanded="false" data-bs-toggle="dropdown" data-aos="fade-up" id="txt-nombreArchivoPermiso" type="button">Seleccionar el archivo&nbsp;</button>
+                        <div class="dropdown-menu"><a class="dropdown-item" href="#">First Item</a><a class="dropdown-item" href="#">Second Item</a><a class="dropdown-item" href="#">Third Item</a></div>
+                    </div>
+                </div>
+                <div class="col-md-4">
+                    <!-- Start: formulario para tipo de permiso -->
+                    <form>
+                        <p class="text-center">Tipo de permiso para el archivo</p>
+                        <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-Write"><label class="form-check-label" for="formCheck-1">Write (w)</label></div>
+                        <div class="form-check"><input class="form-check-input" type="checkbox" id="formCheck-Read"><label class="form-check-label" for="formCheck-1">Read (r)</label></div>
+                    </form><!-- End: formulario para tipo de permiso -->
+                </div>
+                <div class="col">
+                    <div class="row" style="padding-top: 26px;">
+                        <div class="col-md-4"></div>
+                        <div class="col-md-4 d-xxl-flex justify-content-xxl-center align-items-xxl-center"><button class="btn btn-success" data-aos="fade-up" id="btn-darPermiso" type="button" style="font-size: 18px;">Dar permiso</button></div>
+                        <div class="col-md-4"></div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- End: 1 Row 3 Columns (PERMISOS) -->
         <!-- Start: Panel de carpetas -->
         <div class="container">
             <p style="font-size: 27px;">Directorio actual</p><input class="border rounded-0" type="search" id="txt-carpeta-actual" autofocus="" style="font-size: 20px;width: 1296px;background: rgb(0,0,0);color: rgb(255,255,255);border-width: 19px;box-shadow: 0px 0px;" readonly="" value="/"><!-- Start: Espacio de carpeta actual -->
-            <div class="row" style="padding-top: 16px;width: 1307PX;height: 674px;">
-                <div class="col">
+            <div class="row" style="height: 500px;width: 1296px;padding-left: 14px;padding-top: 22px;">
+                <div class="col" style="/*height: 672px;*/border-width: 1px;border-style: solid;">
                     <!-- Start: Tabla de directorio actual -->
-                    <div class="table-responsive" id="tablaDirectorioActual">
+                    <div class="table-responsive-xxl" id="tablaDirectorioActual" style="overflow-y: auto;max-height: 500px;">
                         <table class="table">
                             <thead>
                                 <tr>
@@ -132,9 +170,10 @@
     <script src="assets/js/Lightbox-Gallery-baguetteBox.min.js"></script>
     <script src="assets/js/Lightbox-Gallery.js"></script>
     <script src="assets/js/Reports/reporteUsuarios.mjs" type="module"></script>
-    <script src="assets/js/Users/cargaInicial.js"></script>
+    <script src="assets/js/Users/cargaInicial.mjs" type="module"></script>
     <script src="assets/js/Users/manejadorCarpetas.mjs" type="module"></script>
     <script src="assets/js/Utils/comprobarSesion.js"></script>
+    <script src="assets/js/Utils/hidenUtils.js"></script>
     <script src="assets/js/Utils/logout.js"></script>
 </body>
 

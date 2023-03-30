@@ -1,4 +1,5 @@
 import AVL from "../Estructuras/arbolAVL.mjs";
+import refrescarTabla from "./cargaInicial.mjs";
 
 //crear nueva carpeta en el directorio actual
 let btn_nueva_carpeta = document.getElementById("btn-nuevaCarpeta");
@@ -22,6 +23,9 @@ btn_nueva_carpeta.addEventListener("click", function () {
   localStorage.setItem("arbolAVL", arbolAVL.toJSON());
 
   console.log(nodoUsuario.arbolCarpetas);
+  //refrescar tabla
+  refrescarTabla();
+  
 });
 
 //txt-busqueda id inputBusqueda detectar el evento enter
@@ -48,6 +52,7 @@ inputBusqueda.addEventListener("keyup", function (event) {
       document.getElementById("txt-carpeta-actual").value = "";
     } else {
       document.getElementById("txt-carpeta-actual").value = rutaBuscada;
+      refrescarTabla();
     }
   }
 });
@@ -84,6 +89,8 @@ function eliminarCarpeta() {
      //ACTUALIZAR ARBOL AVL
      localStorage.setItem("arbolAVL", arbolAVL.toJSON());
     alert("Carpeta eliminada correctamente");
+    //reload window
+    window.location.reload();
   }
   
 }

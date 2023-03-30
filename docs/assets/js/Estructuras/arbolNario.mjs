@@ -101,14 +101,14 @@ export default class arbolNArio {
     this.eliminarNodos(carpetaEliminar);
 
     // Eliminar la carpeta
-    if (padre.primero === carpetaEliminar) {   
-        padre.primero = carpetaEliminar.siguiente;
+    if (padre.primero === carpetaEliminar) {
+      padre.primero = carpetaEliminar.siguiente;
     } else {
       let temp = padre.primero;
       while (temp.siguiente !== carpetaEliminar) {
         temp = temp.siguiente;
       }
-     
+
       temp.siguiente = carpetaEliminar.siguiente;
     }
     this.actualizarContadorNodos();
@@ -153,7 +153,7 @@ export default class arbolNArio {
       }
       aux = aux.siguiente;
     }
-    this.nodo_creados = contador+1;
+    this.nodo_creados = contador + 1;
   }
 
   BuscarCarpeta(carpeta_nueva, lista_carpeta) {
@@ -248,31 +248,31 @@ export default class arbolNArio {
   comprobarSiExisteId(id) {
     let aux = this.raiz.primero;
     while (aux) {
-        if (aux.id === id) {
+      if (aux.id === id) {
+        return true;
+      }
+      if (aux.primero !== null) {
+        let aux2 = aux.primero;
+        while (aux2) {
+          if (aux2.id === id) {
             return true;
+          }
+          aux2 = aux2.siguiente;
         }
-        if (aux.primero !== null) {
-            let aux2 = aux.primero;
-            while (aux2) {
-                if (aux2.id === id) {
-                    return true;
-                }
-                aux2 = aux2.siguiente;
-            }
-        }
-        aux = aux.siguiente;
+      }
+      aux = aux.siguiente;
     }
     return false;
-    }
+  }
 
   insertarHijos(carpeta_nueva, lista_carpeta) {
     /**
      * creamos el nuevo nodo y aumentamos la cantidad de nodos creados
      */
     var id = this.nodo_creados;
-    //comprobar si ya existe un id igual, 
+    //comprobar si ya existe un id igual,
     while (this.comprobarSiExisteId(id)) {
-        id++;
+      id++;
     }
 
     const nuevoNodo = new nodoArbolNario(carpeta_nueva, id);
@@ -419,6 +419,26 @@ export default class arbolNArio {
         cadena += this.conexionRamas(aux.primero, aux.id);
         aux = aux.siguiente;
       }
+    }
+    return cadena;
+  }
+  /*
+    funcion que retorna cadena para insertar a cuerpo de tabla en html con las carpetas dentro de una ruta
+
+    estructura de la fila
+    <tr>
+      <td>Documentos</td>
+      <td>Tipo: Carpeta</td>
+    </tr>
+  */
+  retornarCuerpoTabla(ruta) {
+    let lista_carpeta = ruta.split("/");
+    let nodo_padre = this.buscarCarpetaPadre(lista_carpeta);
+    let aux = nodo_padre.primero;
+    let cadena = "";
+    while (aux) {
+      cadena += "<tr><td>" + aux.nombreCarpeta + "</td><td>Carpeta</td></tr>";
+      aux = aux.siguiente;
     }
     return cadena;
   }
