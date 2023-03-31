@@ -1,9 +1,12 @@
+import Matriz from "./matriz.mjs";
+
 class nodoArbolNario {
   constructor(nombreCarpeta, id) {
     this.siguiente = null;
     this.nombreCarpeta = nombreCarpeta;
     this.primero = null;
     this.id = id;
+    this.matriz = new Matriz();
   }
 }
 
@@ -518,6 +521,7 @@ export default class arbolNArio {
       var id = node.id;
       var primero = node.primero;
       var siguiente = node.siguiente;
+      var matriz = node.matriz.toJSON();
 
       //retornar json
       return {
@@ -525,6 +529,7 @@ export default class arbolNArio {
         id: id,
         primero: nodeToJSON(primero),
         siguiente: nodeToJSON(siguiente),
+        matriz: matriz
       };
     }
 
@@ -541,10 +546,13 @@ export default class arbolNArio {
       const newNode = new nodoArbolNario(node.nombreCarpeta, node.id);
       newNode.primero = nodeFromJSON(node.primero);
       newNode.siguiente = nodeFromJSON(node.siguiente);
+      newNode.matriz = new Matriz();
+      newNode.matriz.fromJSON(node.matriz);
       return newNode;
     }
 
     this.raiz = nodeFromJSON(json.raiz);
     this.nodo_creados = json.nodos_creados;
+    
   }
 }

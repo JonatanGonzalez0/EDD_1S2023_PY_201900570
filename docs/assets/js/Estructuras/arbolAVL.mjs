@@ -16,7 +16,7 @@ export default class AVL {
   constructor() {
     this.raiz = null;
   }
-  
+
   insertar(usuario) {
     //validar que el usuario no exista si existe, sobreescribirlo
     const nodo = this.buscarNodo(this.raiz, usuario.carnet);
@@ -24,7 +24,7 @@ export default class AVL {
       nodo.usuario = usuario;
       return this;
     }
-    
+
     const nuevoNodo = new NodoAVL(usuario);
     if (!this.raiz) {
       this.raiz = nuevoNodo;
@@ -41,38 +41,54 @@ export default class AVL {
 
     if (nuevoNodo.usuario.carnet < nodoActual.usuario.carnet) {
       nodoActual.izquierda = this.insertarNodo(nodoActual.izquierda, nuevoNodo);
-    } else { 
+    } else {
       nodoActual.derecha = this.insertarNodo(nodoActual.derecha, nuevoNodo);
     }
 
-    nodoActual.altura = 1 + Math.max(this.altura(nodoActual.izquierda), this.altura(nodoActual.derecha));
+    nodoActual.altura =
+      1 +
+      Math.max(
+        this.altura(nodoActual.izquierda),
+        this.altura(nodoActual.derecha)
+      );
 
     const balance = this.getBalance(nodoActual);
 
     //rotacion simple izquierda
-    if (balance > 1 && nuevoNodo.usuario.carnet < nodoActual.izquierda.usuario.carnet) {
+    if (
+      balance > 1 &&
+      nuevoNodo.usuario.carnet < nodoActual.izquierda.usuario.carnet
+    ) {
       return this.rotacionSimpleDerecha(nodoActual);
     }
 
     //rotacion simple derecha
-    if (balance < -1 && nuevoNodo.usuario.carnet > nodoActual.derecha.usuario.carnet) {
+    if (
+      balance < -1 &&
+      nuevoNodo.usuario.carnet > nodoActual.derecha.usuario.carnet
+    ) {
       return this.rotacionSimpleIzquierda(nodoActual);
     }
 
     //rotacion doble izquierda
-    if (balance > 1 && nuevoNodo.usuario.carnet > nodoActual.izquierda.usuario.carnet) {
+    if (
+      balance > 1 &&
+      nuevoNodo.usuario.carnet > nodoActual.izquierda.usuario.carnet
+    ) {
       nodoActual.izquierda = this.rotacionSimpleIzquierda(nodoActual.izquierda);
       return this.rotacionSimpleDerecha(nodoActual);
     }
 
     //rotacion doble derecha
-    if (balance < -1 && nuevoNodo.usuario.carnet < nodoActual.derecha.usuario.carnet) {
+    if (
+      balance < -1 &&
+      nuevoNodo.usuario.carnet < nodoActual.derecha.usuario.carnet
+    ) {
       return this.rotacionSimpleIzquierda(nodoActual);
     }
 
     return nodoActual;
   }
-
 
   //funcion getBalance
   getBalance(nodo) {
@@ -94,8 +110,14 @@ export default class AVL {
     nodoIzquierda.derecha = nodo;
     nodo.izquierda = nodoIzquierdaDerecha;
 
-    nodo.altura = 1 + Math.max(this.altura(nodo.izquierda), this.altura(nodo.derecha));
-    nodoIzquierda.altura = 1 + Math.max(this.altura(nodoIzquierda.izquierda), this.altura(nodoIzquierda.derecha));
+    nodo.altura =
+      1 + Math.max(this.altura(nodo.izquierda), this.altura(nodo.derecha));
+    nodoIzquierda.altura =
+      1 +
+      Math.max(
+        this.altura(nodoIzquierda.izquierda),
+        this.altura(nodoIzquierda.derecha)
+      );
 
     return nodoIzquierda;
   }
@@ -107,9 +129,15 @@ export default class AVL {
 
     nodoDerecha.izquierda = nodo;
     nodo.derecha = nodoDerechaIzquierda;
-    
-    nodo.altura = 1 + Math.max(this.altura(nodo.izquierda), this.altura(nodo.derecha));
-    nodoDerecha.altura = 1 + Math.max(this.altura(nodoDerecha.izquierda), this.altura(nodoDerecha.derecha));
+
+    nodo.altura =
+      1 + Math.max(this.altura(nodo.izquierda), this.altura(nodo.derecha));
+    nodoDerecha.altura =
+      1 +
+      Math.max(
+        this.altura(nodoDerecha.izquierda),
+        this.altura(nodoDerecha.derecha)
+      );
 
     return nodoDerecha;
   }
@@ -118,7 +146,8 @@ export default class AVL {
   buscarNodo(nodoActual, carnet) {
     if (!nodoActual) return null;
     if (carnet === nodoActual.usuario.carnet) return nodoActual;
-    if (carnet < nodoActual.usuario.carnet) return this.buscarNodo(nodoActual.izquierda, carnet);
+    if (carnet < nodoActual.usuario.carnet)
+      return this.buscarNodo(nodoActual.izquierda, carnet);
     return this.buscarNodo(nodoActual.derecha, carnet);
   }
 
@@ -165,7 +194,7 @@ export default class AVL {
   comprobarLogin(carnet, password) {
     let resultado = false;
     const recorrer = (nodo) => {
-      if (nodo.usuario.carnet == carnet && nodo.usuario.password == password) { 
+      if (nodo.usuario.carnet == carnet && nodo.usuario.password == password) {
         resultado = true;
       }
       if (nodo.izquierda) recorrer(nodo.izquierda);
@@ -178,14 +207,14 @@ export default class AVL {
   toJSON() {
     const json = {};
 
-    function nodeToJSON(node){
-      if(!node) return null;
+    function nodeToJSON(node) {
+      if (!node) return null;
       return {
         usuario: node.usuario,
         arbolCarpetas: node.arbolCarpetas.toJSON(),
         altura: node.altura,
         izquierda: nodeToJSON(node.izquierda),
-        derecha: nodeToJSON(node.derecha)
+        derecha: nodeToJSON(node.derecha),
       };
     }
 
@@ -196,10 +225,10 @@ export default class AVL {
   fromJSON(json) {
     const obj = JSON.parse(json);
 
-    function jsonToNode(jsonNode){
-      if(!jsonNode) return null;
+    function jsonToNode(jsonNode) {
+      if (!jsonNode) return null;
       const node = new NodoAVL(jsonNode.usuario);
-      
+
       node.arbolCarpetas = new arbolNario();
       node.arbolCarpetas.fromJSON(jsonNode.arbolCarpetas);
 
@@ -212,86 +241,155 @@ export default class AVL {
     this.raiz = jsonToNode(obj.raiz);
   }
 
-
-
   //funcion para retornar valores del arbol
-  retornarValoresArbol(raiz, id){
+  retornarValoresArbol(raiz, id) {
     var cadena = "";
     var numero = id + 1;
-    if(raiz !== null){
-      cadena += "\"" + raiz.usuario.carnet + "\" ";
-        if(!(raiz.izquierda === null) && !(raiz.derecha === null)){
-            //crear nodos raiz izquierda y derecha
-            cadena += "\"" + raiz.usuario.carnet + "\" "
-            cadena +="[label=\"" + raiz.usuario.carnet + "\\n" + raiz.usuario.nombre + "\\nAltura: " + raiz.altura + "\"];"
+    if (raiz !== null) {
+      cadena += '"' + raiz.usuario.carnet + '" ';
+      if (!(raiz.izquierda === null) && !(raiz.derecha === null)) {
+        //crear nodos raiz izquierda y derecha
+        cadena += '"' + raiz.usuario.carnet + '" ';
+        cadena +=
+          '[label="' +
+          raiz.usuario.carnet +
+          "\\n" +
+          raiz.usuario.nombre +
+          "\\nAltura: " +
+          raiz.altura +
+          '"];';
 
-            cadena += "\"" + raiz.izquierda.usuario.carnet + "\" "
-            cadena +="[label=\"" + raiz.izquierda.usuario.carnet + "\\n" + raiz.izquierda.usuario.nombre + "\\nAltura: " + raiz.izquierda.altura + "\"];"
+        cadena += '"' + raiz.izquierda.usuario.carnet + '" ';
+        cadena +=
+          '[label="' +
+          raiz.izquierda.usuario.carnet +
+          "\\n" +
+          raiz.izquierda.usuario.nombre +
+          "\\nAltura: " +
+          raiz.izquierda.altura +
+          '"];';
 
-            cadena += "\"" + raiz.derecha.usuario.carnet + "\" "
-            cadena +="[label=\"" + raiz.derecha.usuario.carnet + "\\n" + raiz.derecha.usuario.nombre + "\\nAltura: " + raiz.derecha.altura + "\"];"
+        cadena += '"' + raiz.derecha.usuario.carnet + '" ';
+        cadena +=
+          '[label="' +
+          raiz.derecha.usuario.carnet +
+          "\\n" +
+          raiz.derecha.usuario.nombre +
+          "\\nAltura: " +
+          raiz.derecha.altura +
+          '"];';
 
-            cadena += "\"";
-            cadena += raiz.usuario.carnet;
-            cadena += "\" -> ";
-            cadena += this.retornarValoresArbol(raiz.izquierda, numero)
-            cadena += "\"";
-            cadena += raiz.usuario.carnet;
-            cadena += "\" -> ";
-            cadena += this.retornarValoresArbol(raiz.derecha, numero)
-            cadena += "{rank=same" + "\"" + raiz.izquierda.usuario.carnet + "\"" + " -> " + "\"" + raiz.derecha.usuario.carnet + "\""  + " [style=invis]}; "
-        }else if(!(raiz.izquierda === null) && (raiz.derecha === null)){
-            //crear nodos raiz izquierda y derecha
-            cadena += "\"" + raiz.usuario.carnet + "\" "
-            cadena +="[label=\"" + raiz.usuario.carnet + "\\n" + raiz.usuario.nombre + "\\nAltura: " + raiz.altura + "\"];"
+        cadena += '"';
+        cadena += raiz.usuario.carnet;
+        cadena += '" -> ';
+        cadena += this.retornarValoresArbol(raiz.izquierda, numero);
+        cadena += '"';
+        cadena += raiz.usuario.carnet;
+        cadena += '" -> ';
+        cadena += this.retornarValoresArbol(raiz.derecha, numero);
+        cadena +=
+          "{rank=same" +
+          '"' +
+          raiz.izquierda.usuario.carnet +
+          '"' +
+          " -> " +
+          '"' +
+          raiz.derecha.usuario.carnet +
+          '"' +
+          " [style=invis]}; ";
+      } else if (!(raiz.izquierda === null) && raiz.derecha === null) {
+        //crear nodos raiz izquierda y derecha
+        cadena += '"' + raiz.usuario.carnet + '" ';
+        cadena +=
+          '[label="' +
+          raiz.usuario.carnet +
+          "\\n" +
+          raiz.usuario.nombre +
+          "\\nAltura: " +
+          raiz.altura +
+          '"];';
 
-            cadena += "\"" + raiz.izquierda.usuario.carnet + "\" "
-            cadena +="[label=\"" + raiz.izquierda.usuario.carnet + "\\n" + raiz.izquierda.usuario.nombre + "\\nAltura: " + raiz.izquierda.altura + "\"];"
+        cadena += '"' + raiz.izquierda.usuario.carnet + '" ';
+        cadena +=
+          '[label="' +
+          raiz.izquierda.usuario.carnet +
+          "\\n" +
+          raiz.izquierda.usuario.nombre +
+          "\\nAltura: " +
+          raiz.izquierda.altura +
+          '"];';
 
-            //nodo invisible
-            cadena += " x" + numero + " [label=\"\",width=.1,style=invis];"
-            cadena += "\"";
-            cadena += raiz.usuario.carnet;
-            cadena += "\" -> ";
-            cadena += this.retornarValoresArbol(raiz.izquierda, numero)
-            cadena += "\"";
-            cadena += raiz.usuario.carnet;
-            cadena += "\" -> ";
-            cadena += "x" + numero + "[style=invis]";
-            cadena += "{rank=same" + "\"" + raiz.izquierda.usuario.carnet + "\"" + " -> " + "x" + numero + " [style=invis]}; "
-        }else if((raiz.izquierda === null) && !(raiz.derecha === null)){
-            //crear nodos raiz izquierda y derecha
-            cadena += "\"" + raiz.usuario.carnet + "\" "
-            cadena +="[label=\"" + raiz.usuario.carnet + "\\n" + raiz.usuario.nombre + "\\nAltura: " + raiz.altura + "\"];"
-            
-            cadena += "\"" + raiz.derecha.usuario.carnet + "\" "
-            cadena +="[label=\"" + raiz.derecha.usuario.carnet + "\\n" + raiz.derecha.usuario.nombre + "\\nAltura: " + raiz.derecha.altura + "\"];"
+        //nodo invisible
+        cadena += " x" + numero + ' [label="",width=.1,style=invis];';
+        cadena += '"';
+        cadena += raiz.usuario.carnet;
+        cadena += '" -> ';
+        cadena += this.retornarValoresArbol(raiz.izquierda, numero);
+        cadena += '"';
+        cadena += raiz.usuario.carnet;
+        cadena += '" -> ';
+        cadena += "x" + numero + "[style=invis]";
+        cadena +=
+          "{rank=same" +
+          '"' +
+          raiz.izquierda.usuario.carnet +
+          '"' +
+          " -> " +
+          "x" +
+          numero +
+          " [style=invis]}; ";
+      } else if (raiz.izquierda === null && !(raiz.derecha === null)) {
+        //crear nodos raiz izquierda y derecha
+        cadena += '"' + raiz.usuario.carnet + '" ';
+        cadena +=
+          '[label="' +
+          raiz.usuario.carnet +
+          "\\n" +
+          raiz.usuario.nombre +
+          "\\nAltura: " +
+          raiz.altura +
+          '"];';
 
-            cadena += " x" + numero + " [label=\"\",width=.1,style=invis];"
-            cadena += "\"";
-            cadena += raiz.usuario.carnet;
-            cadena += "\" -> ";
-            cadena += "x" + numero + "[style=invis]";
-            cadena += "; \"";
-            cadena += raiz.usuario.carnet;
-            cadena += "\" -> ";
-            cadena += this.retornarValoresArbol(raiz.derecha, numero)
-            cadena += "{rank=same" + " x" + numero + " -> \"" + raiz.derecha.usuario.carnet + "\"" +  " [style=invis]}; "
-        }
+        cadena += '"' + raiz.derecha.usuario.carnet + '" ';
+        cadena +=
+          '[label="' +
+          raiz.derecha.usuario.carnet +
+          "\\n" +
+          raiz.derecha.usuario.nombre +
+          "\\nAltura: " +
+          raiz.derecha.altura +
+          '"];';
+
+        cadena += " x" + numero + ' [label="",width=.1,style=invis];';
+        cadena += '"';
+        cadena += raiz.usuario.carnet;
+        cadena += '" -> ';
+        cadena += "x" + numero + "[style=invis]";
+        cadena += '; "';
+        cadena += raiz.usuario.carnet;
+        cadena += '" -> ';
+        cadena += this.retornarValoresArbol(raiz.derecha, numero);
+        cadena +=
+          "{rank=same" +
+          " x" +
+          numero +
+          ' -> "' +
+          raiz.derecha.usuario.carnet +
+          '"' +
+          " [style=invis]}; ";
+      }
     }
     return cadena;
-}         
-  toGraphviz() {
-    var cadena = ""
-        if(this.raiz !== null){
-            cadena += "digraph AVL {"
-            cadena += "bgcolor = \"gray\";"
-            cadena += "node [style=filled, fillcolor=skyblue];"
-            cadena += this.retornarValoresArbol(this.raiz, 0)
-            cadena += "}"
-        }
-        return cadena
-    
   }
-  
+  toGraphviz() {
+    var cadena = "";
+    if (this.raiz !== null) {
+      cadena += "digraph AVL {";
+      cadena += 'bgcolor = "gray";';
+      cadena += "node [style=filled, fillcolor=skyblue];";
+      cadena += this.retornarValoresArbol(this.raiz, 0);
+      cadena += "}";
+    }
+    return cadena;
+  }
 }

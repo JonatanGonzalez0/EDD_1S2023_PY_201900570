@@ -21,8 +21,6 @@ btn_nueva_carpeta.addEventListener("click", function () {
 
   //guardar arbol avl
   localStorage.setItem("arbolAVL", arbolAVL.toJSON());
-
-  console.log(nodoUsuario.arbolCarpetas);
   //refrescar tabla
   refrescarTabla();
   

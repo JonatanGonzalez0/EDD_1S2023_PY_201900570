@@ -18,6 +18,7 @@ window.onload = function () {
 
   //refrescar la tabla de usuarios
   refrescarTabla();
+  refreshdropdown_menu_usuarios();
 };
 
 //funcion para refrescar la tabla de usuarios
@@ -43,5 +44,39 @@ function refrescarTabla() {
   generarNario();
 
 }
+
+function refreshdropdown_menu_usuarios() {
+  let dropdown = document.getElementById("dropdown-menu-usuarios");
+  dropdown.innerHTML = "";
+  let arbolAVL = new AVL();
+  arbolAVL.fromJSON(localStorage.getItem("arbolAVL"));
+
+  let carnet = parseInt(sessionStorage.getItem("sesion"));
+  
+  var usuarios = arbolAVL.inOrden();
+
+  var cadena = "";
+  var usuarios = arbolAVL.inOrden();
+  for (var i = 0; i < usuarios.length; i++) {
+    if (usuarios[i].carnet !== carnet) {
+      cadena += '<a class="dropdown-item" data-carnet="' + usuarios[i].carnet + '">' + usuarios[i].carnet + "</a>";
+      cadena += "\n";
+    }
+  }
+  dropdown.innerHTML = cadena;
+
+  // Agrega el evento de escucha
+  var dropdownItems = document.getElementsByClassName('dropdown-item');
+  for (var i = 0; i < dropdownItems.length; i++) {
+    dropdownItems[i].addEventListener('click', function() {
+      var carnet = this.dataset.carnet;
+      document.getElementById('dropdown-btn').textContent = carnet;
+    });
+  }
+  
+
+}
+
+
 
 export default refrescarTabla;

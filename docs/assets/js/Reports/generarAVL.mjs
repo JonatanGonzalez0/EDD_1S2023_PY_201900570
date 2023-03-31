@@ -21,8 +21,6 @@ document.addEventListener("DOMContentLoaded", function () {
         url += graph;   
 
         document.getElementById("imageAVL").src = url;
-
-        console.log(url)
     }   
 
     function hidecontainer() {
