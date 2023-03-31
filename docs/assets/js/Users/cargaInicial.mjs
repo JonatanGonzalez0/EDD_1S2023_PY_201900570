@@ -1,4 +1,5 @@
 import AVL from "../Estructuras/arbolAVL.mjs";
+import generarNario from "../Reports/reporteUsuarios.mjs";
 
 //en la carga de la pagina, comprobar si existe una sesion iniciada
 window.onload = function () {
@@ -37,14 +38,10 @@ function refrescarTabla() {
   if (rutaActual == "") {
     rutaActual = "/";
   }
-
-  //si la ruta actual es /cualquierCarpeta, agregar / al final
-  if (rutaActual != "/") {
-    rutaActual += "/";
-  }
-
   let bodyToLoad = nodoUsuario.arbolCarpetas.retornarCuerpoTabla(rutaActual);
   body.innerHTML = bodyToLoad;
+  generarNario();
+
 }
 
 export default refrescarTabla;

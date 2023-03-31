@@ -6,7 +6,7 @@ export function generarNario() {
     .getElementById("reportContainer")
     .classList.remove("visually-hidden");
 
-  const arbolAVL = new AVL();
+  let arbolAVL = new AVL();
   let graph = "";
   //si existe el arbol en el local storage, cargarlo
   if (localStorage.getItem("arbolAVL") !== null) {
@@ -32,8 +32,6 @@ export function generarNario() {
   imagen.addEventListener("load", function () {
     imagen.focus();
   });
-
-  console.log(url);
 }
 
 function hidecontainer() {
@@ -46,3 +44,5 @@ btnreporteCarpetas.addEventListener("click", generarNario);
 
 const btnCerrar = document.getElementById("cerrarGrafico");
 btnCerrar.addEventListener("click", hidecontainer);
+
+export default generarNario;

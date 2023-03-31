@@ -13,14 +13,14 @@ export default class arbolNArio {
     this.nodo_creados = 1;
   }
 
-  buscarDirectorio(nombreCarpeta) {
-    //si la nombreCarpeta es / no se busca nada retorna 2
-    if (nombreCarpeta === "/") {
+  buscarDirectorio(rutaActual) {
+    //si la rutaActual es / no se busca nada retorna 2
+    if (rutaActual === "/") {
       return 2;
     }
 
     //comprobar si existe directorio Ej: /home/usuario
-    let lista_carpeta = nombreCarpeta.split("/");
+    let lista_carpeta = rutaActual.split("/");
     let aux = this.raiz.primero;
     let contador = 0;
     while (aux) {
@@ -76,9 +76,9 @@ export default class arbolNArio {
     }
   }
 
-  eliminarCarpeta(carpeta, lista_carpeta) {
+  eliminarCarpeta(carpeta, rutaPadre) {
     // Buscar la carpeta padre de la que se quiere eliminar
-    let padre = this.buscarCarpetaPadre(lista_carpeta);
+    let padre = this.obtenerNodo(rutaPadre);
     if (!padre) {
       console.log("No se encontró la carpeta padre");
       return 1;
@@ -119,23 +119,96 @@ export default class arbolNArio {
     if (lista_carpeta.length === 2) {
       return this.raiz;
     }
-
-    let nodo = this.raiz.primero;
-    for (let i = 1; i < lista_carpeta.length - 1; i++) {
-      while (nodo) {
-        if (nodo.nombreCarpeta === lista_carpeta[i]) {
+    //mismo procedimiento que BuscarCarpeta pero retornando el nodo padre
+    //Si la nueva carpeta se creara en la raiz, se buscara si existe o no
+    if (lista_carpeta[1] === "" && this.raiz.primero !== null) {
+      let aux = this.raiz.primero;
+      while (aux) {
+        if (aux.nombreCarpeta === carpeta_nueva) {
+          return 1;
+        }
+        aux = aux.siguiente;
+      }
+      return 2;
+    }
+    //Si la nueva carpeta se creara en la raiz pero no existe ninguna carpeta
+    else if (lista_carpeta[1] === "" && this.raiz.primero === null) {
+      return 5;
+    }
+    //Si la nueva carpeta se creara en algun directorio pero la raiz no posee ninguna carpeta
+    else if (lista_carpeta[1] !== "" && this.raiz.primero === null) {
+      return 3;
+    }
+    //Buscamos el directorio padre y revisar si en sus hijos existe la carpeta
+    else if (lista_carpeta[1] !== "" && this.raiz.primero !== null) {
+      let aux = this.raiz.primero;
+      let nivel = lista_carpeta.length;
+      let posicion = 1;
+      for (var i = 1; i < nivel; i++) {
+        if (aux !== null) {
+          while (aux) {
+            if (
+              posicion < lista_carpeta.length &&
+              lista_carpeta[posicion] === aux.nombreCarpeta
+            ) {
+              posicion++;
+              if (aux.primero !== null && posicion < lista_carpeta.length) {
+                aux = aux.primero;
+              }
+              break;
+            } else {
+              aux = aux.siguiente;
+            }
+          }
+        } else {
           break;
         }
-        nodo = nodo.siguiente;
       }
-
-      if (!nodo) {
-        console.log(`No se encontró la carpeta ${lista_carpeta[i]}`);
-        return null;
+      if (aux !== null) {
+        aux = aux.primero;
+        while (aux) {
+          if (aux.nombreCarpeta === carpeta_nueva) {
+            return 1;
+          }
+          aux = aux.siguiente;
+        }
+        return 2;
+      } else {
+        return 4;
       }
     }
+  }
 
-    return nodo;
+  //funcion para obtener el nodo de la ruta especificada. return nodo o null
+  obtenerNodo(ruta) {
+    if (ruta === "/") {
+      return this.raiz;
+    }
+    let lista_carpeta = ruta.split("/");
+    let aux = this.raiz.primero;
+    let nivel = lista_carpeta.length;
+    let posicion = 1;
+    for (var i = 1; i < nivel; i++) {
+      if (aux !== null) {
+        while (aux) {
+          if (
+            posicion < lista_carpeta.length &&
+            lista_carpeta[posicion] === aux.nombreCarpeta
+          ) {
+            posicion++;
+            if (aux.primero !== null && posicion < lista_carpeta.length) {
+              aux = aux.primero;
+            }
+            break;
+          } else {
+            aux = aux.siguiente;
+          }
+        }
+      } else {
+        break;
+      }
+    }
+    return aux;
   }
 
   actualizarContadorNodos() {
@@ -245,34 +318,35 @@ export default class arbolNArio {
   }
   // /usac/prueba -> prueba1 /usac/prueba(prueba1)
 
-  comprobarSiExisteId(id) {
-    let aux = this.raiz.primero;
-    while (aux) {
-      if (aux.id === id) {
-        return true;
-      }
-      if (aux.primero !== null) {
-        let aux2 = aux.primero;
-        while (aux2) {
-          if (aux2.id === id) {
-            return true;
-          }
-          aux2 = aux2.siguiente;
+  comprobarSiExisteId(id, nodo = this.raiz) {
+    if (nodo.id === id) {
+      return true;
+    }
+    if (nodo.primero !== null) {
+      let aux = nodo.primero;
+      while (aux) {
+        if (this.comprobarSiExisteId(id, aux)) {
+          return true;
         }
+        aux = aux.siguiente;
       }
-      aux = aux.siguiente;
     }
     return false;
   }
-
+  
   insertarHijos(carpeta_nueva, lista_carpeta) {
     /**
      * creamos el nuevo nodo y aumentamos la cantidad de nodos creados
      */
     var id = this.nodo_creados;
-    //comprobar si ya existe un id igual,
-    while (this.comprobarSiExisteId(id)) {
-      id++;
+    var comprobador = true;
+
+    while (comprobador) {
+      if (this.comprobarSiExisteId(id)) {
+        id++;
+      } else {
+        comprobador = false;
+      }
     }
 
     const nuevoNodo = new nodoArbolNario(carpeta_nueva, id);
@@ -334,9 +408,6 @@ export default class arbolNArio {
     let existe_carpeta = this.BuscarCarpeta(carpeta_nueva, lista_carpeta);
     switch (existe_carpeta) {
       case 1:
-        alert(
-          "La carpeta ya existe se creara una copia:" + "copia_" + carpeta_nueva
-        );
         //crear carpeta con el nombre de la copia_carpeta
         this.insertarRuta(ruta, "copia_" + carpeta_nueva);
         break;
@@ -379,7 +450,6 @@ export default class arbolNArio {
       "nodo" + nodo_padre + '[label="' + this.raiz.nombreCarpeta + '"] ';
     cadena += this.valoresSiguietes(this.raiz.primero, nodo, nodo_padre);
     cadena += this.conexionRamas(this.raiz.primero, 0);
-    console.log(cadena);
     return cadena;
   }
 
@@ -432,8 +502,7 @@ export default class arbolNArio {
     </tr>
   */
   retornarCuerpoTabla(ruta) {
-    let lista_carpeta = ruta.split("/");
-    let nodo_padre = this.buscarCarpetaPadre(lista_carpeta);
+    let nodo_padre = this.obtenerNodo(ruta);
     let aux = nodo_padre.primero;
     let cadena = "";
     while (aux) {

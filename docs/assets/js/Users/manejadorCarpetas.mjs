@@ -71,26 +71,18 @@ function eliminarCarpeta() {
   if (ruta == "") {
     ruta = "/";
   }
-  if (ruta == "/") {
-    ruta += nombreCarpeta;
-  } else {
-    ruta += "/" + nombreCarpeta;
-  }
-  let lista_carpeta = ruta;
-  lista_carpeta = lista_carpeta.split("/");
-  let carpetaEliminada = nodoUsuario.arbolCarpetas.eliminarCarpeta(nombreCarpeta,lista_carpeta);
+
+  let carpetaEliminada = nodoUsuario.arbolCarpetas.eliminarCarpeta(nombreCarpeta,ruta);
 
   if (carpetaEliminada == 1) {
     alert("La carpeta no existe");
-   
-    
   }
   if (carpetaEliminada == 2) {
      //ACTUALIZAR ARBOL AVL
      localStorage.setItem("arbolAVL", arbolAVL.toJSON());
     alert("Carpeta eliminada correctamente");
-    //reload window
-    window.location.reload();
+    //refrescarTabla
+    refrescarTabla();
   }
   
 }
