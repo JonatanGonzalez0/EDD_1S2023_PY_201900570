@@ -494,12 +494,6 @@ export default class arbolNArio {
   }
   /*
     funcion que retorna cadena para insertar a cuerpo de tabla en html con las carpetas dentro de una ruta
-
-    estructura de la fila
-    <tr>
-      <td>Documentos</td>
-      <td>Tipo: Carpeta</td>
-    </tr>
   */
   retornarCuerpoTabla(ruta) {
     let nodo_padre = this.obtenerNodo(ruta);
