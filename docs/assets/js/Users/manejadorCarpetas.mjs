@@ -157,18 +157,21 @@ btnDarPermiso.addEventListener("click", function () {
   var tipoPermiso = "";
   
   if (formCheckWrite.checked && formCheckRead.checked) {
-    tipoPermiso = "r - w ";
+    tipoPermiso = "W-R";
   }else if (formCheckWrite.checked && !formCheckRead.checked) {
-    tipoPermiso = "w";
+    tipoPermiso = "W";
   }else if (!formCheckWrite.checked && formCheckRead.checked) {
-    tipoPermiso = "r";
+    tipoPermiso = "R";
+  }else{
+    alert("No se selecciono ningun permiso");
+    return;
   }
 
   var seDioPermiso = nodoCarpeta.matriz.darPermiso(carnetUsuario, nombre_ArchivoDarPermiso, tipoPermiso)
   //sediopermiso puede ser true o false
   if (seDioPermiso) {
-     //guardar arbol avl
      try {
+      //guardar arbol avl   
       localStorage.setItem("arbolAVL", arbolAVL.toJSON());
     }catch (e) {
       alert("No se pudo dar permiso\n Error: "+e);

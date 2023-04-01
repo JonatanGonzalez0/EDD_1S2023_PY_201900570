@@ -6,14 +6,22 @@ class nodoMatriz {
     this.arriba = null;
     this.posX = posX;
     this.posY = posY;
-    this.posicion = nombre_archivo;
+    this.nombre = nombre_archivo;
     this.contenido = contenido;
+  }
+  toJSON() {
+    return {
+      posX: this.posX,
+      posY: this.posY,
+      nombre: this.nombre,
+      contenido: this.contenido,
+    };
   }
 }
 
 export default class Matriz {
   constructor() {
-    this.principal = new nodoMatriz(-1, -1, "Raiz", "");
+    this.principal = new nodoMatriz(-1, -1, "Permiso de Archivos", "");
     this.coordenadaY = 0;
     this.coordenadaX = 0;
   }
@@ -21,7 +29,7 @@ export default class Matriz {
   buscarF(nombre_archivo) {
     let aux = this.principal;
     while (aux) {
-      if (aux.posicion === nombre_archivo) {
+      if (aux.nombre === nombre_archivo) {
         return aux;
       } else {
         aux = aux.abajo;
@@ -33,7 +41,7 @@ export default class Matriz {
   buscarC(carnet) {
     let aux = this.principal;
     while (aux) {
-      if (aux.posicion === carnet) {
+      if (aux.nombre === carnet) {
         return aux;
       } else {
         aux = aux.siguiente;
@@ -42,8 +50,8 @@ export default class Matriz {
     return null;
   }
 
-  insertarColumna(posicion, texto) {
-    const nuevoNodo = new nodoMatriz(posicion, -1, texto, "");
+  insertarColumna(nombre, texto) {
+    const nuevoNodo = new nodoMatriz(nombre, -1, texto, "");
     let piv = this.principal;
     let pivA = this.principal;
     while (piv.siguiente) {
@@ -62,8 +70,8 @@ export default class Matriz {
     piv.siguiente = nuevoNodo;
   }
 
-  insertarFila(posicion, texto, contenido) {
-    const nuevoNodo = new nodoMatriz(-1, posicion, texto, contenido);
+  insertarFila(nombre, texto, contenido) {
+    const nuevoNodo = new nodoMatriz(-1, nombre, texto, contenido);
     let piv = this.principal;
     let pivA = this.principal;
     while (piv.abajo) {
@@ -83,6 +91,12 @@ export default class Matriz {
   }
 
   insertarNodo(x, y, texto) {
+    //comprobar si existe el nodo
+    let esModificacion = this.modificarPermiso(x, y, texto);
+    if (esModificacion === true) {
+      return;
+    }
+
     const nuevoNodo = new nodoMatriz(x, y, texto, "");
     let tempX = this.principal;
     let tempY = this.principal;
@@ -137,6 +151,50 @@ export default class Matriz {
     }
   }
 
+  modificarPermiso(x, y, permiso) {
+    //retorna el nodo si existe
+    let tempX = this.principal;
+    let tempY = this.principal;
+
+    //buscar en columna
+    while (tempX) {
+      if (tempX.posX === x) {
+        break;
+      }
+      tempX = tempX.siguiente;
+    }
+    //tempx recorrer hacia abajo
+    while (tempX) {
+      if (tempX.posY === y) {
+        tempX.nombre = permiso;
+        break
+      }
+      tempX = tempX.abajo;
+    }
+    if (tempX === null) {
+      return false;
+    }
+
+    //buscar en fila
+    while (tempY) {
+      if (tempY.posY === y) {
+        break;
+      }
+      tempY = tempY.abajo;
+    }
+    //tempy recorrer hacia la derecha
+    while (tempY) {
+      if (tempY.posX === x) {
+        tempY.nombre = permiso;
+        return true;
+      }
+      tempY = tempY.siguiente;
+    }
+    if (tempY === null) {
+      return false;
+    }
+  }
+
   insertarArchivo(nombre_archivo, contenido_base64) {
     let nuevaFila = this.buscarF(nombre_archivo);
     if (nuevaFila === null) {
@@ -179,7 +237,7 @@ export default class Matriz {
           (aux1.posX + 1) +
           (aux1.posY + 1) +
           '[label="' +
-          aux1.posicion +
+          aux1.nombre +
           '" ,rankdir=LR,group=' +
           (aux1.posX + 1) +
           "]; ";
@@ -195,7 +253,7 @@ export default class Matriz {
             (aux1.posX + 1) +
             (aux1.posY + 1) +
             '[label="' +
-            aux1.posicion +
+            aux1.nombre +
             '" ,group=' +
             (aux1.posX + 1) +
             "]; ";
@@ -248,46 +306,67 @@ export default class Matriz {
 
   toJSON() {
     const json = {};
-    const visitedNodes = new Set();
 
-    function nodeToJSON(node) {
-      if (node === null) {
-        return null;
+    if (this.principal !== null) {
+      // Convertir el nodo principal a JSON
+      json["principal"] = this.principal.toJSON();
+      let objetoPrincipal = json["principal"];
+
+      if (this.principal.abajo !== null) {
+        this._agregarNodosHaciaAbajo(objetoPrincipal, this.principal);
+      }
+      if (this.principal.siguiente !== null) {
+        this._agregarNodosHaciaDerecha(objetoPrincipal, this.principal);
+      }
+      json["coordenadaX"] = this.coordenadaX;
+      json["coordenadaY"] = this.coordenadaY;
+
+      return json;
+    }
+  }
+
+  _agregarNodosHaciaAbajo(objNodoActual, nodoActual) {
+    let nodoAbajo = nodoActual.abajo;
+    while (nodoAbajo !== null) {
+      // Agregar el nodo a la propiedad "abajo" del nodo actual
+      let objNodoAbajo = nodoAbajo.toJSON();
+      objNodoActual["abajo"] = objNodoAbajo;
+      objNodoActual = objNodoAbajo;
+
+      if (nodoAbajo.siguiente !== null) {
+        this._agregarNodosHaciaDerecha(objNodoActual, nodoAbajo);
       }
 
-      if (visitedNodes.has(node)) {
-        // si ya se visitó el nodo, devolver una referencia a él
-        return { $ref: node.posicion };
-      }
+      // Llamar a _agregarNodosHaciaAbajo() en el nodo actual
+      this._agregarNodosHaciaAbajo(objNodoAbajo, nodoAbajo);
 
-      visitedNodes.add(node);
+      nodoAbajo = nodoAbajo.abajo;
+    }
+  }
 
-      var posX = node.posX;
-      var posY = node.posY;
-      var posicion = node.posicion;
-      var contenido = node.contenido;
-      var siguiente = nodeToJSON(node.siguiente);
-      var anterior = nodeToJSON(node.anterior);
-      var arriba = nodeToJSON(node.arriba);
-      var abajo = nodeToJSON(node.abajo);
-
-      return {
-        posX: posX,
-        posY: posY,
-        posicion: posicion,
-        contenido: contenido,
-        siguiente: siguiente,
-        anterior: anterior,
-        arriba: arriba,
-        abajo: abajo,
-      };
+  _agregarNodosHaciaDerecha(objNodoActual, nodoActual) {
+    let nodoDerecha = null;
+    try {
+      nodoDerecha = nodoActual.siguiente;
+    } catch (e) {
+      return;
     }
 
-    json.principal = nodeToJSON(this.principal);
-    json.coordenadaY = this.coordenadaY;
-    json.coordenadaX = this.coordenadaX;
+    while (nodoDerecha !== null) {
+      // Agregar el nodo a la propiedad "siguiente" del nodo actual
+      let objNodoDerecha = nodoDerecha.toJSON();
+      objNodoActual["siguiente"] = objNodoDerecha;
+      objNodoActual = objNodoDerecha;
 
-    return json;
+      if (nodoDerecha.abajo !== null) {
+        this._agregarNodosHaciaAbajo(objNodoActual, nodoDerecha);
+      }
+
+      // llamar a _agregarNodosDerecha() en el nodo actual
+      this._agregarNodosHaciaDerecha(objNodoDerecha, nodoDerecha);
+
+      nodoDerecha = nodoDerecha.siguiente;
+    }
   }
 
   fromJSON(json) {
@@ -300,23 +379,23 @@ export default class Matriz {
       const nuevoNodo = new nodoMatriz(
         node.posX,
         node.posY,
-        node.posicion,
+        node.nombre,
         node.contenido
       );
 
-      if (node.hasOwnProperty("siguiente")) {
+      if (node.hasOwnProperty("siguiente") && node.siguiente !== null) {
         nuevoNodo.siguiente = nodeFromJSON(node.siguiente, depth + 1);
       }
 
-      if (node.hasOwnProperty("anterior")) {
+      if (node.hasOwnProperty("anterior") && node.anterior !== null) {
         nuevoNodo.anterior = nodeFromJSON(node.anterior, depth + 1);
       }
 
-      if (node.hasOwnProperty("arriba")) {
+      if (node.hasOwnProperty("arriba") && node.arriba !== null) {
         nuevoNodo.arriba = nodeFromJSON(node.arriba, depth + 1);
       }
 
-      if (node.hasOwnProperty("abajo")) {
+      if (node.hasOwnProperty("abajo") && node.abajo !== null) {
         nuevoNodo.abajo = nodeFromJSON(node.abajo, depth + 1);
       }
 
@@ -338,15 +417,15 @@ export default class Matriz {
       return cadena;
     }
     while (aux) {
-      let nombre_archivo="";
-      let extension="";
-      try{
-        nombre_archivo = aux.posicion;
+      let nombre_archivo = "";
+      let extension = "";
+      try {
+        nombre_archivo = aux.nombre;
         extension = nombre_archivo.split(".");
-      }catch(error){
+      } catch (error) {
         return cadena;
       }
-    
+
       extension = extension[1];
       let icon = "";
       let tipo = "";
@@ -389,7 +468,7 @@ export default class Matriz {
         "<tr><td>" +
         icon +
         "  " +
-        aux.posicion +
+        aux.nombre +
         "</td><td>" +
         tipo +
         "</td></tr>";
@@ -400,15 +479,20 @@ export default class Matriz {
   }
 
   retornarArchivosDropdown() {
-    let aux=null;
+    let aux = null;
     try {
       aux = this.principal.abajo;
-    }catch {
+    } catch {
       return "";
     }
     let cadena = "";
     while (aux != null) {
-      cadena += '<a class="dropdown-item" data-nombre="' + aux.posicion + '">' + aux.posicion + "</a>";
+      cadena +=
+        '<a class="dropdown-item" data-nombre="' +
+        aux.nombre +
+        '">' +
+        aux.nombre +
+        "</a>";
       aux = aux.abajo;
     }
     return cadena;
