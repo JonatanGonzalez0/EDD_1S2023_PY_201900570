@@ -79,7 +79,6 @@ function generarMatriz() {
   url += graph;
   var imagen = document.getElementById("reportImage");
   imagen.src = url;
-  console.log(url);
   // agregar evento 'load' a la imagen para asegurarse de que se cargue completamente antes de llamar al método 'focus()'
   imagen.addEventListener("load", function () {
     imagen.focus();

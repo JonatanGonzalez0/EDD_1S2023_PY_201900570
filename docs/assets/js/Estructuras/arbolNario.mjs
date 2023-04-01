@@ -435,7 +435,7 @@ export default class arbolNArio {
   grafica_arbol() {
     var cadena = "";
     if (!(this.raiz === null)) {
-      cadena = "digraph arbol{ ";
+      cadena = "digraph arbol{ bgcolor = \"gray35\"; ";
       cadena = cadena + this.retornarValoresArbol(this.raiz);
       cadena = cadena + "}";
     } else {
@@ -446,7 +446,7 @@ export default class arbolNArio {
 
   /** le mando el parametro primero y solo recorre los siguientes*/
   retornarValoresArbol(raiz) {
-    var cadena = "node[shape=record] ";
+    var cadena = "node[shape=record,style=filled, fillcolor=skyblue] ";
     let nodo = 1;
     let nodo_padre = 0;
     cadena +=

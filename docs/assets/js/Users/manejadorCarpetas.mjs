@@ -1,9 +1,8 @@
 import AVL from "../Estructuras/arbolAVL.mjs";
 import refrescarTabla from "./cargaInicial.mjs";
 
-//crear nueva carpeta en el directorio actual
-let btn_nueva_carpeta = document.getElementById("btn-nuevaCarpeta");
-btn_nueva_carpeta.addEventListener("click", function () {
+
+function generarNuevaCarpeta(){
   //obtener el carnet del usuario actual tipo entero
   let carnet = parseInt(sessionStorage.getItem("sesion"));
 
@@ -23,6 +22,21 @@ btn_nueva_carpeta.addEventListener("click", function () {
   localStorage.setItem("arbolAVL", arbolAVL.toJSON());
   //refrescar tabla
   refrescarTabla();
+  //limpiar input
+  document.getElementById("txt-carpeta-nueva").value = "";
+}
+
+//crear nueva carpeta en el directorio actual
+let btn_nueva_carpeta = document.getElementById("btn-nuevaCarpeta");
+btn_nueva_carpeta.addEventListener("click", generarNuevaCarpeta);
+
+const txtNuevaCarpeta = document.getElementById("txt-carpeta-nueva");
+//detectar el evento enter llamar a la funcion generarNuevaCarpeta
+txtNuevaCarpeta.addEventListener("keyup", function (event) {
+  if (event.keyCode === 13) {
+    event.preventDefault();
+    document.getElementById("btn-nuevaCarpeta").click();
+  }
 });
 
 //txt-busqueda id inputBusqueda detectar el evento enter
@@ -88,6 +102,15 @@ function eliminarCarpeta() {
 
 const btnEliminarCarpeta = document.getElementById("btn-eliminarCarpeta");
 btnEliminarCarpeta.addEventListener("click", eliminarCarpeta);
+
+const txtEliminarCarpeta = document.getElementById("txt-carpeta-eliminar");
+//detectar el evento enter llamar a la funcion eliminarCarpeta
+txtEliminarCarpeta.addEventListener("keyup", function (event) {
+  if (event.keyCode === 13) {
+    event.preventDefault();
+    document.getElementById("btn-eliminarCarpeta").click();
+  }
+});
 
 //const id subida-archivos
 const subidaArchivos = document.getElementById("subida-archivos");

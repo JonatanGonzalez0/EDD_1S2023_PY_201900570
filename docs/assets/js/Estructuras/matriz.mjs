@@ -229,7 +229,7 @@ export default class Matriz {
     let aux3 = this.principal;
     if (aux1 !== null) {
       cadena =
-        "digraph MatrizPermisos {  node[shape=box]  rankdir=UD;  {rank=min; ";
+        "digraph MatrizPermisos {  bgcolor = \"gray35\"; node[shape=box,style=filled,fillcolor=skyblue]  rankdir=UD;  {rank=min; ";
       /** Creacion de los nodos actuales */
       while (aux1) {
         cadena +=
