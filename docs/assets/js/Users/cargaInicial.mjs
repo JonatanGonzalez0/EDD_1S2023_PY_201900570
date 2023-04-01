@@ -19,6 +19,7 @@ window.onload = function () {
   //refrescar la tabla de usuarios
   refrescarTabla();
   refreshdropdown_menu_usuarios();
+  refreshdropdown_archivos();
 };
 
 //funcion para refrescar la tabla de usuarios
@@ -28,7 +29,7 @@ function refrescarTabla() {
   //obtener el carnet del usuario actual tipo entero
   let carnet = parseInt(sessionStorage.getItem("sesion"));
 
-  //obtener arbol avl
+  //obtener arbol avl desde el local storage
   let arbolAVL = new AVL();
   arbolAVL.fromJSON(localStorage.getItem("arbolAVL"));
 
@@ -42,7 +43,8 @@ function refrescarTabla() {
   let bodyToLoad = nodoUsuario.arbolCarpetas.retornarCuerpoTabla(rutaActual);
   body.innerHTML = bodyToLoad;
   generarNario();
-
+  refreshdropdown_archivos();
+  refreshdropdown_menu_usuarios();
 }
 
 function refreshdropdown_menu_usuarios() {
@@ -64,16 +66,42 @@ function refreshdropdown_menu_usuarios() {
     }
   }
   dropdown.innerHTML = cadena;
-
   // Agrega el evento de escucha
-  var dropdownItems = document.getElementsByClassName('dropdown-item');
+  var dropdownItems = dropdown.getElementsByClassName('dropdown-item');
   for (var i = 0; i < dropdownItems.length; i++) {
     dropdownItems[i].addEventListener('click', function() {
       var carnet = this.dataset.carnet;
       document.getElementById('dropdown-btn').textContent = carnet;
     });
   }
-  
+}
+
+function refreshdropdown_archivos(){
+  let dropdown = document.getElementById("dropdown-menu-archivos");
+  dropdown.innerHTML = "";
+  let arbolAVL = new AVL();
+  arbolAVL.fromJSON(localStorage.getItem("arbolAVL"));
+
+  let carnet = parseInt(sessionStorage.getItem("sesion"));
+
+  let nodoUsuario = arbolAVL.getNodo(carnet);
+  let rutaActual = document.getElementById("txt-carpeta-actual").value;
+
+  if (rutaActual == "") {
+    rutaActual = "/";
+  }
+  let nodoCarpeta = nodoUsuario.arbolCarpetas.obtenerNodo(rutaActual);
+
+  let body = nodoCarpeta.matriz.retornarArchivosDropdown();
+  dropdown.innerHTML = body;
+  // Agrega el evento de escucha
+  var dropdownItems = dropdown.getElementsByClassName('dropdown-item');
+  for (var i = 0; i < dropdownItems.length; i++) {
+    dropdownItems[i].addEventListener('click', function() {
+      var nombre = this.dataset.nombre;
+      document.getElementById('dropdown-btn-archivos').textContent = nombre;
+    });
+  }
 
 }
 
