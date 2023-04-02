@@ -50,7 +50,12 @@ export default class arbolNArio {
         if (contador2 === 0) {
           return 1;
         }
-        aux2 = aux2.primero;
+        try {
+          aux2 = aux2.primero;
+        } catch (error) {
+          return 1;
+        }
+        
       }
       //si llega aqui es porque existe el directorio
       return 2;
@@ -416,8 +421,6 @@ export default class arbolNArio {
         break;
       case 2:
         this.insertarHijos(carpeta_nueva, lista_carpeta);
-        alert("La carpeta se creo correctamente");
-
         break;
       case 3:
         alert("La ruta actual no existe");
@@ -427,7 +430,6 @@ export default class arbolNArio {
         break;
       case 5:
         this.insertarHijos(carpeta_nueva, lista_carpeta);
-        alert("La carpeta se creo correctamente");
         break;
     }
   }

@@ -42,7 +42,6 @@ function refrescarTabla() {
   }
   let bodyToLoad = nodoUsuario.arbolCarpetas.retornarCuerpoTabla(rutaActual);
   body.innerHTML = bodyToLoad;
-  generarNario();
   refreshdropdown_archivos();
   refreshdropdown_menu_usuarios();
 }

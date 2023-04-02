@@ -425,8 +425,10 @@ export default class Matriz {
       } catch (error) {
         return cadena;
       }
-
-      extension = extension[1];
+      //SI LA EXTENSION TIENE MAS DE UN PUNTO OBTENER EL ULTIMO DEL SPILT COMO EXTENSION
+      extension = extension[extension.length - 1];
+      //lowercase extension
+      extension = extension.toLowerCase();
       let icon = "";
       let tipo = "";
       if (extension === "txt") {

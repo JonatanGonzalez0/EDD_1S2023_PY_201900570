@@ -1,8 +1,8 @@
 import AVL from "../Estructuras/arbolAVL.mjs";
 import refrescarTabla from "./cargaInicial.mjs";
+import { generarMatriz } from "../Reports/reporteUsuarios.mjs";
 
-
-function generarNuevaCarpeta(){
+function generarNuevaCarpeta() {
   //obtener el carnet del usuario actual tipo entero
   let carnet = parseInt(sessionStorage.getItem("sesion"));
 
@@ -59,8 +59,9 @@ inputBusqueda.addEventListener("keyup", function (event) {
 
     var existeDir = nodoUsuario.arbolCarpetas.buscarDirectorio(rutaBuscada);
     if (existeDir === 1) {
-      alert("La ruta no existe");
-      document.getElementById("txt-carpeta-actual").value = "";
+      //swal  directorio no valido + rutaBuscada
+      swal("El directorio no es válido", rutaBuscada, "error");
+
     } else {
       document.getElementById("txt-carpeta-actual").value = rutaBuscada;
       refrescarTabla();
@@ -70,34 +71,55 @@ inputBusqueda.addEventListener("keyup", function (event) {
 
 /* funcion para eliminar una carpeta */
 function eliminarCarpeta() {
-  //obtener el carnet del usuario actual tipo entero
-  let carnet = parseInt(sessionStorage.getItem("sesion"));
-  let arbolAVL = new AVL();
-  arbolAVL.fromJSON(localStorage.getItem("arbolAVL"));
-  //obtener el nodo del usuario actual
-  let nodoUsuario = arbolAVL.getNodo(carnet);
-  let nombreCarpeta = document.getElementById("txt-carpeta-eliminar").value;
-  let ruta = document.getElementById("txt-carpeta-actual").value;
+  //swet alert para confirmar la eliminacion
+  swal({
+    title: "¿Está seguro de eliminar la carpeta?",
+    text: "Una vez eliminada no se podrá recuperar",
+    icon: "warning",
+    buttons: true,
+    dangerMode: true,
+  }).then((willDelete) => {
+    if (willDelete) {
+      //obtener el carnet del usuario actual tipo entero
+      let carnet = parseInt(sessionStorage.getItem("sesion"));
+      let arbolAVL = new AVL();
+      arbolAVL.fromJSON(localStorage.getItem("arbolAVL"));
+      //obtener el nodo del usuario actual
+      let nodoUsuario = arbolAVL.getNodo(carnet);
+      let nombreCarpeta = document.getElementById("txt-carpeta-eliminar").value;
+      let ruta = document.getElementById("txt-carpeta-actual").value;
 
-  if (ruta == "") {
-    ruta = "/";
-  }
+      if (ruta == "") {
+        ruta = "/";
+      }
 
-  let carpetaEliminada = nodoUsuario.arbolCarpetas.eliminarCarpeta(
-    nombreCarpeta,
-    ruta
-  );
+      let carpetaEliminada = nodoUsuario.arbolCarpetas.eliminarCarpeta(
+        nombreCarpeta,
+        ruta
+      );
 
-  if (carpetaEliminada == 1) {
-    alert("La carpeta no existe");
-  }
-  if (carpetaEliminada == 2) {
-    //ACTUALIZAR ARBOL AVL
-    localStorage.setItem("arbolAVL", arbolAVL.toJSON());
-    alert("Carpeta eliminada correctamente");
-    //refrescarTabla
-    refrescarTabla();
-  }
+      if (carpetaEliminada == 1) {
+        //alerta de que la carpeta no existe
+        swal("La carpeta no existe", {
+          icon: "error",
+        });
+      }
+      if (carpetaEliminada == 2) {
+        //ACTUALIZAR ARBOL AVL
+        localStorage.setItem("arbolAVL", arbolAVL.toJSON());
+        //refrescarTabla
+        refrescarTabla();
+
+        //alerta de eliminacion exitosa
+        swal("La carpeta fue eliminada exitosamente", {
+          icon: "success",
+        });
+
+      }
+    } else {
+      swal("La carpeta no fue eliminada");
+    }
+  });
 }
 
 const btnEliminarCarpeta = document.getElementById("btn-eliminarCarpeta");
@@ -126,37 +148,48 @@ subidaArchivos.addEventListener("change", function () {
   let rutaActual = document.getElementById("txt-carpeta-actual").value;
   let nodoCarpeta = nodoUsuario.arbolCarpetas.obtenerNodo(rutaActual);
 
-  // Obtener el archivo
-  let archivo = subidaArchivos.files[0];
-  let nombre_archivo = archivo.name;
+  // Obtener los archivos seleccionados
+  let archivos = subidaArchivos.files;
 
-  // Leer el archivo como un objeto FileReader
-  let lector_archivo = new FileReader();
+  // Recorrer la lista de archivos y procesarlos uno por uno
+  for (let i = 0; i < archivos.length; i++) {
+    let archivo = archivos[i];
+    let nombre_archivo = archivo.name;
 
-  // Definir el evento a ejecutar cuando la lectura del archivo esté completa
-  lector_archivo.onload = function () {
-    // Obtener el contenido en formato base64
-    let contenido_base64 = lector_archivo.result;
-    //insertar archivo en la matriz
-    nodoCarpeta.matriz.insertarArchivo(nombre_archivo, contenido_base64);
-    //guardar arbol avl
-    try {
-      localStorage.setItem("arbolAVL", arbolAVL.toJSON());
-    }catch (e) {
-      alert("El archivo es muy grande para ser guardado en local storage\n Error: "+e);
-    }
-    
-    //refrescar tabla
-    refrescarTabla();
-  };
+    // Leer el archivo como un objeto FileReader
+    let lector_archivo = new FileReader();
 
-  // Iniciar la lectura del archivo como base64
-  lector_archivo.readAsDataURL(archivo);
+    // Definir el evento a ejecutar cuando la lectura del archivo esté completa
+    lector_archivo.onload = function () {
+      // Obtener el contenido en formato base64
+      let contenido_base64 = lector_archivo.result;
+      //insertar archivo en la matriz
+      nodoCarpeta.matriz.insertarArchivo(nombre_archivo, contenido_base64);
+      //guardar arbol avl
+      try {
+        localStorage.setItem("arbolAVL", arbolAVL.toJSON());
+      } catch (e) {
+        //sweat alert "El archivo es muy grande para ser guardado en local storage"
+        swal("El archivo es muy grande para ser guardado en local storage", {
+          icon: "error",
+        });
+      }
+      //refrescar tabla
+      refrescarTabla();
 
+    };
+    // Iniciar la lectura del archivo como base64
+    lector_archivo.readAsDataURL(archivo);
+  }
   //limpiar el input file
   subidaArchivos.value = "";
-});
 
+  //SWEET ALERT "Archivos subidos exitosamente"
+  swal("Archivos subidos exitosamente", {
+    icon: "success",
+  });
+
+});
 
 const btnDarPermiso = document.getElementById("btn-darPermiso");
 btnDarPermiso.addEventListener("click", function () {
@@ -171,38 +204,69 @@ btnDarPermiso.addEventListener("click", function () {
   let rutaActual = document.getElementById("txt-carpeta-actual").value;
   let nodoCarpeta = nodoUsuario.arbolCarpetas.obtenerNodo(rutaActual);
 
-  let nombre_ArchivoDarPermiso = document.getElementById('dropdown-btn-archivos').textContent;
-  let carnetUsuario = document.getElementById('dropdown-btn').textContent;
+  let nombre_ArchivoDarPermiso = document.getElementById(
+    "dropdown-btn-archivos"
+  ).textContent;
+  let carnetUsuario = document.getElementById("dropdown-btn").textContent;
 
-  //comprobar si formCheck-Write esta checked 
+  //comprobar si formCheck-Write esta checked
   var formCheckWrite = document.getElementById("formCheck-Write");
   var formCheckRead = document.getElementById("formCheck-Read");
   var tipoPermiso = "";
-  
+
   if (formCheckWrite.checked && formCheckRead.checked) {
     tipoPermiso = "W-R";
-  }else if (formCheckWrite.checked && !formCheckRead.checked) {
+  } else if (formCheckWrite.checked && !formCheckRead.checked) {
     tipoPermiso = "W";
-  }else if (!formCheckWrite.checked && formCheckRead.checked) {
+  } else if (!formCheckWrite.checked && formCheckRead.checked) {
     tipoPermiso = "R";
-  }else{
-    alert("No se selecciono ningun permiso");
+  } else {
+    //sweat alert "No se selecciono ningun permiso"
+    swal("No se selecciono ningun permiso", {
+      icon: "error",
+    });
     return;
   }
 
-  var seDioPermiso = nodoCarpeta.matriz.darPermiso(carnetUsuario, nombre_ArchivoDarPermiso, tipoPermiso)
+  var seDioPermiso = nodoCarpeta.matriz.darPermiso(
+    carnetUsuario,
+    nombre_ArchivoDarPermiso,
+    tipoPermiso
+  );
   //sediopermiso puede ser true o false
   if (seDioPermiso) {
-     try {
-      //guardar arbol avl   
+    try {
+      //guardar arbol avl
       localStorage.setItem("arbolAVL", arbolAVL.toJSON());
-    }catch (e) {
-      alert("No se pudo dar permiso\n Error: "+e);
+    } catch (e) {
+      //sweat alert No se pudo dar permiso
+      swal("No se pudo dar permiso", {
+        icon: "error",
+      });
     }
-    //refrescar tabla
-    refrescarTabla();
-  }else{
+    generarMatriz();
+    
+    if (tipoPermiso == "W-R") {
+      tipoPermiso = "Lectura y Escritura";
+    } else if (tipoPermiso == "W") {
+      tipoPermiso = "Escritura";
+    } else if (tipoPermiso == "R") {
+      tipoPermiso = "Lectura";
+    }
 
-    alert("No se pudo dar el permiso");
+    
+
+    swal({
+      title: "Archivo: " + nombre_ArchivoDarPermiso,
+      text : "Se le dio permiso de " + tipoPermiso + " al usuario con carnet: " + carnetUsuario,
+      icon: "success",
+      
+    });
+
+  } else {
+    //sweat alert No se pudo dar permiso
+    swal("No se pudo dar permiso", {
+      icon: "error",
+    });
   }
 });

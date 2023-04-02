@@ -44,6 +44,15 @@ document.addEventListener("DOMContentLoaded", function () {
       inputCargaMasiva.value = "";
       //refrescar la tabla
       refresh("inorden");
+
+      //swetalert
+      swal({
+        title: "Carga Masiva",
+        text: "Carga masiva realizada con exito",
+        icon: "success",
+        button: "Aceptar",
+        timer:1000,
+      });
       
     };
   }

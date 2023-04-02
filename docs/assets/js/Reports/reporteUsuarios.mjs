@@ -92,3 +92,4 @@ btnReportePermisos.addEventListener("click", generarMatriz);
 
 
 export default generarNario;
+export { generarMatriz };

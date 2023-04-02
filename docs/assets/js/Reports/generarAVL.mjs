@@ -28,10 +28,33 @@ document.addEventListener("DOMContentLoaded", function () {
     }
     
     function limpiarArbol(){
-        localStorage.removeItem("arbolAVL");
-        
-        generarAVL();
-        refresh("inorden");
+        //alerta para confirmar que se desea limpiar el arbol
+        swal({
+            title: "Limpiar Arbol",
+            text: "¿Esta seguro que desea limpiar el arbol?",
+            icon: "warning",
+            buttons: ["Cancelar", "Aceptar"],
+            dangerMode: true,
+        })
+        .then((willDelete) => {
+            if (willDelete) {
+                //si se confirma, se limpia el arbol
+                localStorage.removeItem("arbolAVL");               
+                generarAVL();
+                refresh("inorden");
+                swal({
+                    title: "Limpiar Arbol",
+                    text: "Arbol limpiado con exito",
+                    icon: "success",
+                    button: "Aceptar",
+                    timer:1000,
+
+                });
+            } else {
+                //si no se confirma, no se hace nada
+                return;
+            }
+        });
         
     }
 
