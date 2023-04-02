@@ -61,7 +61,6 @@ inputBusqueda.addEventListener("keyup", function (event) {
     if (existeDir === 1) {
       //swal  directorio no valido + rutaBuscada
       swal("El directorio no es válido", rutaBuscada, "error");
-
     } else {
       document.getElementById("txt-carpeta-actual").value = rutaBuscada;
       refrescarTabla();
@@ -114,7 +113,6 @@ function eliminarCarpeta() {
         swal("La carpeta fue eliminada exitosamente", {
           icon: "success",
         });
-
       }
     } else {
       swal("La carpeta no fue eliminada");
@@ -176,7 +174,6 @@ subidaArchivos.addEventListener("change", function () {
       }
       //refrescar tabla
       refrescarTabla();
-
     };
     // Iniciar la lectura del archivo como base64
     lector_archivo.readAsDataURL(archivo);
@@ -188,7 +185,6 @@ subidaArchivos.addEventListener("change", function () {
   swal("Archivos subidos exitosamente", {
     icon: "success",
   });
-
 });
 
 const btnDarPermiso = document.getElementById("btn-darPermiso");
@@ -245,7 +241,7 @@ btnDarPermiso.addEventListener("click", function () {
       });
     }
     generarMatriz();
-    
+
     if (tipoPermiso == "W-R") {
       tipoPermiso = "Lectura y Escritura";
     } else if (tipoPermiso == "W") {
@@ -253,16 +249,15 @@ btnDarPermiso.addEventListener("click", function () {
     } else if (tipoPermiso == "R") {
       tipoPermiso = "Lectura";
     }
-
-    
-
     swal({
       title: "Archivo: " + nombre_ArchivoDarPermiso,
-      text : "Se le dio permiso de " + tipoPermiso + " al usuario con carnet: " + carnetUsuario,
+      text:
+        "Se le dio permiso de " +
+        tipoPermiso +
+        " al usuario con carnet: " +
+        carnetUsuario,
       icon: "success",
-      
     });
-
   } else {
     //sweat alert No se pudo dar permiso
     swal("No se pudo dar permiso", {
@@ -270,3 +265,56 @@ btnDarPermiso.addEventListener("click", function () {
     });
   }
 });
+
+function obtenerRuta(carpeta) {
+  let dicActual = document.getElementById("txt-carpeta-actual").value;
+  let rutaBuscada = "";
+
+  if (dicActual != "/") {
+    rutaBuscada = dicActual + "/" + carpeta;
+  } else {
+    rutaBuscada = dicActual + carpeta;
+  }
+
+  //obtener el carnet del usuario actual tipo entero
+  let carnet = parseInt(sessionStorage.getItem("sesion"));
+  //obtener arbol avl
+  let arbolAVL = new AVL();
+  arbolAVL.fromJSON(localStorage.getItem("arbolAVL"));
+
+  //obtener el nodo del usuario actual
+  let nodoUsuario = arbolAVL.getNodo(carnet);
+
+  var existeDir = nodoUsuario.arbolCarpetas.buscarDirectorio(rutaBuscada);
+  if (existeDir === 1) {
+    //swal  directorio no valido + rutaBuscada
+    swal("El directorio no es válido", rutaBuscada, "error");
+  } else {
+    document.getElementById("inputBusqueda").value = rutaBuscada;
+    document.getElementById("txt-carpeta-actual").value = rutaBuscada;
+    refrescarTabla();
+  }
+}
+
+function putEliminar(nombreCarpeta) {
+  //le coloca al input eliminar carpeta el nombre de la carpeta que se va a eliminar
+  document.getElementById("txt-carpeta-eliminar").value = nombreCarpeta;
+  console.log(nombreCarpeta);
+}
+
+function retorno() {
+  let rutaActual = document.getElementById("txt-carpeta-actual").value;
+  let rutaRetorno = rutaActual.substring(0, rutaActual.lastIndexOf("/"));
+  if (rutaRetorno == "") {
+    rutaRetorno = "/";
+  }
+  document.getElementById("txt-carpeta-actual").value = rutaRetorno;
+  document.getElementById("inputBusqueda").value = "";
+  document.getElementById("txt-carpeta-eliminar").value = "";
+
+  refrescarTabla();
+}
+
+export { putEliminar };
+export { obtenerRuta };
+export { retorno };
