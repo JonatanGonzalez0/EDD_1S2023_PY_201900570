@@ -2,4 +2,5 @@
 
 ## Requirements
 
-- [Navegador web](https://www.google.com/intl/es-419/chrome/)
+- [Navegador web (chrome)](https://www.google.com/intl/es-419/chrome/)
+- Internet connection
