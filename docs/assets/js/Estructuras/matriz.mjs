@@ -167,7 +167,7 @@ export default class Matriz {
     while (tempX) {
       if (tempX.posY === y) {
         tempX.nombre = permiso;
-        break
+        break;
       }
       tempX = tempX.abajo;
     }
@@ -229,7 +229,7 @@ export default class Matriz {
     let aux3 = this.principal;
     if (aux1 !== null) {
       cadena =
-        "digraph MatrizPermisos {  bgcolor = \"gray35\"; node[shape=box,style=filled,fillcolor=skyblue]  rankdir=UD;  {rank=min; ";
+        'digraph MatrizPermisos {  graph [label="Matriz Dispersa (Archivos)", nodesep=0.8,fontcolor=white]; bgcolor = "gray35";edge [arrowhead=vee,color=white]; node[shape=box,style=filled,fillcolor=skyblue]  rankdir=UD;  {rank=min; ';
       /** Creacion de los nodos actuales */
       while (aux1) {
         cadena +=

@@ -1,4 +1,5 @@
 import arbolNario from "./arbolNario.mjs";
+import listaCircular from "./listaCircular.mjs";
 
 // Clase NodoAVL
 class NodoAVL {
@@ -8,6 +9,7 @@ class NodoAVL {
     this.derecha = null;
     this.altura = 1;
     this.arbolCarpetas = new arbolNario();
+    this.bitacora = new listaCircular();
   }
 }
 
@@ -212,7 +214,9 @@ export default class AVL {
       return {
         usuario: node.usuario,
         arbolCarpetas: node.arbolCarpetas.toJSON(),
+        bitacora: node.bitacora.toJSON(),
         altura: node.altura,
+
         izquierda: nodeToJSON(node.izquierda),
         derecha: nodeToJSON(node.derecha),
       };
@@ -231,7 +235,8 @@ export default class AVL {
 
       node.arbolCarpetas = new arbolNario();
       node.arbolCarpetas.fromJSON(jsonNode.arbolCarpetas);
-
+      node.bitacora = new listaCircular();
+      node.bitacora.fromJSON(jsonNode.bitacora);
       node.altura = jsonNode.altura;
       node.izquierda = jsonToNode(jsonNode.izquierda);
       node.derecha = jsonToNode(jsonNode.derecha);
@@ -385,7 +390,9 @@ export default class AVL {
     var cadena = "";
     if (this.raiz !== null) {
       cadena += "digraph AVL {";
-      cadena += 'bgcolor = "gray";';
+      cadena += 'graph [label="Árbol AVL (Usuarios)",fontcolor=white];'
+      cadena += 'edge [arrowhead=vee,color=white];';
+      cadena += 'bgcolor = "gray35";';
       cadena += "node [style=filled, fillcolor=skyblue];";
       cadena += this.retornarValoresArbol(this.raiz, 0);
       cadena += "}";

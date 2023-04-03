@@ -438,6 +438,8 @@ export default class arbolNArio {
     var cadena = "";
     if (!(this.raiz === null)) {
       cadena = 'digraph arbol{ bgcolor = "gray35"; ';
+      cadena += 'graph [label="Arbol N-ario (Ruta de Carpetas)", splines=ortho,fontcolor=white];'      
+      cadena += 'edge [arrowhead=vee,color=white];';
       cadena = cadena + this.retornarValoresArbol(this.raiz);
       cadena = cadena + "}";
     } else {
