@@ -20,3 +20,5 @@ Implementacion de las siguientes estructuras de datos no lineales:
 Manejo de local storage para el almacenamiento de los datos de los usuarios. Uso de libreria Bootstrap para el diseño de la interfaz grafica. Uso de servicios de GitHub Pages para el alojamiento del sistema.
 
 ### FASE 3
+
+Por definir
