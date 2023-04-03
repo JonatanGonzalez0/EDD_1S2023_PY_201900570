@@ -3,6 +3,12 @@ import refrescarTabla from "./cargaInicial.mjs";
 import { generarMatriz } from "../Reports/reporteUsuarios.mjs";
 
 function generarNuevaCarpeta() {
+  let nombrecarpeta = document.getElementById("txt-carpeta-nueva").value;
+  if (nombrecarpeta === "") {
+    return;
+  }
+
+
   //obtener el carnet del usuario actual tipo entero
   let carnet = parseInt(sessionStorage.getItem("sesion"));
 
@@ -14,9 +20,25 @@ function generarNuevaCarpeta() {
   let nodoUsuario = arbolAVL.getNodo(carnet);
 
   let rutaBuscada = document.getElementById("inputBusqueda").value;
-  let nombrecarpeta = document.getElementById("txt-carpeta-nueva").value;
+  
 
   nodoUsuario.arbolCarpetas.insertarRuta(rutaBuscada, nombrecarpeta);
+
+  //nodoUsuario insertar Accion,nombre,fecha dd/mm/YYYY,hora hh:mm:ss
+  let fecha = new Date();
+  let dia = fecha.getDate();
+  let mes = fecha.getMonth() + 1;
+  let anio = fecha.getFullYear();
+  let hora = fecha.getHours();
+  let minutos = fecha.getMinutes();
+  let segundos = fecha.getSeconds();
+  let fechaActual = dia + "/" + mes + "/" + anio;
+  let horaActual = hora + ":" + minutos + ":" + segundos;
+
+  let accion = "Se creó carpeta";
+  let nombre = nombrecarpeta;
+
+  nodoUsuario.bitacora.agregar(accion, nombre, fechaActual, horaActual);
 
   //guardar arbol avl
   localStorage.setItem("arbolAVL", arbolAVL.toJSON());
@@ -104,6 +126,22 @@ function eliminarCarpeta() {
         });
       }
       if (carpetaEliminada == 2) {
+        //nodoUsuario insertar Accion,nombre,fecha dd/mm/YYYY,hora hh:mm:ss
+        let fecha = new Date();
+        let dia = fecha.getDate();
+        let mes = fecha.getMonth() + 1;
+        let anio = fecha.getFullYear();
+        let hora = fecha.getHours();
+        let minutos = fecha.getMinutes();
+        let segundos = fecha.getSeconds();
+        let fechaActual = dia + "/" + mes + "/" + anio;
+        let horaActual = hora + ":" + minutos + ":" + segundos;
+
+        let accion = "Se eliminó carpeta";
+        let nombre = nombreCarpeta;
+
+        nodoUsuario.bitacora.agregar(accion, nombre, fechaActual, horaActual);
+
         //ACTUALIZAR ARBOL AVL
         localStorage.setItem("arbolAVL", arbolAVL.toJSON());
         //refrescarTabla
@@ -165,6 +203,22 @@ subidaArchivos.addEventListener("change", function () {
       nodoCarpeta.matriz.insertarArchivo(nombre_archivo, contenido_base64);
       //guardar arbol avl
       try {
+        //nodoUsuario insertar Accion,nombre,fecha dd/mm/YYYY,hora hh:mm:ss
+        let fecha = new Date();
+        let dia = fecha.getDate();
+        let mes = fecha.getMonth() + 1;
+        let anio = fecha.getFullYear();
+        let hora = fecha.getHours();
+        let minutos = fecha.getMinutes();
+        let segundos = fecha.getSeconds();
+        let fechaActual = dia + "/" + mes + "/" + anio;
+        let horaActual = hora + ":" + minutos + ":" + segundos;
+
+        let accion = "Se creó archivo";
+        let nombre = nombre_archivo;
+
+        nodoUsuario.bitacora.agregar(accion, nombre, fechaActual, horaActual);
+        //ACTUALIZAR ARBOL AVL Y GUARDAR EN LOCAL STORAGE
         localStorage.setItem("arbolAVL", arbolAVL.toJSON());
       } catch (e) {
         //sweat alert "El archivo es muy grande para ser guardado en local storage"
