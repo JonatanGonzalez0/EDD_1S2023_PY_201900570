@@ -265,11 +265,11 @@ btnDarPermiso.addEventListener("click", function () {
   var tipoPermiso = "";
 
   if (formCheckWrite.checked && formCheckRead.checked) {
-    tipoPermiso = "W-R";
+    tipoPermiso = "r - w";
   } else if (formCheckWrite.checked && !formCheckRead.checked) {
-    tipoPermiso = "W";
+    tipoPermiso = "w";
   } else if (!formCheckWrite.checked && formCheckRead.checked) {
-    tipoPermiso = "R";
+    tipoPermiso = "r";
   } else {
     //sweat alert "No se selecciono ningun permiso"
     swal("No se selecciono ningun permiso", {
@@ -296,11 +296,11 @@ btnDarPermiso.addEventListener("click", function () {
     }
     generarMatriz();
 
-    if (tipoPermiso == "W-R") {
+    if (tipoPermiso == "r - w") {
       tipoPermiso = "Lectura y Escritura";
-    } else if (tipoPermiso == "W") {
+    } else if (tipoPermiso == "w") {
       tipoPermiso = "Escritura";
-    } else if (tipoPermiso == "R") {
+    } else if (tipoPermiso == "r") {
       tipoPermiso = "Lectura";
     }
     swal({
@@ -312,6 +312,13 @@ btnDarPermiso.addEventListener("click", function () {
         carnetUsuario,
       icon: "success",
     });
+    //desmarcar los checkbox
+    formCheckWrite.checked = false;
+    formCheckRead.checked = false;
+
+    //actualizar los dropdown
+    document.getElementById("dropdown-btn-archivos").textContent = "Seleccione un archivo";
+    document.getElementById("dropdown-btn").textContent = "Seleccione un usuario";
   } else {
     //sweat alert No se pudo dar permiso
     swal("No se pudo dar permiso", {
