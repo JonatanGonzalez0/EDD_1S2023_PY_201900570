@@ -46,3 +46,12 @@ A continuacion se detallan los pasos para utilizar la aplicacion web.
 
     Si usted hizo click en "Aceptar" se limpiara el arbol y se le notificara al usuario que la operacion fue exitosa.
     ![MensajeExito](https://i.imgur.com/l9YSNKG.png)
+
+### Dashboard estudiante
+
+1. Hacer login de usuario ESTUDIANTE con las siguientes credenciales:
+
+    - Usuario: Ej: 201900570
+    - Contraseña: Ej: 1234
+
+    ![Login](https://i.imgur.com/2Z7ZQ5u.png)
