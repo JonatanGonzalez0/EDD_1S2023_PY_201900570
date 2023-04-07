@@ -5,7 +5,7 @@
 - [Navegador web (chrome)](https://www.google.com/intl/es-419/chrome/)
 - Internet connection
 
-## Como utilizar 
+## Como utilizar
 
 A continuacion se detallan los pasos para utilizar la aplicacion web.
 
