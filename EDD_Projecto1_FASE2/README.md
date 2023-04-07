@@ -19,5 +19,3 @@ A continuacion se detallan los pasos para utilizar la aplicacion web.
     - Usuario: admin
     - Contraseña: admin
 ![Login](https://prnt.sc/tOS4WTEHHA5K)
-
-3
