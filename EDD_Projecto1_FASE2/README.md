@@ -12,10 +12,10 @@ A continuacion se detallan los pasos para utilizar la aplicacion web.
 ### Cargar Base de Datos de usuarios
 
 1. Ir al [Portal Web GoDrive](https://jonatangonzalez0.github.io/EDD_1S2023_PY_201900570/)
-![Portal](https://imgur.com/ZEqLx5f)
+![Portal](https://i.imgur.com/ZEqLx5f.png)
 
 2. Hacer login de usuario ADMINISTRADOR con las siguientes credenciales:
 
     - Usuario: admin
     - Contraseña: admin
-![Login](https://imgur.com/bRC87xl)
+![Login](https://i.imgur.com/bRC87xl.png)
