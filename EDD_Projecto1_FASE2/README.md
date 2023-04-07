@@ -27,4 +27,4 @@ A continuacion se detallan los pasos para utilizar la aplicacion web.
     Seleccionar el archivo JSON con la base de datos de usuarios
     ![ArchivoJson](https://i.imgur.com/mCMS74n.png)
     Se le notificara al usuario que la carga fue exitosa
-    ![MensajeExito](https://i.imgur.com/27rVZjH)
+    ![MensajeExito](https://i.imgur.com/27rVZjH.png)
