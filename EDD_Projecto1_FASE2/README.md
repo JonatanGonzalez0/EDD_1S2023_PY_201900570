@@ -18,4 +18,13 @@ A continuacion se detallan los pasos para utilizar la aplicacion web.
 
     - Usuario: admin
     - Contraseña: admin
-![Login](https://i.imgur.com/bRC87xl.png)
+
+    ![Login](https://i.imgur.com/bRC87xl.png)
+
+3. Cargar la base de datos de usuarios con el boton "Carga Masiva"
+    Hacer click en el boton "Carga Masiva"
+    ![Carga Masiva](https://i.imgur.com/cV5GHoo.png)
+    Seleccionar el archivo JSON con la base de datos de usuarios
+    ![ArchivoJson](https://i.imgur.com/mCMS74n.png)
+    Se le notificara al usuario que la carga fue exitosa
+    ![MensajeExito](https://i.imgur.com/27rVZjH)
