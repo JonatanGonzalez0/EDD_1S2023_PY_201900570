@@ -34,7 +34,7 @@ A continuacion se detallan los pasos para utilizar la aplicacion web.
 
 4. Con los botones Inorder Preorder y Postorder se puede visualizar el arbol de usuarios en diferentes ordenes.
 
-    ![Botones Ordenamiento](https://i.imgur.com/Tc9FJ8c.png)
+    ![Botones Ordenamiento](https://i.imgur.com/xkiA6T3.png)
 
 5. Si desea generar el grafico del arbol AVL de los estudiantes haga click en el boton "Arbol de estuadiantes AVL"
 
