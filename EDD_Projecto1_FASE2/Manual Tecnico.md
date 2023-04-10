@@ -31,8 +31,11 @@ Esta estructura se utiliza para el manejo de usuarios del sistema y su respectiv
     - raiz: esta propiedad se utiliza para almacenar la raíz del árbol AVL.
 
 `Funciones implementadas`
+
     - insertar(usuario): esta función se utiliza para insertar un nodo en el árbol AVL.
+
     - getBalance(nodo): esta función se utiliza para obtener el balance de un nodo.
+    
     - altura(nodo): esta función se utiliza para obtener la altura de un nodo.
     - rotacionSimpleDerecha(nodo): esta función se utiliza para realizar una rotación simple a la derecha.
     - rotacionSimpleIzquierda(nodo): esta función se utiliza para realizar una rotación simple a la izquierda.
