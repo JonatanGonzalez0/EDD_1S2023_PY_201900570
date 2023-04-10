@@ -11,9 +11,9 @@ El presente documento tiene como objetivo describir la estructura de datos utili
 - HTML & CSS
 - Bootstrap
 
-## Estructura de archivos
+## Estructura de datos
 
-### Estructura de carpetas Arbol AVL
+### Estructura de usuarios Arbol AVL
 
 Esta estructura se utiliza para el manejo de usuarios del sistema y su respectiva información es almacenada en el localStorage del navegador en tipo JSON.
 
@@ -92,5 +92,83 @@ Esta estructura se utiliza para el manejo de rutas de carpetas de cada usuario.
     - buscarDirectorio: esta función se utiliza para buscar un directorio en el árbol n-ario.
 
     - eliminarCarpeta: esta función se utiliza para eliminar una carpeta en el árbol n-ario.
-    
+
     - grafica_arbol: esta función se utiliza para generar el código de la gráfica del árbol n-ario en lenguaje DOT.
+
+### Estructura de archivos Matriz Dispersa
+
+Esta estructura se utiliza para el manejo de archivos de cada carpeta y asi como sus respectivos permisos de edicion que el usuario pueda tener.
+
+`Clase nodoMatriz`
+
+    - siguiente: esta propiedad se utiliza para almacenar el siguiente nodo en la lista de nodos de la fila actual.
+
+    - anterior: esta propiedad se utiliza para almacenar el nodo anterior en la lista de nodos de la fila actual.
+
+    - arriba: esta propiedad se utiliza para almacenar el nodo superior en la lista de nodos de la columna actual.
+
+    - abajo: esta propiedad se utiliza para almacenar el nodo inferior en la lista de nodos de la columna actual.
+
+    -posX: esta propiedad se utiliza para almacenar la posición en X del nodo en la matriz.
+
+    -posY: esta propiedad se utiliza para almacenar la posición en Y del nodo en la matriz.
+
+    -nombre: esta propiedad se utiliza para almacenar el nombre del archivo que sera identificado como tambien nombre del nodo.
+
+    -contenido: esta propiedad se utiliza para almacenar el contenido del archivo en base64.
+
+`Clase matrizDispersa`
+
+    - principal(-1,-1) : esta propiedad se utiliza para almacenar el nodo principal de la matriz dispersa.
+
+    - coordenadaY: esta propiedad se utiliza para almacenar la coordenada Y de la matriz.
+
+    - coordenadaX: esta propiedad se utiliza para almacenar la coordenada X de la matriz.
+
+`Funciones implementadas`
+
+    - buscarF(nombre_archivo) : esta función se utiliza para buscar un nodo en la matriz dispersa por su nombre dentro de cada fila.
+
+    - buscarC(carnet) : esta función se utiliza para buscar un nodo en la matriz dispersa por el carnet del usuario dentro de cada columna.
+
+    - insertarColumna(coordenadaX,carnet): esta función se utiliza para insertar una columna en la matriz dispersa.
+
+    - insertarFila(coordenadaY,nombre_archivo,contenido): esta función se utiliza para insertar una fila en la matriz dispersa y su respectivo archivo en base64.
+
+    - insertarNodo(x, y, texto): esta función se utiliza para insertar un nodo en la matriz dispersa para dar un permiso de edición a un usuario.
+
+    -reporte(): esta función se utiliza para generar el código de la gráfica de la matriz dispersa en lenguaje DOT.
+
+### Estructura de bitacora Lista Circular Simple
+
+Esta estructura se utiliza para el manejo de bitacora de cada usuario. Cada vez que el usuario cree una carpeta o un archivo se guardara en la bitacora. La bitacora se guarda en el localStorage del navegador en tipo JSON.
+
+`Clase nodoBitacora`
+
+    - accion : esta propiedad se utiliza para almacenar la acción que realizo el usuario. Crear carpeta, crear archivo y eliminar carpeta.
+
+    - nombre : esta propiedad se utiliza para almacenar el nombre de la carpeta o archivo que realizo el usuario.
+
+    - fecha : esta propiedad se utiliza para almacenar la fecha en la que realizo la acción el usuario. Formato: dd/mm/aaaa
+
+    - hora : esta propiedad se utiliza para almacenar la hora en la que realizo la acción el usuario. Formato: hh:mm:ss
+
+    - siguiente : esta propiedad se utiliza para almacenar el siguiente nodo en la lista circular simple.
+
+`Clase listaCircularSimple`
+
+        - cabeza : esta propiedad se utiliza para almacenar el primer nodo de la lista circular simple.
+    
+        - cola : esta propiedad se utiliza para almacenar el ultimo nodo de la lista circular simple.
+
+`Funciones implementadas`
+
+    -agregar(accion, nombre, fecha, hora) : esta función se utiliza para insertar un nodo en la lista circular simple.
+
+    - recorrer() : esta función se utiliza para recorrer la lista circular simple e imprimir los datos de cada nodo.
+
+    - toJSON() : esta función se utiliza para convertir la lista circular simple en un objeto JSON.
+
+    - fromJSON(json) : esta función se utiliza para convertir un objeto JSON en una lista circular simple.
+
+    - reporte: esta función se utiliza para generar el código de la gráfica de la lista circular simple en lenguaje DOT.
