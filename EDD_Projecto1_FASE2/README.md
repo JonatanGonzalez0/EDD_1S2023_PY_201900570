@@ -1,6 +1,7 @@
 # Proyecto 1 - Fase 2 - EDD 2023
 
-## Requirements
+Seleccione el tipo de manual que desea ver:
 
-- [Navegador web (chrome)](https://www.google.com/intl/es-419/chrome/)
-- Internet connection
+## [Manual Usuario](./Manual%20Usuario.md)
+
+## [Manual Técnico](./Manual%20Tecnico.md)

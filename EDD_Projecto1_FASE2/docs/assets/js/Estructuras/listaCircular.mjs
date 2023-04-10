@@ -115,28 +115,35 @@ export default class listaCircular {
             dot += '}\n';
             return dot;
         }
-    
+
+        let contadorNodos = 0;
+
         let nodoActual = lista.cabeza;
         //crea los nodos
         do {
-            dot += `${nodoActual.nombre} [label="Accion: ${nodoActual.accion} \\n${nodoActual.nombre} \\nFecha: ${nodoActual.fecha} \\nHora: ${nodoActual.hora}", shape=box];`;
+            dot += `nodo${contadorNodos} [label="Accion: ${nodoActual.accion} \\n${nodoActual.nombre} \\nFecha: ${nodoActual.fecha} \\nHora: ${nodoActual.hora}", shape=box];`;
             nodoActual = nodoActual.siguiente;
+            contadorNodos++;
         } while (nodoActual !== lista.cabeza);
 
+        contadorNodos = 0;
         //crea los enlaces de la cabeza a la cola, de la cola solo un enlace a la cabeza
         nodoActual = lista.cabeza;
         do {
-            dot += `${nodoActual.nombre} -> ${nodoActual.siguiente.nombre};`;
+            dot += `nodo${contadorNodos} -> nodo${contadorNodos+1};`;
             nodoActual = nodoActual.siguiente;
+            contadorNodos++;
         } while (nodoActual !== lista.cola);
-        dot += `${nodoActual.nombre} -> ${nodoActual.siguiente.nombre};`;
+        dot += `nodo${contadorNodos} -> nodo0;`;
         
+        contadorNodos = 0;
         //crea el mismo rank para todos los nodos
         dot += '{ rank=same; ';
         nodoActual = lista.cabeza;
         do {
-            dot += `${nodoActual.nombre} `;
+            dot += `nodo${contadorNodos};`;
             nodoActual = nodoActual.siguiente;
+            contadorNodos++;
         } while (nodoActual !== lista.cabeza);
         dot += '}';
     
