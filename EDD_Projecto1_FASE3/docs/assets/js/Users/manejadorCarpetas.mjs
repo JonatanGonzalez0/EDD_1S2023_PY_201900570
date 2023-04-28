@@ -412,6 +412,32 @@ function retorno() {
   refrescarTabla();
 }
 
+function openFile(nombre_archivo) {
+  //obtener el carnet del usuario actual tipo entero
+  let carnet = parseInt(sessionStorage.getItem("sesion"));
+  //obtener arbol avl
+  let arbolAVL = new AVL();
+  arbolAVL.fromJSON(localStorage.getItem("arbolAVL"));
+
+  //obtener el nodo del usuario actual
+  let nodoUsuario = arbolAVL.getNodo(carnet);
+
+  let rutaActual = document.getElementById("txt-carpeta-actual").value;
+  let nodoCarpeta = nodoUsuario.arbolCarpetas.obtenerNodo(rutaActual);
+
+  let NodoArchivo = nodoCarpeta.matriz.getNodoArchivo(nombre_archivo);
+
+  let contenido = NodoArchivo.contenido;
+
+  let nombre = NodoArchivo.nombre;
+
+  let extension = nombre.substring(nombre.lastIndexOf(".") + 1);
+
+  if (extension == "txt") {
+    //abrir nueva ventana
+  }
+}
+
 export { putEliminar };
 export { obtenerRuta };
 export { retorno };
