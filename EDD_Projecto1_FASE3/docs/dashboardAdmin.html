@@ -12,7 +12,10 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+JP&amp;display=swap">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="assets/css/Bootstrap-Chat.css">
+    <link rel="stylesheet" href="assets/css/Chat.css">
     <link rel="stylesheet" href="assets/css/Lightbox-Gallery-baguetteBox.min.css">
+    <link rel="stylesheet" href="assets/css/Simple-Bootstrap-Chat.css">
 </head>
 
 <body style="background: rgb(45, 44, 56);">
@@ -40,13 +43,13 @@
         <div class="container" style="width: 1474px;">
             <div class="row">
                 <div class="col">
-                    <p style="font-size: 21px;">Ordenamiento para recorrer listado de usuarios registrados en un arbol AVL</p>
+                    <p style="font-size: 21px;text-align: center;">ACTUALIZAR DATOS FROM LOCAL STORAGE</p>
                 </div>
             </div>
             <div class="row" style="font-size: 18px;">
-                <div class="col d-xxl-flex justify-content-xxl-center align-items-xxl-center" style="height: 48.7812px;font-size: 18px;"><button class="btn btn-primary" data-aos="fade-right" id="InOrden" type="button" style="font-size: 18px;">In order</button></div>
-                <div class="col d-xxl-flex justify-content-xxl-center" style="height: 48.7812px;font-size: 18px;"><button class="btn btn-primary d-xxl-flex justify-content-xxl-center" data-aos="fade-up" id="PreOrden" type="button" style="font-size: 18px;">Pre-Order</button></div>
-                <div class="col d-xxl-flex justify-content-xxl-center" style="height: 48.7812px;font-size: 18px;"><button class="btn btn-primary d-xxl-flex justify-content-xxl-center align-items-xxl-center" data-aos="fade-left" id="PostOrden" type="button" style="font-size: 18px;">Post-Order</button></div>
+                <div class="col d-xxl-flex justify-content-xxl-center align-items-xxl-center" style="height: 48.7812px;font-size: 18px;"></div>
+                <div class="col d-xxl-flex justify-content-xxl-center" style="height: 48.7812px;font-size: 18px;"><button class="btn btn-primary d-xxl-flex justify-content-xxl-center" data-aos="fade-up" id="UpdateFromLOCAL_STORAGE" type="button" style="font-size: 18px;">EXPORT DATA</button></div>
+                <div class="col d-xxl-flex justify-content-xxl-center" style="height: 48.7812px;font-size: 18px;"></div>
             </div>
             <div class="row">
                 <div class="col" style="padding-top: 34px;background: transparent;">
@@ -62,16 +65,13 @@
                                         <tr>
                                             <th>Carnet</th>
                                             <th>Nombre</th>
+                                            <th>Password</th>
                                         </tr>
                                     </thead>
                                     <tbody>
                                         <tr>
-                                            <td>20190001</td>
-                                            <td>User1</td>
-                                        </tr>
-                                        <tr>
-                                            <td>20190002</td>
-                                            <td>User2</td>
+                                            <td></td>
+                                            <td></td>
                                         </tr>
                                     </tbody>
                                 </table>
@@ -81,6 +81,40 @@
                 </div>
             </div>
         </div><!-- End: Usuarios Registrados -->
+        <!-- Start: Permisos -->
+        <div class="container" style="width: 1474px;">
+            <div class="row">
+                <div class="col">
+                    <p style="font-size: 21px;text-align: center;">PERMISOS REGISTRADOS EN EL SISTEMA</p>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col" style="padding-top: 34px;background: transparent;">
+                    <div class="card">
+                        <div class="card-header" style="padding-top: 2px;">
+                            <h5 class="mb-0" style="padding-top: 15px;">TABLA DE PERMISOS</h5>
+                        </div>
+                        <div class="card-body">
+                            <!-- Start: TablePermisos -->
+                            <div class="table-responsive" data-aos="slide-up" style="color: rgb(39,38,46);background: #003f54;overflow: auto;">
+                                <table class="table table-striped" id="tablePermisos">
+                                    <thead style="background: var(--bs-black);">
+                                        <tr>
+                                            <th>Propietario</th>
+                                            <th>Destino</th>
+                                            <th>Ubicación</th>
+                                            <th>Nombre Archivo</th>
+                                            <th>Tipo de Permiso</th>
+                                        </tr>
+                                    </thead>
+                                    <tbody></tbody>
+                                </table>
+                            </div><!-- End: TablePermisos -->
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div><!-- End: Permisos -->
         <!-- Start: Opciones -->
         <div class="container" style="padding-top: 35px;font-size: 0;">
             <div class="row">
@@ -92,7 +126,7 @@
                 <div class="col-md-4" data-aos="fade-up-left" style="text-align: center;padding-top: 0px;">
                     <p class="d-xxl-flex justify-content-xxl-center align-items-xxl-center mb-4" data-aos="fade" style="text-align: center;font-weight: bold;font-family: Inter, sans-serif;font-size: 1.6rem;color: rgb(25,245,170);">Carga Masiva</p><input class="bg-primary shadow-sm form-control-sm" type="file" data-aos="fade-up" id="InputFileCargaMasiva" name="cargaMasiva" accept="application/json"><button class="btn btn-primary" data-aos="fade-up" id="SubirCargaMasiva" type="button" style="width: 117.484px;height: 45.7812px;margin: 16px;background: var(--bs-info);">Subir</button>
                 </div>
-                <div class="col-md-4 text-center d-flex flex-column justify-content-xxl-center align-items-xxl-center" style="text-align: center;"><button class="btn btn-primary" data-aos="fade-up" id="btn-Arbol-AVL" type="button" style="font-size: 19px;text-align: center;">Arbol de estudiantes ( AVL )</button></div>
+                <div class="col-md-4 text-center d-flex flex-column justify-content-xxl-center align-items-xxl-center" style="text-align: center;"><button class="btn btn-primary invisible" data-aos="fade-up" id="btn-Arbol-AVL" type="button" style="font-size: 19px;text-align: center;">Arbol de estudiantes ( AVL )</button></div>
                 <div class="col-md-4 d-xxl-flex justify-content-xxl-center align-items-xxl-center" style="text-align: center;"><button class="btn btn-danger d-xxl-flex" data-aos="fade-up-left" id="limpiarArbol" type="button" style="font-size: 19px;text-align: center;">Limpiar Arbol</button></div>
             </div>
         </div><!-- End: Opciones -->
@@ -129,6 +163,7 @@
     <script src="assets/js/Estructuras/arbolNario.mjs" type="module"></script>
     <script src="assets/js/Estructuras/listaCircular.mjs" type="module"></script>
     <script src="assets/js/Estructuras/matriz.mjs" type="module"></script>
+    <script src="assets/js/Estructuras/tablaHash.mjs" type="module"></script>
     <script src="assets/js/Estructuras/usuario.mjs" type="module"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="assets/js/Lightbox-Gallery-baguetteBox.min.js"></script>
@@ -136,6 +171,7 @@
     <script src="assets/js/Reports/generarAVL.mjs" type="module"></script>
     <script src="assets/js/Utils/cargaMasiva.mjs" type="module"></script>
     <script src="assets/js/Utils/comprobarSesion.js"></script>
+    <script src="assets/js/Utils/encriptacionAES.mjs" type="module"></script>
     <script src="assets/js/Utils/logout.js"></script>
     <script src="assets/js/Utils/refreshTable.mjs" type="module"></script>
 </body>

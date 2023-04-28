@@ -17,3 +17,18 @@ bnt_makeVisiblePERMS.addEventListener('click', () => {
         container.classList.add('visually-hidden');
     }
 });
+
+const btn_makeChatVisible = document.getElementById('ChatVisibility');
+
+btn_makeChatVisible.addEventListener('click', () => {
+
+    const container = document.getElementById('containerChat');
+
+    if (container.classList.contains('visually-hidden')) {
+        container.classList.remove('visually-hidden');
+        container.classList.add('visually-shown');
+    } else {
+        container.classList.remove('visually-shown');
+        container.classList.add('visually-hidden');
+    }
+});

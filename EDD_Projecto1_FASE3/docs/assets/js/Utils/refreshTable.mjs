@@ -1,8 +1,9 @@
 import AVL from "../Estructuras/arbolAVL.mjs";
+import TablaHash from "../Estructuras/tablaHash.mjs";
 
 //cuando se carga la pagina llama a la funcion refresh orderType= inorden
 
-function refresh(orderType) {
+function refresh() {
     // Obtiene la tabla y su cuerpo
     var tabla = document.getElementById("tableUsers");
     var cuerpoTabla = tabla.querySelector("tbody");
@@ -17,6 +18,45 @@ function refresh(orderType) {
         return;
     }
 
+    // Actualizar tabla hash from avl
+    try {
+        var tablaHash = new TablaHash();
+        tablaHash.fromJSON();
+    } catch (error) {
+        console.log("Error al actualizar tabla hash");
+    }
+    for (var i = 0; i < tablaHash.capacidad; i++) {
+        if (tablaHash.tabla[i] != null) {
+            var nuevaFila = document.createElement("tr");
+            nuevaFila.innerHTML = `<td>${tablaHash.tabla[i].carnet}</td><td>${tablaHash.tabla[i].usuario}</td><td>${tablaHash.tabla[i].password}</td>`;
+            cuerpoTabla.appendChild(nuevaFila);
+        }
+    }
+
+    //cargar info de permisos a tabla tablePermisos
+    var tablaPermisos = document.getElementById("tablePermisos");
+    var cuerpoTablaPermisos = tablaPermisos.querySelector("tbody");
+    cuerpoTablaPermisos.innerHTML = "";
+    
+    let permisos = JSON.parse(localStorage.getItem('permisos') || '[]');
+    permisos.forEach((permiso) => {
+        /**
+         *  Permiso = {
+                propietario: 'Juan',
+                destino: 'Carpeta 1',
+                ubicacion: '/documentos',
+                nombreArchivo: 'Documento1',
+                tipoPermiso: 'r-w'
+                };
+         */
+        var nuevaFila = document.createElement("tr");
+        nuevaFila.innerHTML = `<td>${permiso.propietario}</td><td>${permiso.destino}</td><td>${permiso.ubicacion}</td><td>${permiso.nombreArchivo}</td><td>${permiso.tipoPermiso}</td>`;
+        cuerpoTablaPermisos.appendChild(nuevaFila);
+    });
+
+
+
+    /* CARGAR TABLA FROM AVL 
     // Obtiene el arreglo de usuarios
     if (orderType == "inorden"){
         var usuarios = arbolAVL.inOrden();
@@ -30,27 +70,30 @@ function refresh(orderType) {
     usuarios.forEach((usuario) => {
         // Crea una nueva fila para la tabla
         var nuevaFila = document.createElement("tr");
-        nuevaFila.innerHTML = `<td>${usuario.carnet}</td><td>${usuario.nombre}</td>`;
+        nuevaFila.innerHTML = `<td>${usuario.carnet}</td><td>${usuario.nombre}</td><td>${usuario.password}</td>`;
         cuerpoTabla.appendChild(nuevaFila);
-    });
+    });*/
 }
 
 window.onload = function () {
-    refresh("inorden");
+    refresh();
 };
 
-//buton inorden 
-document.getElementById("InOrden").addEventListener("click", () => {
-    refresh("inorden");
-});
+//buton para actualizar tabla 
+document.getElementById("UpdateFromLOCAL_STORAGE").addEventListener("click", exportAVL);
 
-//buton preorden
-document.getElementById("PreOrden").addEventListener("click", () => {
-    refresh("preorden");
-});
-//buton postorden
-document.getElementById("PostOrden").addEventListener("click", () => {
-    refresh("postorden");
-});
+function exportAVL() {
+    // IMPORTAR tabla hash from avl
+    try {
+        var tablaHash = new TablaHash();
+        tablaHash.fromLocalAVL();
+        //reload page
+        location.reload();
+    } catch (error) {
+        console.log("Error al actualizar tabla hash");
+    }
+}
 
-export { refresh };
+
+
+export { refresh, exportAVL };

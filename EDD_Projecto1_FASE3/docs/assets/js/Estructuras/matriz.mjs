@@ -206,6 +206,15 @@ export default class Matriz {
     }
   }
 
+  getNodoArchivo(nombre_archivo) {
+    let nuevaFila = this.buscarF(nombre_archivo);
+    if (nuevaFila !== null) {
+      return nuevaFila;
+    }else{
+      return null;
+    }
+  }
+
   darPermiso(carnet, nombre_archivo, tipoPermiso) {
     let nuevaColumna = this.buscarC(carnet);
     let nuevaFila = this.buscarF(nombre_archivo);

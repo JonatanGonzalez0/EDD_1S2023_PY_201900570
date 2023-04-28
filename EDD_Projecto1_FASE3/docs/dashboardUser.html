@@ -10,9 +10,13 @@
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Adamina&amp;display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Cutive+Mono&amp;display=swap">
     <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Noto+Sans+JP&amp;display=swap">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.12.0/css/all.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/aos/2.3.4/aos.css">
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="assets/css/Bootstrap-Chat.css">
+    <link rel="stylesheet" href="assets/css/Chat.css">
     <link rel="stylesheet" href="assets/css/Lightbox-Gallery-baguetteBox.min.css">
+    <link rel="stylesheet" href="assets/css/Simple-Bootstrap-Chat.css">
 </head>
 
 <body style="background: rgb(45, 44, 56);">
@@ -24,9 +28,8 @@
             <div class="collapse navbar-collapse" id="navcol-1" style="font-size: 20px;">
                 <ul class="navbar-nav mx-auto">
                     <li class="nav-item"><a class="nav-link" href="index.html">Inicio</a></li>
-                    <li class="nav-item"><a class="nav-link" href="login.html"></a></li>
                 </ul>
-            </div><a class="btn btn-danger" role="button" data-aos="fade-up" id="bnt-logout" style="font-size: 21px;text-align: center;" href="index.html">Logout</a>
+            </div><button class="btn btn-success" id="ChatVisibility" type="button" style="margin: 17px;height: 52.7812px;font-size: 21px;">CHATS</button><a class="btn btn-danger" role="button" data-aos="fade-up" id="bnt-logout" style="font-size: 21px;text-align: center;height: 55.7812px;" href="index.html">Logout</a>
         </div>
     </nav><!-- End: Navbar Centered Links -->
     <header class="bg-dark" style="padding: 0;"></header><!-- Start: User -->
@@ -35,6 +38,145 @@
             <p class="pulse animated infinite mb-4" id="txt-Bienvenida" style="font-size: 42px;color: rgb(25,245,170);width: 1295px;padding-top: 0px;text-align: center;font-family: Inter, sans-serif;">!BIENVENIDO AL DASHBOARD!</p>
         </div>
     </section><!-- End: User -->
+    <!-- Start: ChatComplete test -->
+    <section>
+        <!-- Start: Chat -->
+        <div class="container-fluid d-xxl-flex visually-hidden visible" id="containerChat">
+            <div class="row">
+                <div class="col-lg-4 col-xl-4">
+                    <!-- Start: Me -->
+                    <div class="row">
+                        <div class="col d-flex flex-nowrap justify-content-md-center align-items-md-center justify-content-lg-center align-items-lg-center justify-content-xl-center align-items-xl-center py-2" style="background: rgba(52,58,64,0.2);height: 4rem;">
+                            <h5 class="mr-auto my-auto">Salvador Sandoval Castellanos</h5><button class="btn shadow-none border-0 my-auto" type="button" style="width: 2.5rem;height: 2.5rem;"><i class="far fa-comment-alt"></i></button>
+                        </div>
+                    </div><!-- End: Me -->
+                    <!-- Start: Search input -->
+                    <div class="row px-3 py-2">
+                        <div class="col" style="border-radius: 25px;box-shadow: 0px 0px 5px var(--gray-dark);">
+                            <form class="d-flex align-items-center px-2"><i class="fas fa-search fa-lg"></i><input class="shadow-none form-control flex-shrink-1" type="search" placeholder="Busca un chat o inicia uno nuevo" style="border-radius: 13px;border-style: none;"></form>
+                        </div>
+                    </div><!-- End: Search input -->
+                    <!-- Start: Chats -->
+                    <div class="row">
+                        <div class="col" style="overflow-x: none;overflow-y: auto;max-height: 32.5rem;height: auto;">
+                            <ul class="list-unstyled">
+                                <li style="cursor: pointer;">
+                                    <div class="card border-0">
+                                        <div class="card-body"><span class="text-nowrap text-truncate text-uppercase text-white float-end p-1 text-center" style="width: 2rem;height: 2rem;border-radius: 15px;background: #00db5f;">1</span>
+                                            <h4 class="text-nowrap text-truncate card-title">Ximena Samano</h4>
+                                            <h6 class="text-nowrap text-truncate text-muted card-subtitle mb-2" style="font-size: .7rem;">19 de Julio de 2021, 11:53 AM</h6>
+                                            <h6 class="text-nowrap text-truncate text-muted card-subtitle mb-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse blandit sit amet dolor eu dignissim.</h6>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li style="cursor: pointer;">
+                                    <div class="card border-0">
+                                        <div class="card-body"><span class="text-nowrap text-truncate text-uppercase text-white float-end p-1 text-center" style="width: 2rem;height: 2rem;border-radius: 15px;background: #00db5f;">1</span>
+                                            <h4 class="text-nowrap text-truncate card-title">Gibran Ojeda</h4>
+                                            <h6 class="text-nowrap text-truncate text-muted card-subtitle mb-2" style="font-size: .7rem;">19 de Julio de 2021, 11:53 AM</h6>
+                                            <h6 class="text-nowrap text-truncate text-muted card-subtitle mb-2">Boke, GB, Boke!</h6>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li style="cursor: pointer;">
+                                    <div class="card border-0">
+                                        <div class="card-body"><span class="text-nowrap text-truncate text-uppercase text-white float-end p-1 text-center" style="width: 2rem;height: 2rem;border-radius: 15px;background: #00db5f;">10</span>
+                                            <h4 class="text-nowrap text-truncate card-title">Rebeca H.</h4>
+                                            <h6 class="text-nowrap text-truncate text-muted card-subtitle mb-2" style="font-size: .7rem;">19 de Julio de 2021, 11:53 AM</h6>
+                                            <h6 class="text-nowrap text-truncate text-muted card-subtitle mb-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse blandit sit amet dolor eu dignissim.</h6>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li style="cursor: pointer;">
+                                    <div class="card border-0">
+                                        <div class="card-body"><span class="text-nowrap text-truncate text-uppercase text-white float-end p-1 text-center" style="width: 2rem;height: 2rem;border-radius: 15px;background: #00db5f;">5</span>
+                                            <h4 class="text-nowrap text-truncate card-title">Laura D.</h4>
+                                            <h6 class="text-nowrap text-truncate text-muted card-subtitle mb-2" style="font-size: .7rem;">19 de Julio de 2021, 11:53 AM</h6>
+                                            <h6 class="text-nowrap text-truncate text-muted card-subtitle mb-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse blandit sit amet dolor eu dignissim.</h6>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li style="cursor: pointer;">
+                                    <div class="card border-0">
+                                        <div class="card-body"><span class="text-nowrap text-truncate text-uppercase text-white float-end p-1 text-center" style="width: 2rem;height: 2rem;border-radius: 15px;background: #00db5f;">75</span>
+                                            <h4 class="text-nowrap text-truncate card-title">Luis Gerardo</h4>
+                                            <h6 class="text-nowrap text-truncate text-muted card-subtitle mb-2" style="font-size: .7rem;">19 de Julio de 2021, 11:53 AM</h6>
+                                            <h6 class="text-nowrap text-truncate text-muted card-subtitle mb-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse blandit sit amet dolor eu dignissim.</h6>
+                                        </div>
+                                    </div>
+                                </li>
+                                <li style="cursor: pointer;">
+                                    <div class="card border-0">
+                                        <div class="card-body"><span class="text-nowrap text-truncate text-uppercase text-white float-end p-1 text-center" style="width: 2rem;height: 2rem;border-radius: 15px;background: #00db5f;">200</span>
+                                            <h4 class="text-nowrap text-truncate card-title">Salvador S.</h4>
+                                            <h6 class="text-nowrap text-truncate text-muted card-subtitle mb-2" style="font-size: .7rem;">19 de Julio de 2021, 11:53 AM</h6>
+                                            <h6 class="text-nowrap text-truncate text-muted card-subtitle mb-2">Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse blandit sit amet dolor eu dignissim.</h6>
+                                        </div>
+                                    </div>
+                                </li>
+                            </ul>
+                        </div>
+                    </div><!-- End: Chats -->
+                </div>
+                <div class="col d-none d-sm-none d-md-none d-lg-block d-xl-block">
+                    <!-- Start: In Chat With -->
+                    <div class="row">
+                        <div class="col d-flex align-items-lg-center align-items-xl-center border-start border-muted" style="background: rgba(52,58,64,0.2);height: 4rem;"><button class="btn d-block d-sm-block d-md-block d-lg-none d-xl-none border-0 my-auto" type="button" style="width: 2.5rem;height: 2.5rem;"><i class="far fa-arrow-alt-circle-left"></i></button>
+                            <h5 class="mr-auto my-auto">Ximena Samano</h5><span class="my-auto"><i class="fas fa-info-circle"></i></span>
+                        </div>
+                    </div><!-- End: In Chat With -->
+                    <!-- Start: Feed -->
+                    <div class="row px-3 py-2 border-start border-muted">
+                        <div class="col" style="overflow-x: none;overflow-y: auto;max-height: 30.5rem;height: auto;">
+                            <ul class="list-unstyled">
+                                <!-- Start: Incoming Message -->
+                                <li class="my-2">
+                                    <div class="card border border-muted" style="width: 65%;border-top-left-radius: 0px;border-top-right-radius: 20px;border-bottom-right-radius: 20px;border-bottom-left-radius: 20px;background: rgba(52,58,64,0.05);">
+                                        <div class="card-body text-center p-2">
+                                            <p class="text-start card-text" style="font-size: 1rem;">Nullam id dolor id nibh ultricies vehicula ut id elit. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus.</p>
+                                            <h6 class="text-muted card-subtitle text-end" style="font-size: .75rem;">Julio 22, 2021. 12:33 P.M.</h6>
+                                        </div>
+                                    </div>
+                                </li><!-- End: Incoming Message -->
+                                <!-- Start: Outcoming Message -->
+                                <li class="d-flex justify-content-end my-2">
+                                    <div class="card border border-muted" style="width: 65%;border-top-left-radius: 20px;border-top-right-radius: 0px;border-bottom-right-radius: 20px;border-bottom-left-radius: 20px;background: rgba(52,58,64,0.05);">
+                                        <div class="card-body text-center p-2"><img class="img-fluid mb-2" src="assets/img/333580.jpg" style="max-height: 30rem;height: auto;min-height: 10rem;">
+                                            <p class="text-start card-text" style="font-size: 1rem;">Nullam id dolor id nibh ultricies vehicula ut id elit. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus.</p>
+                                            <h6 class="text-muted card-subtitle text-end" style="font-size: .75rem;">Julio 22, 2021. 12:33 P.M.</h6>
+                                        </div>
+                                    </div>
+                                </li><!-- End: Outcoming Message -->
+                                <!-- Start: Incoming Message -->
+                                <li class="my-2">
+                                    <div class="card border border-muted" style="width: 65%;border-top-left-radius: 0px;border-top-right-radius: 20px;border-bottom-right-radius: 20px;border-bottom-left-radius: 20px;background: rgba(52,58,64,0.05);">
+                                        <div class="card-body text-center p-2"><img class="img-fluid mb-2" src="assets/img/333580.jpg" style="max-height: 30rem;height: auto;min-height: 10rem;">
+                                            <p class="text-start card-text" style="font-size: 1rem;">Nullam id dolor id nibh ultricies vehicula ut id elit. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus.</p>
+                                            <h6 class="text-muted card-subtitle text-end" style="font-size: .75rem;">Julio 22, 2021. 12:33 P.M.</h6>
+                                        </div>
+                                    </div>
+                                </li><!-- End: Incoming Message -->
+                                <!-- Start: Outcoming Message -->
+                                <li class="d-flex justify-content-end my-2">
+                                    <div class="card border border-muted" style="width: 65%;border-top-left-radius: 20px;border-top-right-radius: 0px;border-bottom-right-radius: 20px;border-bottom-left-radius: 20px;background: rgba(52,58,64,0.05);">
+                                        <div class="card-body text-center p-2">
+                                            <p class="text-start card-text" style="font-size: 1rem;">Nullam id dolor id nibh ultricies vehicula ut id elit. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus.</p>
+                                            <h6 class="text-muted card-subtitle text-end" style="font-size: .75rem;">Julio 22, 2021. 12:33 P.M.</h6>
+                                        </div>
+                                    </div>
+                                </li><!-- End: Outcoming Message -->
+                            </ul>
+                        </div>
+                    </div><!-- End: Feed -->
+                    <!-- Start: Box Message -->
+                    <div class="row px-3 py-2" style="background: rgba(52,58,64,0.2);">
+                        <div class="col-9 col-sm-10 col-md-10 col-lg-10 col-xl-10" style="padding: 0;"><textarea class="w-100 h-100 border-0" style="border-radius: 25px;resize: none;"></textarea></div>
+                        <div class="col-3 col-sm-2 col-md-2 col-lg-2 col-xl-2 text-nowrap d-md-flex justify-content-md-end p-0"><button class="btn h-100 mx-auto" type="button" style="border-radius: 10px;"><i class="far fa-image"></i></button><button class="btn btn-light h-100 w-auto" type="button" style="border-radius: 10px;"><i class="fab fa-telegram-plane"></i></button></div>
+                    </div><!-- End: Box Message -->
+                </div>
+            </div>
+        </div><!-- End: Chat -->
+    </section><!-- End: ChatComplete test -->
     <section class="text-white py-5 mt-5" style="padding-top: 48px;">
         <!-- Start: Container Busquedas y eliminacion -->
         <div class="container" style="width: 1474px;">
@@ -194,6 +336,7 @@
     <script src="assets/js/Estructuras/arbolNario.mjs" type="module"></script>
     <script src="assets/js/Estructuras/listaCircular.mjs" type="module"></script>
     <script src="assets/js/Estructuras/matriz.mjs" type="module"></script>
+    <script src="assets/js/Estructuras/tablaHash.mjs" type="module"></script>
     <script src="assets/js/Estructuras/usuario.mjs" type="module"></script>
     <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
     <script src="assets/js/Lightbox-Gallery-baguetteBox.min.js"></script>
@@ -202,6 +345,7 @@
     <script src="assets/js/Users/cargaInicial.mjs" type="module"></script>
     <script src="assets/js/Users/manejadorCarpetas.mjs" type="module"></script>
     <script src="assets/js/Utils/comprobarSesion.js"></script>
+    <script src="assets/js/Utils/encriptacionAES.mjs" type="module"></script>
     <script src="assets/js/Utils/hidenUtils.js"></script>
     <script src="assets/js/Utils/logout.js"></script>
 </body>
