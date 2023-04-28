@@ -1,4 +1,6 @@
 import AVL from "./arbolAVL.mjs";
+import grafoDirigido from "./grafo.mjs";
+import arbolNArio from "./arbolNario.mjs";
 import { sha256 } from "../Utils/encriptacionAES.mjs";
 
 class nodoHash {
@@ -6,8 +8,9 @@ class nodoHash {
     this.carnet = carnet;
     this.usuario = usuario;
     this.password = password;
-    //falta implementar grafo de carpetas
     this.arbolCarpetas = arbolCarpetas;
+    this.grafo = new grafoDirigido();
+    this.grafo.convertirAGrafo(arbolCarpetas);
   }
 }
 
@@ -39,7 +42,7 @@ export default class TablaHash {
           this.capacidad_tabla();
         }
       } catch (err) {
-        console.log("Hubo un error en insercion");
+        console.log("Hubo un error en insercion", err);
       }
       console.log(
         "Se inserto indice: " +
@@ -117,26 +120,91 @@ export default class TablaHash {
     if (indice < this.capacidad) {
       try {
         if (this.tabla[indice] == null) {
-          alert("Bienvenido " + this.tabla[indice].usuario);
+          return null;
         } else if (
           this.tabla[indice] != null &&
-          this.tabla[indice].carnet == carnet
+          this.tabla[indice].carnet == parseInt(carnet)
         ) {
-          alert("Bienvenido " + this.tabla[indice].usuario);
+          var jsNode = this.tabla[indice];
+          var nodeParseHash = JSON.stringify(jsNode);
+          var nodeParse = JSON.parse(nodeParseHash);
+          var arbolCarpetas = new arbolNArio();
+          arbolCarpetas.fromJSON(nodeParse.arbolCarpetas);
+          var node = new nodoHash(
+            nodeParse.carnet,
+            nodeParse.usuario,
+            nodeParse.password,
+            arbolCarpetas
+          );
+          return node;
         } else {
           let contador = 1;
           indice = this.RecalculoIndice(carnet, contador);
           while (this.tabla[indice] != null) {
             contador++;
             indice = this.RecalculoIndice(carnet, contador);
-            if (this.tabla[indice].carnet == carnet) {
-              alert("Bienvenido " + this.tabla[indice].usuario);
-              return this.tabla[indice];
+            if (this.tabla[indice].carnet == parseInt(carnet)) {
+              var jsNode = this.tabla[indice];
+              var nodeParseHash = JSON.stringify(jsNode);
+              var nodeParse = JSON.parse(nodeParseHash);
+              var arbolCarpetas = new arbolNArio();
+              arbolCarpetas.fromJSON(nodeParse.arbolCarpetas);
+              var node = new nodoHash(
+                nodeParse.carnet,
+                nodeParse.usuario,
+                nodeParse.password,
+                arbolCarpetas
+              );
+              return node;
             }
           }
         }
       } catch (err) {
         console.log("Hubo un error en busqueda");
+      }
+    }
+  }
+
+  buscarUsuarioV2(carnet) {
+    let indice = this.calculoIndice(carnet);
+    let nodo = this.tabla[indice];
+
+    if (nodo != null && nodo.carnet === parseInt(carnet)) {
+      var jsNode = this.tabla[indice];
+      var nodeParseHash = JSON.stringify(jsNode);
+      var nodeParse = JSON.parse(nodeParseHash);
+      var arbolCarpetas = new arbolNArio();
+      arbolCarpetas.fromJSON(nodeParse.arbolCarpetas);
+      var node = new nodoHash(
+        nodeParse.carnet,
+        nodeParse.usuario,
+        nodeParse.password,
+        arbolCarpetas
+      );
+      return node;
+    } else {
+      let contador = 1;
+      indice = this.RecalculoIndice(carnet, contador);
+
+      while (this.tabla[indice] != null && this.tabla[indice].carnet !== parseInt(carnet)) {
+        contador++;
+        indice = this.RecalculoIndice(carnet, contador);
+      }
+      if (this.tabla[indice] != null && this.tabla[indice].carnet === parseInt(carnet)) {
+        var jsNode = this.tabla[indice];
+        var nodeParseHash = JSON.stringify(jsNode);
+        var nodeParse = JSON.parse(nodeParseHash);
+        var arbolCarpetas = new arbolNArio();
+        arbolCarpetas.fromJSON(nodeParse.arbolCarpetas);
+        var node = new nodoHash(
+          nodeParse.carnet,
+          nodeParse.usuario,
+          nodeParse.password,
+          arbolCarpetas
+        );
+        return node;
+      } else {
+        return null; // Usuario no encontrado
       }
     }
   }
@@ -148,7 +216,7 @@ export default class TablaHash {
     const recorrerInorden = async (nodo, obj) => {
       if (nodo.izquierda) await recorrerInorden(nodo.izquierda, obj);
       const passEncript = await sha256(nodo.usuario.password);
-      obj.insertar(
+      await obj.insertar(
         nodo.usuario.carnet,
         nodo.usuario.nombre,
         passEncript,
@@ -159,9 +227,8 @@ export default class TablaHash {
     };
 
     await Promise.all([recorrerInorden(arbolAVL.raiz, this)]);
-
-    //tojson de la tabla hash
     localStorage.setItem("tablaHash", JSON.stringify(this));
+    console.log(localStorage.getItem("tablaHash"));
   }
 
   fromJSON() {
@@ -173,39 +240,16 @@ export default class TablaHash {
   }
 
   comprobarLogin(carnet, password) {
-    let indice = this.calculoIndice(carnet);
     //devolvera False si no existe el usuario o si la contraseña es incorrecta
-    if (indice < this.capacidad) {
-      try {
-        if (this.tabla[indice] == null) {
-          return false;
-        } else if (
-          this.tabla[indice] != null &&
-          this.tabla[indice].carnet === parseInt(carnet)
-        ) {
-          if (this.tabla[indice].password == password) {
-            return true;
-          } else {
-            return false;
-          }
-        } else {
-          let contador = 1;
-          indice = this.RecalculoIndice(carnet, contador);
-          while (this.tabla[indice] != null) {
-            contador++;
-            indice = this.RecalculoIndice(carnet, contador);
-            if (this.tabla[indice].carnet == carnet) {
-              if (this.tabla[indice].password == password) {
-                return true;
-              } else {
-                return false;
-              }
-            }
-          }
-        }
-      } catch (err) {
-        console.log("Hubo un error en busqueda");
-      }
+    var nodoUser = this.buscarUsuarioV2(carnet);
+
+    if (nodoUser == null) {
+      return false;
+    }
+    if (nodoUser.password == password) {
+      return true;
+    } else {
+      return false;
     }
   }
 

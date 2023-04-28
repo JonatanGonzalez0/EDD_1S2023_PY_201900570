@@ -10,29 +10,22 @@ function refresh() {
 
     // Borra el contenido del cuerpo de la tabla
     cuerpoTabla.innerHTML = "";
-    // Obtiene el arbol de localstorage
-    var arbolAVL = new AVL();
-    if (localStorage.getItem("arbolAVL") !== null) {
-        arbolAVL.fromJSON(localStorage.getItem("arbolAVL"));
-    }else{
-        return;
-    }
-
+    
     // Actualizar tabla hash from avl
     try {
         var tablaHash = new TablaHash();
         tablaHash.fromJSON();
+        for (var i = 0; i < tablaHash.capacidad; i++) {
+            if (tablaHash.tabla[i] != null) {
+                var nuevaFila = document.createElement("tr");
+                nuevaFila.innerHTML = `<td>${tablaHash.tabla[i].carnet}</td><td>${tablaHash.tabla[i].usuario}</td><td>${tablaHash.tabla[i].password}</td>`;
+                cuerpoTabla.appendChild(nuevaFila);
+            }
+        }
     } catch (error) {
         console.log("Error al actualizar tabla hash");
     }
-    for (var i = 0; i < tablaHash.capacidad; i++) {
-        if (tablaHash.tabla[i] != null) {
-            var nuevaFila = document.createElement("tr");
-            nuevaFila.innerHTML = `<td>${tablaHash.tabla[i].carnet}</td><td>${tablaHash.tabla[i].usuario}</td><td>${tablaHash.tabla[i].password}</td>`;
-            cuerpoTabla.appendChild(nuevaFila);
-        }
-    }
-
+    
     //cargar info de permisos a tabla tablePermisos
     var tablaPermisos = document.getElementById("tablePermisos");
     var cuerpoTablaPermisos = tablaPermisos.querySelector("tbody");
@@ -55,7 +48,13 @@ function refresh() {
     });
 
 
-
+    /*/ Obtiene el arbol de localstorage
+    var arbolAVL = new AVL();
+    if (localStorage.getItem("arbolAVL") !== null) {
+        arbolAVL.fromJSON(localStorage.getItem("arbolAVL"));
+    }else{
+        return;
+    }*/
     /* CARGAR TABLA FROM AVL 
     // Obtiene el arreglo de usuarios
     if (orderType == "inorden"){
@@ -87,7 +86,6 @@ function exportAVL() {
     try {
         var tablaHash = new TablaHash();
         tablaHash.fromLocalAVL();
-        //reload page
         location.reload();
     } catch (error) {
         console.log("Error al actualizar tabla hash");

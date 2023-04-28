@@ -1,4 +1,5 @@
 import AVL from "../Estructuras/arbolAVL.mjs";
+import TablaHash from "../Estructuras/tablaHash.mjs";
 
 export function generarNario() {
   //make container visible
@@ -34,13 +35,36 @@ export function generarNario() {
   });
 }
 
+export function generarGrafo(){
+  document.getElementById("reportContainer").classList.remove("visually-hidden");
+  let tablaHash = new TablaHash();
+  let graph = "";
+  if(localStorage.getItem("tablaHash") !== null){
+    tablaHash.fromJSON(localStorage.getItem("tablaHash"));
+    let carnet = parseInt(sessionStorage.getItem("sesion"));
+    let NodoUsuario = tablaHash.buscarUsuarioV2(carnet);
+    graph = NodoUsuario.grafo.grafica();
+  }else{
+    graph = 'digraph G {bgcolor = "gray35";node [style=filled, fillcolor=skyblue];Grafo_vacio;}';
+  }
+  let url = "https://quickchart.io/graphviz?format=svg&width=1300&height=1000&&graph=";
+  url += graph;
+  var imagen = document.getElementById("reportImage");
+  imagen.src = url;
+  imagen.addEventListener("load", function(){
+    imagen.focus();
+  }
+  );
+
+}
+
 function hidecontainer() {
   document.getElementById("reportContainer").classList.add("visually-hidden");
 }
 
 export const btnreporteCarpetas = document.getElementById("reporteCarpetas");
 
-btnreporteCarpetas.addEventListener("click", generarNario);
+btnreporteCarpetas.addEventListener("click", generarGrafo);
 
 const btnCerrar = document.getElementById("cerrarGrafico");
 btnCerrar.addEventListener("click", hidecontainer);

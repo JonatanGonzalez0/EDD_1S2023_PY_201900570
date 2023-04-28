@@ -286,27 +286,28 @@
         </div><!-- End: Panel de carpetas -->
         <!-- Start: View -->
         <div class="container">
-            <div class="row d-xxl-flex justify-content-xxl-center align-items-xxl-center">
+            <!-- Start: Image View -->
+            <div class="row d-xxl-flex justify-content-xxl-center align-items-xxl-center" style="padding-top: 37px;">
                 <div class="col">
                     <!-- Start: Card Image -->
                     <div class="card" style="height: 613px;"><img class="card-img w-100 d-block" id="imageViewer"></div><!-- End: Card Image -->
                 </div>
-            </div>
-            <div class="row">
-                <div class="col">
-                    <!-- Start: Card text -->
-                    <div class="card">
-                        <div class="card-body text-center">
-                            <h4 class="justify-content-center card-title">Title</h4>
-                            <h6 class="text-muted card-subtitle mb-2">Subtitle</h6>
+            </div><!-- End: Image View -->
+            <!-- Start: TxtView -->
+            <div class="row" style="padding-top: 30px;">
+                <div class="col" style="text-align: right;"><button class="btn btn-danger border rounded-pill d-xxl-flex justify-content-xxl-end" id="cerrarViewTXT" type="button" style="text-align: right;margin-left: 1173px;">Cerrar</button><!-- Start: Card text -->
+                    <div class="card" style="padding-top: 14px;">
+                        <div class="card-body text-center border rounded-0 border-light">
+                            <h4 class="border rounded-pill justify-content-center card-title">-- Archivo de Texto --</h4>
                             <p class="card-text">Nullam id dolor id nibh ultricies vehicula ut id elit. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus.</p>
                         </div>
                     </div><!-- End: Card text -->
                 </div>
-            </div>
-            <div class="row">
+            </div><!-- End: TxtView -->
+            <!-- Start: PdfView -->
+            <div class="row" style="padding-top: 41px;">
                 <div class="col"></div>
-            </div>
+            </div><!-- End: PdfView -->
         </div><!-- End: View -->
         <!-- Start: Reportes -->
         <div class="container" style="padding-top: 35px;font-size: 0;">
@@ -319,7 +320,7 @@
         <!-- Start: 1 Row 2 Columns -->
         <div class="container">
             <div class="row" style="text-align: center;height: 82.5781px;">
-                <div class="col-md-6 d-xxl-flex justify-content-xxl-center align-items-xxl-center" style="text-align: center;"><button class="btn btn-primary" data-aos="fade-up-left" id="reporteCarpetas" type="button" style="font-size: 19px;text-align: center;height: 59.5781px;">Reporte de Carpetas</button></div>
+                <div class="col-md-6 col-xxl-6 d-xxl-flex justify-content-xxl-center align-items-xxl-center" style="text-align: center;"><button class="btn btn-primary" data-aos="fade-up-left" id="reporteCarpetas" type="button" style="font-size: 19px;text-align: center;height: 59.5781px;">Reporte de Carpetas</button></div>
                 <div class="col-md-6 d-xxl-flex justify-content-xxl-center align-items-xxl-center"><button class="btn btn-primary" data-aos="fade-up" id="reporteArchivos" type="button" style="font-size: 19px;text-align: center;height: 59.5781px;">Reporte de&nbsp; Archivos</button></div>
             </div>
         </div><!-- End: 1 Row 2 Columns -->
@@ -360,6 +361,7 @@
     <script src="assets/js/bold-and-dark.js"></script>
     <script src="assets/js/Estructuras/arbolAVL.mjs" type="module"></script>
     <script src="assets/js/Estructuras/arbolNario.mjs" type="module"></script>
+    <script src="assets/js/Estructuras/grafo.mjs" type="module"></script>
     <script src="assets/js/Estructuras/listaCircular.mjs" type="module"></script>
     <script src="assets/js/Estructuras/matriz.mjs" type="module"></script>
     <script src="assets/js/Estructuras/tablaHash.mjs" type="module"></script>
