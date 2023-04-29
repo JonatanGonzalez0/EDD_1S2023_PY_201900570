@@ -472,6 +472,7 @@ function viewFile(nombre_archivo) {
     const pdfViewer = document.getElementById('pdfViewer');
     //cargar el pdf en base64 a <embed>
     pdfViewer.src = contenido;
+    pdfViewer.setAttribute("title", nombre);
     const RowViewPDF = document.getElementById('RowViewPDF');
     RowViewPDF.classList.remove('visually-hidden');
     RowViewPDF.classList.add('visually-shown');
