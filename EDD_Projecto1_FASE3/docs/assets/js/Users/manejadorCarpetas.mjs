@@ -8,7 +8,6 @@ function generarNuevaCarpeta() {
     return;
   }
 
-
   //obtener el carnet del usuario actual tipo entero
   let carnet = parseInt(sessionStorage.getItem("sesion"));
 
@@ -20,7 +19,6 @@ function generarNuevaCarpeta() {
   let nodoUsuario = arbolAVL.getNodo(carnet);
 
   let rutaBuscada = document.getElementById("inputBusqueda").value;
-  
 
   nodoUsuario.arbolCarpetas.insertarRuta(rutaBuscada, nombrecarpeta);
 
@@ -65,11 +63,10 @@ txtNuevaCarpeta.addEventListener("keyup", function (event) {
 const inputBusqueda = document.getElementById("inputBusqueda");
 
 inputBusqueda.addEventListener("keyup", function (event) {
-  //obtener la ruta buscada en el input inputBusqueda
-  let rutaBuscada = document.getElementById("inputBusqueda").value;
-
   //si se presiona enter
   if (event.keyCode === 13) {
+    //obtener la ruta buscada en el input inputBusqueda
+    let rutaBuscada = document.getElementById("inputBusqueda").value;
     //obtener el carnet del usuario actual tipo entero
     let carnet = parseInt(sessionStorage.getItem("sesion"));
     //obtener arbol avl
@@ -258,6 +255,13 @@ btnDarPermiso.addEventListener("click", function () {
     "dropdown-btn-archivos"
   ).textContent;
   let carnetUsuario = document.getElementById("dropdown-btn").textContent;
+  let nodoReceiver = arbolAVL.getNodo(parseInt(carnetUsuario));
+  //carpeta compartidos de nodo receiver
+  let carpetaCompartidos = nodoReceiver.arbolCarpetas.obtenerNodo("/Compartidos Conmigo");
+
+  let nodoArchivo = nodoCarpeta.matriz.getNodoArchivo(nombre_ArchivoDarPermiso);
+  
+  carpetaCompartidos.matriz.insertarArchivo(nodoArchivo.nombre, nodoArchivo.contenido);
 
   //comprobar si formCheck-Write esta checked
   var formCheckWrite = document.getElementById("formCheck-Write");
@@ -288,6 +292,37 @@ btnDarPermiso.addEventListener("click", function () {
     try {
       //guardar arbol avl
       localStorage.setItem("arbolAVL", arbolAVL.toJSON());
+
+      // Obtener los permisos ya existentes en el local storage
+      if (localStorage.getItem("permisos") != null) {
+        let permisos = JSON.parse(localStorage.getItem('permisos') || '[]');
+        // Agregar el nuevo permiso al arreglo
+        
+        let nuevoPermiso = {
+          propietario: carnet,
+          destino: parseInt(carnetUsuario),
+          ubicacion: rutaActual,
+          nombreArchivo: nombre_ArchivoDarPermiso,
+          tipoPermiso: tipoPermiso,
+        };
+        permisos.push(nuevoPermiso);
+        // Guardar el arreglo en el local storage
+        localStorage.setItem("permisos", JSON.stringify(permisos));
+      } else {
+        // Crear el arreglo de permisos
+        let permisos = [];
+        // Agregar el nuevo permiso al arreglo
+        let nuevoPermiso = {
+          propietario: carnet,
+          destino: parseInt(carnetUsuario),
+          ubicacion: rutaActual,
+          nombreArchivo: nombre_ArchivoDarPermiso,
+          tipoPermiso: tipoPermiso,
+        };
+        permisos.push(nuevoPermiso);
+        // Guardar el arreglo en el local storage
+        localStorage.setItem("permisos", JSON.stringify(permisos));
+      }
     } catch (e) {
       //sweat alert No se pudo dar permiso
       swal("No se pudo dar permiso", {
@@ -317,8 +352,10 @@ btnDarPermiso.addEventListener("click", function () {
     formCheckRead.checked = false;
 
     //actualizar los dropdown
-    document.getElementById("dropdown-btn-archivos").textContent = "Seleccione un archivo";
-    document.getElementById("dropdown-btn").textContent = "Seleccione un usuario";
+    document.getElementById("dropdown-btn-archivos").textContent =
+      "Seleccione un archivo";
+    document.getElementById("dropdown-btn").textContent =
+      "Seleccione un usuario";
   } else {
     //sweat alert No se pudo dar permiso
     swal("No se pudo dar permiso", {
@@ -360,7 +397,6 @@ function obtenerRuta(carpeta) {
 function putEliminar(nombreCarpeta) {
   //le coloca al input eliminar carpeta el nombre de la carpeta que se va a eliminar
   document.getElementById("txt-carpeta-eliminar").value = nombreCarpeta;
-  console.log(nombreCarpeta);
 }
 
 function retorno() {
@@ -376,6 +412,81 @@ function retorno() {
   refrescarTabla();
 }
 
+function viewFile(nombre_archivo) {
+  //obtener el carnet del usuario actual tipo entero
+  let carnet = parseInt(sessionStorage.getItem("sesion"));
+  //obtener arbol avl
+  let arbolAVL = new AVL();
+  arbolAVL.fromJSON(localStorage.getItem("arbolAVL"));
+
+  //obtener el nodo del usuario actual
+  let nodoUsuario = arbolAVL.getNodo(carnet);
+
+  let rutaActual = document.getElementById("txt-carpeta-actual").value;
+  let nodoCarpeta = nodoUsuario.arbolCarpetas.obtenerNodo(rutaActual);
+
+  let NodoArchivo = nodoCarpeta.matriz.getNodoArchivo(nombre_archivo);
+
+  let contenido = NodoArchivo.contenido;
+
+  let nombre = NodoArchivo.nombre;
+
+  let extension = nombre.substring(nombre.lastIndexOf(".") + 1);
+
+  if (extension == "txt") {
+    const nameFileView = document.getElementById('nameFileView');
+    nameFileView.textContent = "";
+    nameFileView.textContent = nombre;
+
+    const TextViewContent = document.getElementById('TextViewContent');
+    TextViewContent.textContent = "";
+
+    //convertir contenidobase64 a string 
+    contenido = atob(contenido.split(',')[1]);
+    TextViewContent.textContent = contenido;
+
+    const RowViewTXT = document.getElementById('RowViewTXT');
+    RowViewTXT.style.display = 'block';
+    RowViewTXT.classList.remove('visually-hidden');
+    RowViewTXT.classList.add('visually-shown');
+
+    const sectionReportes = document.getElementById('sectionReportes');
+    //hacer visually-hidden el sectionReportes
+    sectionReportes.classList.remove('visually-shown');
+    sectionReportes.classList.add('visually-hidden');
+  }
+  else if (extension == "png" || extension == "jpg" || extension == "jpeg") {
+    const imageViewer = document.getElementById('imageViewer');
+    //cargar la imagen en base64 a <img>
+    imageViewer.src = contenido;
+    const RowViewIMG = document.getElementById('RowViewIMG');
+    RowViewIMG.classList.remove('visually-hidden');
+    RowViewIMG.classList.add('visually-shown');
+
+    const sectionReportes = document.getElementById('sectionReportes');
+    //hacer visually-hidden el sectionReportes
+    sectionReportes.classList.remove('visually-shown');
+    sectionReportes.classList.add('visually-hidden');
+  }
+  else if (extension == "pdf") {
+    const pdfViewer = document.getElementById('pdfViewer');
+    //cargar el pdf en base64 a <embed>
+    pdfViewer.src = contenido;
+    pdfViewer.setAttribute("title", nombre);
+    const RowViewPDF = document.getElementById('RowViewPDF');
+    RowViewPDF.classList.remove('visually-hidden');
+    RowViewPDF.classList.add('visually-shown');
+
+    const sectionReportes = document.getElementById('sectionReportes');
+    //hacer visually-hidden el sectionReportes
+    sectionReportes.classList.remove('visually-shown');
+    sectionReportes.classList.add('visually-hidden');
+
+  }
+
+}
+
 export { putEliminar };
 export { obtenerRuta };
 export { retorno };
+export { viewFile };

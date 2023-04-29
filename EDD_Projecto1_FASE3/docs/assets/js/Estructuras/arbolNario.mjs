@@ -14,6 +14,8 @@ export default class arbolNArio {
   constructor() {
     this.raiz = new nodoArbolNario("/", 0);
     this.nodo_creados = 1;
+    //insertar por defecto una ruta Compartidos Conmigo
+    this.insertarRuta("/", "Compartidos Conmigo");
   }
 
   buscarDirectorio(rutaActual) {
@@ -438,8 +440,9 @@ export default class arbolNArio {
     var cadena = "";
     if (!(this.raiz === null)) {
       cadena = 'digraph arbol{ bgcolor = "gray35"; ';
-      cadena += 'graph [label="Arbol N-ario (Ruta de Carpetas)", splines=ortho,fontcolor=white];'      
-      cadena += 'edge [arrowhead=vee,color=white];';
+      cadena +=
+        'graph [label="Arbol N-ario (Ruta de Carpetas)", splines=ortho,fontcolor=white];';
+      cadena += "edge [arrowhead=vee,color=white];";
       cadena = cadena + this.retornarValoresArbol(this.raiz);
       cadena = cadena + "}";
     } else {
@@ -506,9 +509,6 @@ export default class arbolNArio {
     let nodo_padre = this.obtenerNodo(ruta);
     let aux = nodo_padre.primero;
     let cadena = "";
-    if (aux === null) {
-      return cadena;
-    }
     let retorno = `<tr>
     <td ondblclick="import('./assets/js/Users/manejadorCarpetas.mjs').then(manejador => manejador.retorno());"><svg class="bi bi-arrow-left-circle fs-2 text-light" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" style="width: 18px;height: 24px;color: rgb(13,224,238);">
             <path fill-rule="evenodd" d="M1 8a7 7 0 1 0 14 0A7 7 0 0 0 1 8zm15 0A8 8 0 1 1 0 8a8 8 0 0 1 16 0zm-4.5-.5a.5.5 0 0 1 0 1H5.707l2.147 2.146a.5.5 0 0 1-.708.708l-3-3a.5.5 0 0 1 0-.708l3-3a.5.5 0 1 1 .708.708L5.707 7.5H11.5z"></path>
@@ -517,12 +517,16 @@ export default class arbolNArio {
     </tr>`;
 
     cadena += retorno;
+    if (aux === null) {
+      cadena += nodo_padre.matriz.retornarcuerpoTablaArchivos();
+      return cadena;
+    }
 
     let iconFolder = `<svg class="bi bi-folder" xmlns="http://www.w3.org/2000/svg" width="1em" height="1em" fill="currentColor" viewBox="0 0 16 16" style="width: 18px;height: 21px;color: rgb(13,224,238);">
     <path d="M.54 3.87.5 3a2 2 0 0 1 2-2h3.672a2 2 0 0 1 1.414.586l.828.828A2 2 0 0 0 9.828 3h3.982a2 2 0 0 1 1.992 2.181l-.637 7A2 2 0 0 1 13.174 14H2.826a2 2 0 0 1-1.991-1.819l-.637-7a1.99 1.99 0 0 1 .342-1.31zM2.19 4a1 1 0 0 0-.996 1.09l.637 7a1 1 0 0 0 .995.91h10.348a1 1 0 0 0 .995-.91l.637-7A1 1 0 0 0 13.81 4H2.19zm4.69-1.707A1 1 0 0 0 6.172 2H2.5a1 1 0 0 0-1 .981l.006.139C1.72 3.042 1.95 3 2.19 3h5.396l-.707-.707z"></path>
 </svg>`;
     while (aux) {
-      cadena += `<tr><td id=${aux.nombreCarpeta} ondblclick="import('./assets/js/Users/manejadorCarpetas.mjs').then(manejador => manejador.obtenerRuta(this.id));" onclick="setTimeout(() => { import('./assets/js/Users/manejadorCarpetas.mjs').then(manejador => manejador.putEliminar(this.id)); }, 500);"">${iconFolder}   ${aux.nombreCarpeta}</td><td>Carpeta</td></tr>`;
+      cadena += `<tr><td id="${aux.nombreCarpeta}" ondblclick="import('./assets/js/Users/manejadorCarpetas.mjs').then(manejador => manejador.obtenerRuta(this.id));" onclick="setTimeout(() => { import('./assets/js/Users/manejadorCarpetas.mjs').then(manejador => manejador.putEliminar(this.id)); }, 500);"">${iconFolder}   ${aux.nombreCarpeta}</td><td>Carpeta</td></tr>`;
       aux = aux.siguiente;
     }
 
@@ -574,4 +578,29 @@ export default class arbolNArio {
     this.raiz = nodeFromJSON(json.raiz);
     this.nodo_creados = json.nodos_creados;
   }
+
+  obtenerCarpetas() {
+    const resultado = {};
+  
+    function agregarHijos(nodo, ruta) {
+      let carpetas = [];
+      let hijo = nodo.primero;
+      while (hijo) {
+        carpetas.push(hijo.nombreCarpeta);
+        if (ruta === "/") {
+          agregarHijos(hijo, `/${hijo.nombreCarpeta}`);
+        } else {
+          agregarHijos(hijo, `${ruta}/${hijo.nombreCarpeta}`);
+        }
+        hijo = hijo.siguiente;
+      }
+      resultado[ruta] = carpetas.map(carpeta => carpeta.substring(0));
+    }
+  
+    agregarHijos(this.raiz, "/");
+    return resultado;
+  }
+  
+  
+  
 }

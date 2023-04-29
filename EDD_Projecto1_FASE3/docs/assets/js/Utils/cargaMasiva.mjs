@@ -1,6 +1,6 @@
 import AVL from "../Estructuras/arbolAVL.mjs";
 import Usuario from "../Estructuras/usuario.mjs";
-import { refresh } from "../Utils/refreshTable.mjs";
+import { refresh, exportAVL} from "../Utils/refreshTable.mjs";
 
 document.addEventListener("DOMContentLoaded", function () {
   function cargarArchivo() {
@@ -44,7 +44,7 @@ document.addEventListener("DOMContentLoaded", function () {
       inputCargaMasiva.value = "";
       //refrescar la tabla
       refresh("inorden");
-
+      exportAVL();
       //swetalert
       swal({
         title: "Carga Masiva",

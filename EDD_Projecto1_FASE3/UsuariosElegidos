@@ -1,0 +1,28 @@
+{
+    "alumnos": [
+        {
+			"nombre": "Ebany Larios", 
+			"carnet": 201403877, 
+			"password": "qwerty12", 
+			"Carpeta_Raiz": "/" 
+		},
+		{
+			"nombre": "Bryan Montepeque", 
+			"carnet": 201700375, 
+			"password": "Bryan131", 
+			"Carpeta_Raiz": "/" 
+		},
+		{
+			"nombre": "Kevyn Giron", 
+			"carnet": 201700653, 
+			"password": "Kevyn126", 
+			"Carpeta_Raiz": "/" 
+		},
+		{
+			"nombre": "Cristian Suy", 
+			"carnet": 201700918, 
+			"password": "Cris123", 
+			"Carpeta_Raiz": "/" 
+		}
+    ]
+}

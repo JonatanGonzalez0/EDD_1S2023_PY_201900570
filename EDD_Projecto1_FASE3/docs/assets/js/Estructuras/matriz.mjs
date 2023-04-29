@@ -206,6 +206,15 @@ export default class Matriz {
     }
   }
 
+  getNodoArchivo(nombre_archivo) {
+    let nuevaFila = this.buscarF(nombre_archivo);
+    if (nuevaFila !== null) {
+      return nuevaFila;
+    }else{
+      return null;
+    }
+  }
+
   darPermiso(carnet, nombre_archivo, tipoPermiso) {
     let nuevaColumna = this.buscarC(carnet);
     let nuevaFila = this.buscarF(nombre_archivo);
@@ -466,7 +475,7 @@ export default class Matriz {
     </svg>`;
         tipo = "PDF";
       }
-      cadena +=
+      /*cadena +=
         "<tr><td>" +
         icon +
         "  " +
@@ -474,6 +483,12 @@ export default class Matriz {
         "</td><td>" +
         tipo +
         "</td></tr>";
+      */
+cadena += `<tr>
+<td id="${aux.nombre}" ondblclick="import('./assets/js/Users/manejadorCarpetas.mjs').then(manejador => manejador.viewFile(this.id));">${icon}  ${aux.nombre}</td>
+</td>
+<td>${tipo}</td>
+</tr>`
 
       aux = aux.abajo;
     }
