@@ -475,7 +475,7 @@ export default class Matriz {
     </svg>`;
         tipo = "PDF";
       }
-      cadena +=
+      /*cadena +=
         "<tr><td>" +
         icon +
         "  " +
@@ -483,6 +483,12 @@ export default class Matriz {
         "</td><td>" +
         tipo +
         "</td></tr>";
+      */
+cadena += `<tr>
+<td id="${aux.nombre}" ondblclick="import('./assets/js/Users/manejadorCarpetas.mjs').then(manejador => manejador.viewFile(this.id));">${icon}  ${aux.nombre}</td>
+</td>
+<td>${tipo}</td>
+</tr>`
 
       aux = aux.abajo;
     }

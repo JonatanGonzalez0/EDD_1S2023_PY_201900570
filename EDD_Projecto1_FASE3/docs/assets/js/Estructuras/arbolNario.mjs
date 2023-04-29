@@ -598,7 +598,6 @@ export default class arbolNArio {
     }
   
     agregarHijos(this.raiz, "/");
-    console.log (resultado);
     return resultado;
   }
   

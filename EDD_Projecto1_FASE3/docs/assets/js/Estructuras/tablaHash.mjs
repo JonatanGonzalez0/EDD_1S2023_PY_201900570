@@ -44,16 +44,6 @@ export default class TablaHash {
       } catch (err) {
         console.log("Hubo un error en insercion", err);
       }
-      console.log(
-        "Se inserto indice: " +
-          indice +
-          " carnet: " +
-          carnet +
-          " usuario: " +
-          usuario +
-          " password: " +
-          password
-      );
     }
   }
 
@@ -160,7 +150,7 @@ export default class TablaHash {
           }
         }
       } catch (err) {
-        console.log("Hubo un error en busqueda");
+        console.log("Hubo un error en busqueda", err);
       }
     }
   }
@@ -222,13 +212,11 @@ export default class TablaHash {
         passEncript,
         nodo.arbolCarpetas
       );
-      console.log("Se insertó: ", nodo.usuario.carnet);
       if (nodo.derecha) await recorrerInorden(nodo.derecha, obj);
     };
 
     await Promise.all([recorrerInorden(arbolAVL.raiz, this)]);
     localStorage.setItem("tablaHash", JSON.stringify(this));
-    console.log(localStorage.getItem("tablaHash"));
   }
 
   fromJSON() {

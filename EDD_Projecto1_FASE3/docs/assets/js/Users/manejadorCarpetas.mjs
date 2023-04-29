@@ -412,7 +412,7 @@ function retorno() {
   refrescarTabla();
 }
 
-function openFile(nombre_archivo) {
+function viewFile(nombre_archivo) {
   //obtener el carnet del usuario actual tipo entero
   let carnet = parseInt(sessionStorage.getItem("sesion"));
   //obtener arbol avl
@@ -434,10 +434,58 @@ function openFile(nombre_archivo) {
   let extension = nombre.substring(nombre.lastIndexOf(".") + 1);
 
   if (extension == "txt") {
-    //abrir nueva ventana
+    const nameFileView = document.getElementById('nameFileView');
+    nameFileView.textContent = "";
+    nameFileView.textContent = nombre;
+
+    const TextViewContent = document.getElementById('TextViewContent');
+    TextViewContent.textContent = "";
+
+    //convertir contenidobase64 a string 
+    contenido = atob(contenido.split(',')[1]);
+    TextViewContent.textContent = contenido;
+
+    const RowViewTXT = document.getElementById('RowViewTXT');
+    RowViewTXT.style.display = 'block';
+    RowViewTXT.classList.remove('visually-hidden');
+    RowViewTXT.classList.add('visually-shown');
+
+    const sectionReportes = document.getElementById('sectionReportes');
+    //hacer visually-hidden el sectionReportes
+    sectionReportes.classList.remove('visually-shown');
+    sectionReportes.classList.add('visually-hidden');
   }
+  else if (extension == "png" || extension == "jpg" || extension == "jpeg") {
+    const imageViewer = document.getElementById('imageViewer');
+    //cargar la imagen en base64 a <img>
+    imageViewer.src = contenido;
+    const RowViewIMG = document.getElementById('RowViewIMG');
+    RowViewIMG.classList.remove('visually-hidden');
+    RowViewIMG.classList.add('visually-shown');
+
+    const sectionReportes = document.getElementById('sectionReportes');
+    //hacer visually-hidden el sectionReportes
+    sectionReportes.classList.remove('visually-shown');
+    sectionReportes.classList.add('visually-hidden');
+  }
+  else if (extension == "pdf") {
+    const pdfViewer = document.getElementById('pdfViewer');
+    //cargar el pdf en base64 a <embed>
+    pdfViewer.src = contenido;
+    const RowViewPDF = document.getElementById('RowViewPDF');
+    RowViewPDF.classList.remove('visually-hidden');
+    RowViewPDF.classList.add('visually-shown');
+
+    const sectionReportes = document.getElementById('sectionReportes');
+    //hacer visually-hidden el sectionReportes
+    sectionReportes.classList.remove('visually-shown');
+    sectionReportes.classList.add('visually-hidden');
+
+  }
+
 }
 
 export { putEliminar };
 export { obtenerRuta };
 export { retorno };
+export { viewFile };

@@ -32,3 +32,39 @@ btn_makeChatVisible.addEventListener('click', () => {
         container.classList.add('visually-hidden');
     }
 });
+
+const cerrarViewTXT = document.getElementById('cerrarViewTXT');
+
+cerrarViewTXT.addEventListener('click', () => {
+    const RowViewTXT = document.getElementById('RowViewTXT');
+    RowViewTXT.classList.remove('visually-shown');
+    RowViewTXT.classList.add('visually-hidden');
+    const sectionReportes = document.getElementById('sectionReportes');
+    //hacer visible el sectionReportes
+    sectionReportes.classList.remove('visually-hidden');
+    sectionReportes.classList.add('visually-shown');
+});
+
+const cerrarViewIMG = document.getElementById('cerrarViewIMG');
+
+cerrarViewIMG.addEventListener('click', () => {
+    const RowViewIMG = document.getElementById('RowViewIMG');
+    RowViewIMG.classList.remove('visually-shown');
+    RowViewIMG.classList.add('visually-hidden');
+    const sectionReportes = document.getElementById('sectionReportes');
+    //hacer visible el sectionReportes
+    sectionReportes.classList.remove('visually-hidden');
+    sectionReportes.classList.add('visually-shown');
+});
+
+const cerrarViewPDF = document.getElementById('cerrarViewPDF');
+
+cerrarViewPDF.addEventListener('click', () => {
+    const RowViewPDF = document.getElementById('RowViewPDF');
+    RowViewPDF.classList.remove('visually-shown');
+    RowViewPDF.classList.add('visually-hidden');
+    const sectionReportes = document.getElementById('sectionReportes');
+    //hacer visible el sectionReportes
+    sectionReportes.classList.remove('visually-hidden');
+    sectionReportes.classList.add('visually-shown');
+});

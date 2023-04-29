@@ -156,20 +156,3 @@ export default class grafoDirigido {
   }
 
 }
-
-const grafo = new grafoDirigido();
-
-function insertar() {
-  let padre = document.getElementById("padre").value;
-  let hijos = document.getElementById("hijos").value;
-  grafo.insertarValores(padre, hijos);
-  refrescarGrafo();
-}
-
-function refrescarGrafo() {
-  let url = "https://quickchart.io/graphviz?graph=";
-  let body = grafo.grafica();
-  $("#image").attr("src", url + body);
-  document.getElementById("padre").value = "";
-  document.getElementById("hijos").value = "";
-}

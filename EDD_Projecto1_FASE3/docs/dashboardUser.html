@@ -285,32 +285,29 @@
             </div><!-- End: Espacio de carpeta actual -->
         </div><!-- End: Panel de carpetas -->
         <!-- Start: View -->
-        <div class="container">
-            <!-- Start: Image View -->
-            <div class="row d-xxl-flex justify-content-xxl-center align-items-xxl-center" style="padding-top: 37px;">
-                <div class="col">
-                    <!-- Start: Card Image -->
-                    <div class="card" style="height: 613px;"><img class="card-img w-100 d-block" id="imageViewer"></div><!-- End: Card Image -->
-                </div>
+        <div class="container" style="margin-top: 43px;">
+            <div class="row" id="RowViewPDF">
+                <div class="col"><iframe id="pdfViewer" width="100%" height="600"></iframe><button class="btn btn-danger border rounded-pill d-xxl-flex justify-content-xxl-end" id="cerrarViewPDF" type="button" style="text-align: right;margin-left: 1173px;">Cerrar</button></div>
+            </div><!-- Start: Image View -->
+            <div class="row d-xxl-flex justify-content-xxl-center align-items-xxl-center visually-hidden" id="RowViewIMG" style="padding-top: 37px;">
+                <div class="col"><button class="btn btn-danger border rounded-pill d-xxl-flex justify-content-xxl-end" id="cerrarViewIMG" type="button" style="text-align: right;margin-left: 1173px;">Cerrar</button><img id="imageViewer" style="margin-top: 12px;"></div>
             </div><!-- End: Image View -->
             <!-- Start: TxtView -->
-            <div class="row" style="padding-top: 30px;">
+            <div class="row d-block visually-hidden" id="RowViewTXT" style="padding-top: 30px;">
                 <div class="col" style="text-align: right;"><button class="btn btn-danger border rounded-pill d-xxl-flex justify-content-xxl-end" id="cerrarViewTXT" type="button" style="text-align: right;margin-left: 1173px;">Cerrar</button><!-- Start: Card text -->
                     <div class="card" style="padding-top: 14px;">
                         <div class="card-body text-center border rounded-0 border-light">
-                            <h4 class="border rounded-pill justify-content-center card-title">-- Archivo de Texto --</h4>
-                            <p class="card-text">Nullam id dolor id nibh ultricies vehicula ut id elit. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus.</p>
+                            <h4 class="border rounded-pill justify-content-center card-title" id="nameFileView">-- Archivo de Texto --</h4>
+                            <p class="card-text" id="TextViewContent">Nullam id dolor id nibh ultricies vehicula ut id elit. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus.</p>
                         </div>
                     </div><!-- End: Card text -->
                 </div>
             </div><!-- End: TxtView -->
-            <!-- Start: PdfView -->
-            <div class="row" style="padding-top: 41px;">
-                <div class="col"></div>
-            </div><!-- End: PdfView -->
         </div><!-- End: View -->
+    </section><!-- Start: Reportes -->
+    <section id="sectionReportes">
         <!-- Start: Reportes -->
-        <div class="container" style="padding-top: 35px;font-size: 0;">
+        <div class="container" id="containerReportes" style="padding-top: 51px;font-size: 0;">
             <div class="row" style="padding-top: 17px;">
                 <div class="col">
                     <h1 data-aos="fade-up" style="color: rgb(25,245,170);text-align: center;font-family: Inter, sans-serif;">Reportes</h1>
@@ -335,7 +332,8 @@
                 <div class="col d-xxl-flex justify-content-xxl-center align-items-xxl-center" style="text-align: center;"><button class="btn btn-info" id="cerrarGrafico" type="button" style="width: 183.633px;height: 57.7812px;transform: translate(-59px);">Cerrar Grafico</button></div>
             </div>
         </div>
-    </section><!-- Start: Footer Multi Column -->
+    </section><!-- End: Reportes -->
+    <!-- Start: Footer Multi Column -->
     <footer class="bg-dark">
         <div class="container py-4 py-lg-5" style="width: 1920px;max-width: 1851px;">
             <hr>
