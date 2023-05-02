@@ -1,52 +1,108 @@
-const clave = '4354d52101559841e64ba53f2dc303008ce20f9a3672de3ff03be7912333ba39'
-const buffer = new ArrayBuffer(16)
-const view = new Uint8Array(buffer)
-for(let i = 0; i < clave.length; i++){
-    view[i] = clave.charCodeAt(i)
+// Generar clave y IV una sola vez
+// Comprueba si ya hay una clave almacenada en localStorage
+let claveGuardada = localStorage.getItem("clave");
+let ivGuardado = localStorage.getItem("iv");
+let algoritmoGuardado = localStorage.getItem("algoritmo");
+
+let clave;
+let iv;
+let algoritmo;
+const enconder = new TextEncoder();
+
+if (claveGuardada && ivGuardado && algoritmoGuardado) {
+  // Si se encuentra una clave guardada, se decodifican los valores y se importan
+  clave = new Uint8Array(
+    atob(claveGuardada)
+      .split("")
+      .map((char) => char.charCodeAt(0))
+  );
+  iv = new Uint8Array(
+    atob(ivGuardado)
+      .split("")
+      .map((char) => char.charCodeAt(0))
+  );
+  algoritmo = { name: "AES-GCM", iv: iv };
+} else {
+  // Si no se encuentra una clave guardada, se generan nuevos valores y se guardan en localStorage
+  clave = new Uint8Array(16);
+  crypto.getRandomValues(clave);
+  iv = crypto.getRandomValues(new Uint8Array(16));
+  algoritmo = { name: "AES-GCM", iv: iv };
+  localStorage.setItem("clave", btoa(String.fromCharCode.apply(null, clave)));
+  localStorage.setItem("iv", btoa(String.fromCharCode.apply(null, iv)));
+  localStorage.setItem("algoritmo", JSON.stringify(algoritmo));
 }
 
-const iv = crypto.getRandomValues(new Uint8Array(16))
-const algoritmo = {name: 'AES-GCM', iv: iv}
+async function encriptacion(mensaje) {
+  const data = enconder.encode(mensaje);
 
-async function encriptacion(mensaje){
-    const enconder = new TextEncoder()
-    const data = enconder.encode(mensaje)
+  const claveCrypto = await crypto.subtle.importKey(
+    "raw",
+    clave,
+    "AES-GCM",
+    true,
+    ["encrypt"]
+  );
 
-    const claveCrypto = await crypto.subtle.importKey('raw', view, 'AES-GCM', true, ['encrypt'])
+  const mensajeCifrado = await crypto.subtle.encrypt(
+    algoritmo,
+    claveCrypto,
+    data
+  );
 
-    const mensajeCifrado = await crypto.subtle.encrypt(algoritmo, claveCrypto, data)
+  const cifradoBase64 = btoa(
+    String.fromCharCode.apply(null, new Uint8Array(mensajeCifrado))
+  );
 
-    const cifradoBase64 = btoa(String.fromCharCode.apply(null, new Uint8Array(mensajeCifrado)))
-    
-    return cifradoBase64;
+  return cifradoBase64;
 }
 
-async function desencriptacion(mensaje){
-    const mensajeCifrado = new Uint8Array(atob(mensaje).split('').map(char => char.charCodeAt(0)))
+async function desencriptacion(mensaje) {
+  const mensajeCifrado = new Uint8Array(
+    atob(mensaje)
+      .split("")
+      .map((char) => char.charCodeAt(0))
+  );
 
-    const claveCrypto = await crypto.subtle.importKey('raw', view, 'AES-GCM', true, ['decrypt'])
+  const claveCrypto = await crypto.subtle.importKey(
+    "raw",
+    clave,
+    "AES-GCM",
+    true,
+    ["decrypt"]
+  );
+  let mensajeDescifrado = "";
+  try {
+    mensajeDescifrado = await crypto.subtle.decrypt(
+      algoritmo,
+      claveCrypto,
+      mensajeCifrado
+    );
+  } catch (error) {
+    console.log(error);
+  }
 
-    const mensajeDescifrado = await crypto.subtle.decrypt(algoritmo, claveCrypto, mensajeCifrado)
+  const decoder = new TextDecoder();
+  const mensajeOriginal = decoder.decode(mensajeDescifrado);
 
-    const decoder = new TextDecoder()
-    const mensajeOriginal = decoder.decode(mensajeDescifrado)
-
-    return mensajeOriginal
+  return mensajeOriginal;
 }
 
-async function sha256(mensaje){
-    let cadenaFinal
-    const enconder =  new TextEncoder();
-    const mensajeCodificado = enconder.encode(mensaje)
-    await crypto.subtle.digest("SHA-256", mensajeCodificado)
-    .then(result => { 
-        const hashArray =  Array.from(new Uint8Array(result))
-        const hashHex = hashArray.map(b => b.toString(16).padStart(2, '0')).join('')
-        cadenaFinal = hashHex
+async function sha256(mensaje) {
+  let cadenaFinal;
+  const enconder = new TextEncoder();
+  const mensajeCodificado = enconder.encode(mensaje);
+  await crypto.subtle
+    .digest("SHA-256", mensajeCodificado)
+    .then((result) => {
+      const hashArray = Array.from(new Uint8Array(result));
+      const hashHex = hashArray
+        .map((b) => b.toString(16).padStart(2, "0"))
+        .join("");
+      cadenaFinal = hashHex;
     })
-    .catch(error => console.log(error))
-    return cadenaFinal
+    .catch((error) => console.log(error));
+  return cadenaFinal;
 }
 
-
-export {encriptacion, desencriptacion, sha256}
+export { encriptacion, desencriptacion, sha256 };

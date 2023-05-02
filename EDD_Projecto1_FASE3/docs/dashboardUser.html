@@ -36,8 +36,8 @@
     <header class="bg-dark" style="padding: 0;"></header><!-- Start: ChatComplete test -->
     <section>
         <!-- Start: Chat -->
-        <div class="container-fluid d-xxl-flex justify-content-xxl-center visually-hidden visible" id="containerChat">
-            <div class="row d-xxl-flex justify-content-xxl-center" style="position: static;overflow: auto;">
+        <div class="container-fluid d-xxl-flex justify-content-xxl-center visually-hidden visible" id="containerChat" style="border-style: solid;border-radius: 17px;width: 1406px;padding: 13px;">
+            <div class="row d-xxl-flex justify-content-xxl-center" style="position: static;overflow: auto;width: 1331.875px;">
                 <div class="col-lg-4 col-xl-4" style="overflow: auto;position: static;">
                     <!-- Start: Me -->
                     <div class="row">
@@ -45,9 +45,11 @@
                             <h5 id="chat_id_Emisor" class="mr-auto my-auto" style="font-size: 31px;">2000001</h5>
                         </div>
                     </div><!-- End: Me -->
-                    <!-- Start: Chats -->
                     <div class="row">
-                        <div class="col" id="div_receptores" style="max-height: 32.5rem;height: auto;">
+                        <div class="col" style="text-align: center;margin-top: 22px;"><small class="form-text" style="text-align: center;font-size: 16px;">Usuarios con los que se puede contactar</small></div>
+                    </div><!-- Start: Chats -->
+                    <div class="row">
+                        <div class="col-xxl-12" id="div_receptores" style="max-height: 32.5rem;height: auto;">
                             <ul class="list-unstyled">
                                 <li style="cursor: pointer;">
                                     <div class="card border-0">
@@ -67,45 +69,8 @@
                         </div>
                     </div><!-- Start: Feed -->
                     <div class="row px-3 py-2 border-start border-muted">
-                        <div class="col-auto" style="max-height: 30.5rem;height: auto;display: block;position: static;overflow: visible;overflow-y: auto;overflow-x: auto;">
-                            <ul class="list-unstyled" id="AreaMensajes">
-                                <!-- Start: Incoming Message -->
-                                <li class="my-2">
-                                    <div class="card border border-muted" style="width: 65%;border-top-left-radius: 0px;border-top-right-radius: 20px;border-bottom-right-radius: 20px;border-bottom-left-radius: 20px;background: rgba(52,58,64,0.05);">
-                                        <div class="card-body text-center p-2">
-                                            <p class="text-start card-text" style="font-size: 1rem;">Nullam id dolor id nibh ultricies vehicula ut id elit. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus.</p>
-                                            <h6 class="text-muted card-subtitle text-end" style="font-size: .75rem;">Julio 22, 2021. 12:33 P.M.</h6>
-                                        </div>
-                                    </div>
-                                </li><!-- End: Incoming Message -->
-                                <!-- Start: Outcoming Message -->
-                                <li class="d-flex justify-content-end my-2">
-                                    <div class="card border border-muted" style="width: 65%;border-top-left-radius: 20px;border-top-right-radius: 0px;border-bottom-right-radius: 20px;border-bottom-left-radius: 20px;background: rgba(52,58,64,0.05);">
-                                        <div class="card-body text-center p-2">
-                                            <p class="text-start card-text" style="font-size: 1rem;">Nullam id dolor id nibh ultricies vehicula ut id elit. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus.</p>
-                                            <h6 class="text-muted card-subtitle text-end" style="font-size: .75rem;">Julio 22, 2021. 12:33 P.M.</h6>
-                                        </div>
-                                    </div>
-                                </li><!-- End: Outcoming Message -->
-                                <!-- Start: Incoming Message -->
-                                <li class="my-2">
-                                    <div class="card border border-muted" style="width: 65%;border-top-left-radius: 0px;border-top-right-radius: 20px;border-bottom-right-radius: 20px;border-bottom-left-radius: 20px;background: rgba(52,58,64,0.05);">
-                                        <div class="card-body text-center p-2">
-                                            <p class="text-start card-text" style="font-size: 1rem;">Nullam id dolor id nibh ultricies vehicula ut id elit. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus.</p>
-                                            <h6 class="text-muted card-subtitle text-end" style="font-size: .75rem;">Julio 22, 2021. 12:33 P.M.</h6>
-                                        </div>
-                                    </div>
-                                </li><!-- End: Incoming Message -->
-                                <!-- Start: Outcoming Message -->
-                                <li class="d-flex justify-content-end my-2">
-                                    <div class="card border border-muted" style="width: 65%;border-top-left-radius: 20px;border-top-right-radius: 0px;border-bottom-right-radius: 20px;border-bottom-left-radius: 20px;background: rgba(52,58,64,0.05);">
-                                        <div class="card-body text-center p-2">
-                                            <p class="text-start card-text" style="font-size: 1rem;">Nullam id dolor id nibh ultricies vehicula ut id elit. Cras justo odio, dapibus ac facilisis in, egestas eget quam. Donec id elit non mi porta gravida at eget metus.</p>
-                                            <h6 class="text-muted card-subtitle text-end" style="font-size: .75rem;">Julio 22, 2021. 12:33 P.M.</h6>
-                                        </div>
-                                    </div>
-                                </li><!-- End: Outcoming Message -->
-                            </ul>
+                        <div class="col-auto col-lg-11" style="max-height: 30.5rem;height: auto;display: block;position: static;overflow: visible;overflow-y: auto;overflow-x: auto;">
+                            <ul class="list-unstyled" id="AreaMensajes"></ul>
                         </div>
                     </div><!-- End: Feed -->
                     <!-- Start: Box Message -->

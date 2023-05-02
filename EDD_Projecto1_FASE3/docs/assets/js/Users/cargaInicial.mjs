@@ -1,5 +1,7 @@
 import AVL from "../Estructuras/arbolAVL.mjs";
 import Bloque from "../Estructuras/bloques.mjs";
+import { desencriptacion, encriptacion } from "../Utils/encriptacionAES.mjs";
+
 //en la carga de la pagina, comprobar si existe una sesion iniciada
 window.onload = function () {
   if (sessionStorage.getItem("sesion") !== null) {
@@ -11,7 +13,7 @@ window.onload = function () {
     //si no existe una sesion iniciada, redirigir a la pagina de login
     window.location.href = "./login.html";
   }
- 
+
   //refrescar la tabla de usuarios
   refrescarTabla();
   refreshdropdown_menu_usuarios();
@@ -111,13 +113,17 @@ function refreshdropdown_archivos() {
 function refreshContainerChats() {
   const id_Emisor = parseInt(sessionStorage.getItem("sesion"));
   const chat_id_Emisor = document.getElementById("chat_id_Emisor");
-  chat_id_Emisor.textContent  = "Emisor : [" +  id_Emisor.toString() + "]";
+  
+  
 
   const div_receptores = document.getElementById("div_receptores");
   div_receptores.innerHTML = "";
   //obtener cada usuario excepto el usuario actual
   let arbolAVL = new AVL();
   arbolAVL.fromJSON(localStorage.getItem("arbolAVL"));
+  let nodoEmisor = arbolAVL.getNodo(id_Emisor);
+  chat_id_Emisor.textContent = "Yo : [" + id_Emisor.toString() + "]" ;
+
   let usuarios = arbolAVL.inOrden();
   for (var i = 0; i < usuarios.length; i++) {
     if (usuarios[i].carnet !== id_Emisor) {
@@ -135,40 +141,85 @@ function refreshContainerChats() {
   }
 }
 
-function verChatDe(id_Receptor) {
+async function verChatDe(id_Receptor) {
+  id_Receptor = id_Receptor.toString();
+  const id_Emisor = sessionStorage.getItem("sesion");
   const receptorID = document.getElementById("receptorID");
-  receptorID.textContent = "Chat de " + id_Receptor.toString();
+  let arbolAVL = new AVL();
+  arbolAVL.fromJSON(localStorage.getItem("arbolAVL"));
+  let nodoReceptor = arbolAVL.getNodo(parseInt(id_Receptor));
+  receptorID.textContent = "Chat con " + id_Receptor + " "+ nodoReceptor.usuario.nombre;
+
+  //obtener bloques de mensajes en todo el sistema
+  const bloques = new Bloque();
+  bloques.fromJSON();
+
   const AreaMensajes = document.getElementById("AreaMensajes");
   AreaMensajes.innerHTML = "";
-  let msjReceived = `<li class="my-2">
-  <div class="card border border-muted" style="width: 65%;border-top-left-radius: 0px;border-top-right-radius: 20px;border-bottom-right-radius: 20px;border-bottom-left-radius: 20px;background: rgba(52,58,64,0.05);">
-      <div class="card-body text-center p-2">
-          <p class="text-start card-text" style="font-size: 1rem;">Mensajes recibido de ${id_Receptor}</p>
-          <h6 class="text-muted card-subtitle text-end" style="font-size: .75rem;">FECHA Julio 22, 2021. 12:33 P.M.</h6>
-      </div>
-  </div>
-</li>`
-  AreaMensajes.innerHTML += msjReceived;
+  
+  let inicio = bloques.inicio;
 
-  let msjSended = `<li class="d-flex justify-content-end my-2">
-  <div class="card border border-muted" style="width: 65%;border-top-left-radius: 20px;border-top-right-radius: 0px;border-bottom-right-radius: 20px;border-bottom-left-radius: 20px;background: rgba(52,58,64,0.05);">
-      <div class="card-body text-center p-2">
-          <p class="text-start card-text" style="font-size: 1rem;">Mensaje Enviado a  ${id_Receptor}</p>
-          <h6 class="text-muted card-subtitle text-end" style="font-size: .75rem;">Julio 22, 2021. 12:33 P.M.</h6>
+  while(inicio != null){
+    if(inicio.valor.transmitter===id_Receptor && inicio.valor.receiver===id_Emisor){
+      let decriptMSJ ="";
+      try{
+        decriptMSJ = await desencriptacion(inicio.valor.message);
+      }catch(error){
+        console.log(error);
+      }
+      
+      
+      let msjReceived = `<li class="my-2">
+      <div class="card border border-muted" style="width: 65%;border-top-left-radius: 0px;border-top-right-radius: 20px;border-bottom-right-radius: 20px;border-bottom-left-radius: 20px;background: rgba(52,58,64,0.05);">
+          <div class="card-body text-center p-2">
+              <p class="text-start card-text" style="font-size: 1rem;">${decriptMSJ}</p>
+              <h6 class="text-muted card-subtitle text-end" style="font-size: .75rem;">Fecha : ${inicio.valor.timestamp}</h6>
+          </div>
       </div>
-  </div>
-</li>`
-  AreaMensajes.innerHTML += msjSended;
+    </li>`;
+      AreaMensajes.innerHTML += msjReceived;
+    }else if(inicio.valor.transmitter===id_Emisor && inicio.valor.receiver===id_Receptor){
+      let decriptMSJ ="";
+      try{
+        decriptMSJ = await desencriptacion(inicio.valor.message);
+      }catch(error){
+        console.log(error);
+      }
+      
+      let msjSended = `<li class="d-flex justify-content-end my-2">
+      <div class="card border border-muted" style="width: 65%;border-top-left-radius: 20px;border-top-right-radius: 0px;border-bottom-right-radius: 20px;border-bottom-left-radius: 20px;background: rgba(52,58,64,0.05);">
+          <div class="card-body text-center p-2">
+              <p class="text-start card-text" style="font-size: 1rem;">${decriptMSJ}</p>
+              <h6 class="text-muted card-subtitle text-end" style="font-size: .75rem;">Fecha : ${inicio.valor.timestamp}</h6>
+          </div>
+      </div>
+    </li>`;
+      AreaMensajes.innerHTML += msjSended;
+    }
+    inicio = inicio.siguiente;
+  }
 }
 
 const btn_enviarMensaje = document.getElementById("enviarMensaje");
+const txt_Mensaje_Enviar = document.getElementById("txt_Mensaje_Enviar");
+//tecla enter para txt_Mensaje_Enviar llama a enviarMensaje
+txt_Mensaje_Enviar.addEventListener("keyup", function (event) {
+  if (event.keyCode === 13) {
+    event.preventDefault();
+    enviarMensaje();
+  }
+});
+
 btn_enviarMensaje.addEventListener("click", enviarMensaje);
 
 async function enviarMensaje() {
   const chat_id_Emisor = document.getElementById("chat_id_Emisor");
   const receptorID = document.getElementById("receptorID");
 
-  let id_Emisor = chat_id_Emisor.textContent.split(" ")[2].replace("[", "").replace("]", "");
+  let id_Emisor = chat_id_Emisor.textContent
+    .split(" ")[2]
+    .replace("[", "")
+    .replace("]", "");
 
   let id_Receptor = receptorID.textContent.split(" ")[2];
 
@@ -176,33 +227,60 @@ async function enviarMensaje() {
   let mensaje = txtMensaje.value;
 
   if (mensaje !== "") {
-    //si existe en el localstorage bloque, cargar antes y luego insertar. Si no existe, crear 
-    if (localStorage.getItem("bloques") !== "null" && localStorage.getItem("bloques") !== null) {
+    //si existe en el localstorage bloque, cargar antes y luego insertar. Si no existe, crear
+    if (
+      localStorage.getItem("bloques") !== "null" &&
+      localStorage.getItem("bloques") !== null
+    ) {
       const bloque = new Bloque();
       await bloque.fromJSON();
-      await bloque.insertarBloque(fechaActual(), id_Emisor, id_Receptor, mensaje);      
+      await bloque.insertarBloque(
+        fechaActual(),
+        id_Emisor,
+        id_Receptor,
+        mensaje
+      );
       await bloque.toJSON();
-      console.log(bloque);
     } else {
       const bloque = new Bloque();
-      await bloque.insertarBloque(fechaActual(), id_Emisor, id_Receptor, mensaje);
-      console.log(bloque);
+      await bloque.insertarBloque(
+        fechaActual(),
+        id_Emisor,
+        id_Receptor,
+        mensaje
+      );
       bloque.toJSON();
     }
   }
+  txtMensaje.value = "";
+  verChatDe(id_Receptor);
 }
 
-function fechaActual(){
-  let cadena = ''
+function fechaActual() {
+  let cadena = "";
   const fechaActual = new Date();
-  cadena += fechaActual.getDate() < 10 ? ("0"+fechaActual.getDate()+"-") : (fechaActual.getDate()+"-")
-  cadena += fechaActual.getMonth() < 10 ? ("0"+(fechaActual.getMonth()+1)+"-") : (fechaActual.getMonth()+"-")
-  cadena += fechaActual.getFullYear() + "::"
-  cadena += fechaActual.getHours() < 10 ? ("0"+fechaActual.getHours()+":") : (fechaActual.getHours()+":")
-  cadena += fechaActual.getMinutes() < 10 ? ("0"+fechaActual.getMinutes()+":") : (fechaActual.getMinutes()+":")
-  cadena += fechaActual.getSeconds() < 10 ? ("0"+fechaActual.getSeconds()) : (fechaActual.getSeconds())
-  return cadena
-
+  cadena +=
+    fechaActual.getDate() < 10
+      ? "0" + fechaActual.getDate() + "-"
+      : fechaActual.getDate() + "-";
+  cadena +=
+    fechaActual.getMonth() < 10
+      ? "0" + (fechaActual.getMonth() + 1) + "-"
+      : fechaActual.getMonth() + "-";
+  cadena += fechaActual.getFullYear() + "::";
+  cadena +=
+    fechaActual.getHours() < 10
+      ? "0" + fechaActual.getHours() + ":"
+      : fechaActual.getHours() + ":";
+  cadena +=
+    fechaActual.getMinutes() < 10
+      ? "0" + fechaActual.getMinutes() + ":"
+      : fechaActual.getMinutes() + ":";
+  cadena +=
+    fechaActual.getSeconds() < 10
+      ? "0" + fechaActual.getSeconds()
+      : fechaActual.getSeconds();
+  return cadena;
 }
 
 export { verChatDe };
