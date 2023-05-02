@@ -142,4 +142,42 @@ export default class Bloque {
     }
     return null;
   }
+
+  toGraphviz() {
+    let cadena = "digraph G {";
+    cadena += 'graph [label="Bloques blockchain", labelloc=t, fontsize=20];';
+    cadena +=
+      "node [shape=record, fontsize=20, style=filled, fillcolor=lightblue];";
+    cadena += "edge [arrowhead=vee, color=white, fontsize=20];";
+    cadena += 'bgcolor = "gray35";';
+
+    let aux = this.inicio;
+    while (aux) {
+      cadena +=
+        "nodo" +
+        aux.valor.index +
+        '[label="{Timestamp: ' +
+        aux.valor.timestamp +
+        " | Emisor: " +
+        aux.valor.transmitter +
+        " | Receptor: " +
+        aux.valor.receiver +
+        " | Hash: " +
+        aux.valor.hash +
+        " | PreviousHash: " +
+        aux.valor.previoushash +
+        '}"];';
+      if (aux.siguiente) {
+        cadena +=
+          "nodo" +
+          aux.valor.index +
+          "-> nodo" +
+          aux.siguiente.valor.index +
+          ";";
+      }
+      aux = aux.siguiente;
+    }
+    cadena += "}";
+    return cadena;
+  }
 }

@@ -5,22 +5,18 @@ import Bloque from "../Estructuras/bloques.mjs";
 document.addEventListener("DOMContentLoaded", function () {
   document.getElementById("index_id").textContent = 0;
 
-  function generarAVL() {
-    //make container visible
-    document
-      .getElementById("reportContainer")
-      .classList.remove("visually-hidden");
+  function generarGrafico() {
+    const bloque = new Bloque();
+    bloque.fromJSON();
 
-    const arbolAVL = new AVL();
     let graph = "";
     //si existe el arbol en el local storage, cargarlo
-    if (localStorage.getItem("arbolAVL") !== null) {
-      arbolAVL.fromJSON(localStorage.getItem("arbolAVL"));
-      graph = arbolAVL.toGraphviz();
+    if (localStorage.getItem("bloques") !== null) {
+      graph = bloque.toGraphviz();
     } else {
       //grafico solo mostrara el mensaje arbol vacio
       graph =
-        'digraph AVL {bgcolor = "gray35";node [style=filled, fillcolor=skyblue];Arbol_Vacio;}';
+        'digraph AVL {bgcolor = "gray35";node [style=filled, fillcolor=skyblue];Sin bloques;}';
     }
     let url =
       "https://quickchart.io/graphviz?format=svg&width=1200&height=713&&graph=";
@@ -28,7 +24,19 @@ document.addEventListener("DOMContentLoaded", function () {
     url += graph;
 
     document.getElementById("imageAVL").src = url;
+    //make container visible
+    document
+      .getElementById("reportContainer")
+      .classList.remove("visually-hidden");
   }
+  const btnGenerarBloques = document.getElementById("generarGraficoBlockchain");
+  btnGenerarBloques.addEventListener("click", generarGrafico);
+
+  function hidecontainer() {
+    document.getElementById("reportContainer").classList.add("visually-hidden");
+  }
+  const btnCerrar = document.getElementById("cerrarGrafico");
+  btnCerrar.addEventListener("click", hidecontainer);
 
   /*
     FUNCIONES PARA ARBOL AVL * NO SE UTILIZAN
@@ -36,7 +44,7 @@ document.addEventListener("DOMContentLoaded", function () {
         document.getElementById("reportContainer").classList.add("visually-hidden");
     } 
     const btnGenerar = document.getElementById("btn-Arbol-AVL");
-    btnGenerar.addEventListener("click", generarAVL);
+    btnGenerar.addEventListener("click", generarGrafico);
 
     const btnCerrar = document.getElementById("cerrarGrafico");
     btnCerrar.addEventListener("click", hidecontainer);
@@ -54,7 +62,7 @@ document.addEventListener("DOMContentLoaded", function () {
       if (willDelete) {
         //si se confirma, se limpia el arbol
         localStorage.removeItem("arbolAVL");
-        generarAVL();
+        generarGrafico();
         refresh("inorden");
         swal({
           title: "Limpiar Arbol",
