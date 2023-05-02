@@ -1,6 +1,6 @@
 import AVL from "../Estructuras/arbolAVL.mjs";
 import Usuario from "../Estructuras/usuario.mjs";
-import { refresh, exportAVL} from "../Utils/refreshTable.mjs";
+import { refresh, exportAVL } from "../Utils/refreshTable.mjs";
 
 document.addEventListener("DOMContentLoaded", function () {
   function cargarArchivo() {
@@ -13,7 +13,7 @@ document.addEventListener("DOMContentLoaded", function () {
     reader.readAsText(file);
     reader.onload = function () {
       const usuarios = JSON.parse(reader.result);
-      
+
       //variable para guardar el arbol
       let arbolAVL;
 
@@ -51,16 +51,15 @@ document.addEventListener("DOMContentLoaded", function () {
         text: "Carga masiva realizada con exito",
         icon: "success",
         button: "Aceptar",
-        timer:1000,
+        timer: 1000,
       });
-      
     };
   }
 
   //cuando se suba el archivo al input file se ejecutara la funcion cargarArchivo
   const inputCargaMasiva = document.getElementById("InputFileCargaMasiva");
   inputCargaMasiva.addEventListener("change", cargarArchivo);
-  
+
   //agregar listener al boton de subir archivo
   document.getElementById("SubirCargaMasiva").addEventListener("click", () => {
     cargarArchivo();

@@ -129,7 +129,6 @@ export default class Bloque {
         aux = aux.siguiente;
       }
       this.bloques_creados = result.bloques_creados;
-      
     }
   }
 
@@ -143,95 +142,4 @@ export default class Bloque {
     }
     return null;
   }
-  
 }
-
-//const bloque = new Bloque()
-//let bloque_actual
-
-/*
-const btnEnviar = document.getElementById("enviar")
-btnEnviar.addEventListener("click", enviarMensaje)
-
-function enviarMensaje(){
-    let emisor_mensaje =  document.getElementById("emisor").value
-    let receptor_mensaje = document.getElementById("receptor").value
-    let mensaje_final = document.getElementById("mensaje").value
-    bloque.insertarBloque(fechaActual(),emisor_mensaje,receptor_mensaje,mensaje_final)
-    console.log("Mensaje Enviado")
-}
-
- REPORTES 
-
-const btnReporte = document.getElementById("reporte")
-btnReporte.addEventListener("click", reporte)
-
-function reporte(){
-    bloque_actual = bloque.inicio
-    if(bloque_actual != null){
-        let cadena = "Index: " + bloque_actual.valor['index']
-        cadena += "\nTimeStamp: " + bloque_actual.valor['timestamp']
-        cadena += "\nEmisor: " + bloque_actual.valor['transmitter']
-        cadena += "\nReceptor: " + bloque_actual.valor['receiver']
-        cadena += "\nMensaje: " + bloque_actual.valor['message']
-        cadena += "\nPreviousHash: " + bloque_actual.valor['previoushash']
-        cadena += "\nHash: " + bloque_actual.valor['hash']
-        document.getElementById("reporte-bloques").value = cadena
-        mostrar_Mensaje_descriptado()
-    }
-}
-
-const btnReporte1 = document.getElementById("siguiente-bloque")
-btnReporte1.addEventListener("click", reporte_siguente)
-
-function reporte_siguente(){
-    if(bloque_actual.siguiente != null){
-        bloque_actual = bloque_actual.siguiente
-        let cadena = "Index: " + bloque_actual.valor['index']
-        cadena += "\nTimeStamp: " + bloque_actual.valor['timestamp']
-        cadena += "\nEmisor: " + bloque_actual.valor['transmitter']
-        cadena += "\nReceptor: " + bloque_actual.valor['receiver']
-        cadena += "\nMensaje: " + bloque_actual.valor['message']
-        cadena += "\nPreviousHash: " + bloque_actual.valor['previoushash']
-        cadena += "\nHash: " + bloque_actual.valor['hash']
-        document.getElementById("reporte-bloques").value = cadena
-        mostrar_Mensaje_descriptado()
-    }
-}
-
-const btnReporte2 = document.getElementById("anterior-bloque")
-btnReporte2.addEventListener("click", reporte_anterior)
-
-function reporte_anterior(){
-    if(bloque_actual.anterior != null){
-        bloque_actual = bloque_actual.anterior
-        let cadena = "Index: " + bloque_actual.valor['index']
-        cadena += "\nTimeStamp: " + bloque_actual.valor['timestamp']
-        cadena += "\nEmisor: " + bloque_actual.valor['transmitter']
-        cadena += "\nReceptor: " + bloque_actual.valor['receiver']
-        cadena += "\nMensaje: " + bloque_actual.valor['message']
-        cadena += "\nPreviousHash: " + bloque_actual.valor['previoushash']
-        cadena += "\nHash: " + bloque_actual.valor['hash']
-        document.getElementById("reporte-bloques").value = cadena
-        mostrar_Mensaje_descriptado()
-    }
-}
-*/
-async function mostrar_Mensaje_descriptado() {
-  /** if carnet ==  bloque_actual.valor['receiver'] y  bloque_actual.valor['trasmitter'] == emisor
-   * mostrar mensaje
-   * bloque_actual = abloque_actual.siguiente
-   */
-  let cadena = await desencriptacion(bloque_actual.valor["message"]);
-  document.getElementById("reporte-mensajes").value = cadena;
-}
-
-/**
- * Una funcion que lea todo los bloques y simplemente muestre el mensaje
- * al usuario final
- * bloque_actual.valor['receiver'] == 201700918
- * mensaje de  bloque_actual.valor['trasmitter']
- *  ( mensaje_descriptado(carnet, emisor) )
- * 201700918
- *
- */

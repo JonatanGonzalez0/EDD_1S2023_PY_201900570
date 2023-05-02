@@ -114,7 +114,7 @@ document.addEventListener("DOMContentLoaded", function () {
 
 bloqueSiguiente.addEventListener("click", function () {
   let index_actual = parseInt(index_id.textContent);
-  let nuevoIndex = index_actual+1;
+  let nuevoIndex = index_actual + 1;
 
   const bloque = new Bloque();
   bloque.fromJSON();
@@ -137,7 +137,7 @@ bloqueSiguiente.addEventListener("click", function () {
 
 bloqueAnterior.addEventListener("click", function () {
   let index_actual = parseInt(index_id.textContent);
-  let nuevoIndex = index_actual-1;
+  let nuevoIndex = index_actual - 1;
 
   const bloque = new Bloque();
   bloque.fromJSON();

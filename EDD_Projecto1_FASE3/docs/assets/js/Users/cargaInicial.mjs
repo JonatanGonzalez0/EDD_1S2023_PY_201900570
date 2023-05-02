@@ -113,8 +113,6 @@ function refreshdropdown_archivos() {
 function refreshContainerChats() {
   const id_Emisor = parseInt(sessionStorage.getItem("sesion"));
   const chat_id_Emisor = document.getElementById("chat_id_Emisor");
-  
-  
 
   const div_receptores = document.getElementById("div_receptores");
   div_receptores.innerHTML = "";
@@ -122,7 +120,7 @@ function refreshContainerChats() {
   let arbolAVL = new AVL();
   arbolAVL.fromJSON(localStorage.getItem("arbolAVL"));
   let nodoEmisor = arbolAVL.getNodo(id_Emisor);
-  chat_id_Emisor.textContent = "Yo : [" + id_Emisor.toString() + "]" ;
+  chat_id_Emisor.textContent = "Yo : [" + id_Emisor.toString() + "]";
 
   let usuarios = arbolAVL.inOrden();
   for (var i = 0; i < usuarios.length; i++) {
@@ -148,7 +146,8 @@ async function verChatDe(id_Receptor) {
   let arbolAVL = new AVL();
   arbolAVL.fromJSON(localStorage.getItem("arbolAVL"));
   let nodoReceptor = arbolAVL.getNodo(parseInt(id_Receptor));
-  receptorID.textContent = "Chat con " + id_Receptor + " "+ nodoReceptor.usuario.nombre;
+  receptorID.textContent =
+    "Chat con " + id_Receptor + " " + nodoReceptor.usuario.nombre;
 
   //obtener bloques de mensajes en todo el sistema
   const bloques = new Bloque();
@@ -156,19 +155,21 @@ async function verChatDe(id_Receptor) {
 
   const AreaMensajes = document.getElementById("AreaMensajes");
   AreaMensajes.innerHTML = "";
-  
+
   let inicio = bloques.inicio;
 
-  while(inicio != null){
-    if(inicio.valor.transmitter===id_Receptor && inicio.valor.receiver===id_Emisor){
-      let decriptMSJ ="";
-      try{
+  while (inicio != null) {
+    if (
+      inicio.valor.transmitter === id_Receptor &&
+      inicio.valor.receiver === id_Emisor
+    ) {
+      let decriptMSJ = "";
+      try {
         decriptMSJ = await desencriptacion(inicio.valor.message);
-      }catch(error){
+      } catch (error) {
         console.log(error);
       }
-      
-      
+
       let msjReceived = `<li class="my-2">
       <div class="card border border-muted" style="width: 65%;border-top-left-radius: 0px;border-top-right-radius: 20px;border-bottom-right-radius: 20px;border-bottom-left-radius: 20px;background: rgba(52,58,64,0.05);">
           <div class="card-body text-center p-2">
@@ -178,14 +179,17 @@ async function verChatDe(id_Receptor) {
       </div>
     </li>`;
       AreaMensajes.innerHTML += msjReceived;
-    }else if(inicio.valor.transmitter===id_Emisor && inicio.valor.receiver===id_Receptor){
-      let decriptMSJ ="";
-      try{
+    } else if (
+      inicio.valor.transmitter === id_Emisor &&
+      inicio.valor.receiver === id_Receptor
+    ) {
+      let decriptMSJ = "";
+      try {
         decriptMSJ = await desencriptacion(inicio.valor.message);
-      }catch(error){
+      } catch (error) {
         console.log(error);
       }
-      
+
       let msjSended = `<li class="d-flex justify-content-end my-2">
       <div class="card border border-muted" style="width: 65%;border-top-left-radius: 20px;border-top-right-radius: 0px;border-bottom-right-radius: 20px;border-bottom-left-radius: 20px;background: rgba(52,58,64,0.05);">
           <div class="card-body text-center p-2">
