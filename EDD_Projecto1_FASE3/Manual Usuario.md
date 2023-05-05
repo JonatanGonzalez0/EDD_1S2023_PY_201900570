@@ -21,31 +21,27 @@ A continuacion se detallan los pasos para utilizar la aplicacion web.
 
     ![Login](https://i.imgur.com/bRC87xl.png)
 
-3. Cargar la base de datos de usuarios con el boton "Carga Masiva"
+3. Dashboard del administrador ( Actualizar datos from local storage)
+    Esta opcion actualizara los datos del local storage a las nuevas estructuras de datos tabla hash y grafo.
 
-    Hacer click en el boton "Carga Masiva"
-    ![Carga Masiva](https://i.imgur.com/cV5GHoo.png)
+    ![Dashboard](https://i.imgur.com/8xWKVx5.png)
 
-    Seleccionar el archivo JSON con la base de datos de usuarios
-    ![ArchivoJson](https://i.imgur.com/mCMS74n.png)
+4. Usuarios en el sistema
+    En esta seccion se mostraran los usuarios que se encuentran en el sistema con carnet, nombre y contraseña encriptada.
 
-    Se le notificara al usuario que la carga fue exitosa
-    ![MensajeExito](https://i.imgur.com/27rVZjH.png)
+    ![Usuarios Sistema](https://i.imgur.com/zmM2XK6.png)
 
-4. Con los botones Inorder Preorder y Postorder se puede visualizar el arbol de usuarios en diferentes ordenes.
+5. Permisos en el sistema
+    En esta seccion se mostraran los permisos que se encuentran en el sistema con carnet del usuario que dio el permiso, carnet del usuario que recibio el permiso, ubicación, nombre del archivo y tipo de permiso.
 
-    ![Botones Ordenamiento](https://i.imgur.com/xkiA6T3.png)
+    ![Permisos sistema](https://i.imgur.com/oB7wQaE.png)
 
-5. Si desea generar el grafico del arbol AVL de los estudiantes haga click en el boton "Arbol de estuadiantes AVL"
+6. Si desea vizualizar el reporte de blockchain haga click en el boton "Reporte Blockchain"
 
-    ![ Grafico](https://i.imgur.com/Tc9FJ8c.png)
+    ![reporte Blockchain](https://i.imgur.com/NiM1cFN.png)
 
-6. Si desea limpiar el Arbol AVL de estudiantes haga click en el boton "Limpiar Arbol"
-
-    ![Limpiar Arbol](https://i.imgur.com/tuP1u1F.png)
-
-    Si usted hizo click en "Aceptar" se limpiara el arbol y se le notificara al usuario que la operacion fue exitosa.
-    ![MensajeExito](https://i.imgur.com/l9YSNKG.png)
+    Se le mostrara la informacion de la blockchain con el hash, hash anterior, hash siguiente, carnet del usuario que realizo el mensaje, carnet del usuario que recibio el mensaje, la hora, y el mensaje encriptado.
+    ![bloques](https://i.imgur.com/qkJrXu9.png)
 
 ### Dashboard Usuario
 
@@ -58,7 +54,7 @@ A continuacion se detallan los pasos para utilizar la aplicacion web.
 
 2. Si el usuario y contraseña son correctos se le redireccionara al dashboard del estudiante.
 
-        ![Dashboard](hhttps://i.imgur.com/ieCun7g.png)
+    ![Dashboard](https://i.imgur.com/ieCun7g.png)
 
 #### Opciones del usuario
 
@@ -82,10 +78,20 @@ A continuacion se detallan los pasos para utilizar la aplicacion web.
 
     ![Dar Permisos](https://i.imgur.com/w8rV8t9.png)
 
-6. Reporte de carpetas: Le mostrara al usuario un gráfico de arbol de carpetas.
+6. Reporte de carpetas: Le mostrara al usuario un gráfico del grafo no dirigido.
+    Haga click en el boton "Reporte Carpetas" y se le mostrara el reporte de carpetas.
+    ![btn Reporte Carpetas](https://i.imgur.com/lHlkQcu.png)
 
-    ![Reporte Carpetas](https://i.imgur.com/N2WA6Gt.png)
+    ![Reporte Carpetas](https://i.imgur.com/MMQZdAC.png)
 
-7. Reporte de archivos: Le mostrara al usuario un gráfico de matriz de archivos y sus permisos a otros usuarios.
+7. Apartado de Chat: Le mostrara al usuario un chat en donde podra enviar mensajes a otros usuarios.
 
-    ![Reporte Archivos](https://i.imgur.com/avPTKu7.png)
+    ![Chat](https://i.imgur.com/qDXnTNV.png)
+
+    7.1. Para enviar un mensaje debera seleccionar el usuario al que desea enviar el mensaje, escribir el mensaje y dar click en el boton "Enviar Mensaje" o presionar la tecla "Enter".
+
+    ![Mensajes](https://i.imgur.com/4nPg2sh.png)
+
+8. Compartidos conmigo: Le mostrara al usuario los archivos que otros usuarios le han compartido.
+    Haga doble click en el archivo que desea visualizar y el sistema le mostrara el archivo si es un archivo de texto, una imagen o pdf.
+    ![Compartidos](https://i.imgur.com/BVrdPM4.png)

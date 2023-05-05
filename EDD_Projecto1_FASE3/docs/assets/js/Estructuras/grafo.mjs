@@ -56,11 +56,58 @@ export default class grafoDirigido {
         hijos += retorno[ruta][i] + ",";
       }
       hijos = hijos.substring(0, hijos.length - 1);
-      if (hijos !== ""){
+      if (hijos !== "") {
         this.insertarValores(ruta, hijos);
       }
     }
-    
+  }
+
+  /**
+   * Retorna true si la ruta existe en el grafo o false si no existe
+   */
+  validarRuta(ruta) {
+    let aux = this.principal;
+    let profundidad = ruta.split("/");
+    let padre = "";
+    if (ruta != "/") {
+      padre = profundidad[profundidad.length - 1];
+    } else {
+      padre = "/";
+    }
+    while (aux) {
+      if (aux.valor === padre) {
+        return true;
+      }
+      aux = aux.abajo;
+    }
+    return false;
+  }
+
+  /*
+    Retorna cada carpeta que se encuentra en la ruta
+  */
+  retornarHijos(ruta) {
+    let aux = this.principal;
+    let profundidad = ruta.split("/");
+    let padre = "";
+    if (ruta != "/") {
+      padre = profundidad[profundidad.length - 1];
+    } else {
+      padre = "/";
+    }
+    while (aux) {
+      if (aux.valor === padre) {
+        break;
+      }
+      aux = aux.abajo;
+    }
+    let hijos = [];
+    aux = aux.siguiente;
+    while (aux) {
+      hijos.push(aux.valor);
+      aux = aux.siguiente;
+    }
+    return hijos;
   }
 
   insertarF(texto) {
@@ -154,5 +201,4 @@ export default class grafoDirigido {
     cadena += "}";
     return cadena;
   }
-
 }
