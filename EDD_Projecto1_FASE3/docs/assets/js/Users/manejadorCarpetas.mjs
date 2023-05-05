@@ -257,11 +257,16 @@ btnDarPermiso.addEventListener("click", function () {
   let carnetUsuario = document.getElementById("dropdown-btn").textContent;
   let nodoReceiver = arbolAVL.getNodo(parseInt(carnetUsuario));
   //carpeta compartidos de nodo receiver
-  let carpetaCompartidos = nodoReceiver.arbolCarpetas.obtenerNodo("/Compartidos Conmigo");
+  let carpetaCompartidos = nodoReceiver.arbolCarpetas.obtenerNodo(
+    "/Compartidos Conmigo"
+  );
 
   let nodoArchivo = nodoCarpeta.matriz.getNodoArchivo(nombre_ArchivoDarPermiso);
-  
-  carpetaCompartidos.matriz.insertarArchivo(nodoArchivo.nombre, nodoArchivo.contenido);
+
+  carpetaCompartidos.matriz.insertarArchivo(
+    nodoArchivo.nombre,
+    nodoArchivo.contenido
+  );
 
   //comprobar si formCheck-Write esta checked
   var formCheckWrite = document.getElementById("formCheck-Write");
@@ -295,9 +300,9 @@ btnDarPermiso.addEventListener("click", function () {
 
       // Obtener los permisos ya existentes en el local storage
       if (localStorage.getItem("permisos") != null) {
-        let permisos = JSON.parse(localStorage.getItem('permisos') || '[]');
+        let permisos = JSON.parse(localStorage.getItem("permisos") || "[]");
         // Agregar el nuevo permiso al arreglo
-        
+
         let nuevoPermiso = {
           propietario: carnet,
           destino: parseInt(carnetUsuario),
@@ -434,56 +439,52 @@ function viewFile(nombre_archivo) {
   let extension = nombre.substring(nombre.lastIndexOf(".") + 1);
 
   if (extension == "txt") {
-    const nameFileView = document.getElementById('nameFileView');
+    const nameFileView = document.getElementById("nameFileView");
     nameFileView.textContent = "";
     nameFileView.textContent = nombre;
 
-    const TextViewContent = document.getElementById('TextViewContent');
+    const TextViewContent = document.getElementById("TextViewContent");
     TextViewContent.textContent = "";
 
-    //convertir contenidobase64 a string 
-    contenido = atob(contenido.split(',')[1]);
+    //convertir contenidobase64 a string
+    contenido = atob(contenido.split(",")[1]);
     TextViewContent.textContent = contenido;
 
-    const RowViewTXT = document.getElementById('RowViewTXT');
-    RowViewTXT.style.display = 'block';
-    RowViewTXT.classList.remove('visually-hidden');
-    RowViewTXT.classList.add('visually-shown');
+    const RowViewTXT = document.getElementById("RowViewTXT");
+    RowViewTXT.style.display = "block";
+    RowViewTXT.classList.remove("visually-hidden");
+    RowViewTXT.classList.add("visually-shown");
 
-    const sectionReportes = document.getElementById('sectionReportes');
+    const sectionReportes = document.getElementById("sectionReportes");
     //hacer visually-hidden el sectionReportes
-    sectionReportes.classList.remove('visually-shown');
-    sectionReportes.classList.add('visually-hidden');
-  }
-  else if (extension == "png" || extension == "jpg" || extension == "jpeg") {
-    const imageViewer = document.getElementById('imageViewer');
+    sectionReportes.classList.remove("visually-shown");
+    sectionReportes.classList.add("visually-hidden");
+  } else if (extension == "png" || extension == "jpg" || extension == "jpeg") {
+    const imageViewer = document.getElementById("imageViewer");
     //cargar la imagen en base64 a <img>
     imageViewer.src = contenido;
-    const RowViewIMG = document.getElementById('RowViewIMG');
-    RowViewIMG.classList.remove('visually-hidden');
-    RowViewIMG.classList.add('visually-shown');
+    const RowViewIMG = document.getElementById("RowViewIMG");
+    RowViewIMG.classList.remove("visually-hidden");
+    RowViewIMG.classList.add("visually-shown");
 
-    const sectionReportes = document.getElementById('sectionReportes');
+    const sectionReportes = document.getElementById("sectionReportes");
     //hacer visually-hidden el sectionReportes
-    sectionReportes.classList.remove('visually-shown');
-    sectionReportes.classList.add('visually-hidden');
-  }
-  else if (extension == "pdf") {
-    const pdfViewer = document.getElementById('pdfViewer');
+    sectionReportes.classList.remove("visually-shown");
+    sectionReportes.classList.add("visually-hidden");
+  } else if (extension == "pdf") {
+    const pdfViewer = document.getElementById("pdfViewer");
     //cargar el pdf en base64 a <embed>
     pdfViewer.src = contenido;
     pdfViewer.setAttribute("title", nombre);
-    const RowViewPDF = document.getElementById('RowViewPDF');
-    RowViewPDF.classList.remove('visually-hidden');
-    RowViewPDF.classList.add('visually-shown');
+    const RowViewPDF = document.getElementById("RowViewPDF");
+    RowViewPDF.classList.remove("visually-hidden");
+    RowViewPDF.classList.add("visually-shown");
 
-    const sectionReportes = document.getElementById('sectionReportes');
+    const sectionReportes = document.getElementById("sectionReportes");
     //hacer visually-hidden el sectionReportes
-    sectionReportes.classList.remove('visually-shown');
-    sectionReportes.classList.add('visually-hidden');
-
+    sectionReportes.classList.remove("visually-shown");
+    sectionReportes.classList.add("visually-hidden");
   }
-
 }
 
 export { putEliminar };

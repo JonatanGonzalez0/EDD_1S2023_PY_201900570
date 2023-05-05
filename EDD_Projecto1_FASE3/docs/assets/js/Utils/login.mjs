@@ -8,12 +8,11 @@ window.onload = function () {
     //si existe una sesion iniciada, redirigir a la pagina de inicio
     if (sessionStorage.getItem("sesion") === "admin") {
       window.location.href = "./dashboardAdmin.html";
-    }
-    else {
+    } else {
       window.location.href = "./dashboardUser.html";
     }
   }
-}
+};
 
 document.addEventListener("DOMContentLoaded", function () {
   // Escucha el evento de envío del formulario
@@ -22,15 +21,13 @@ document.addEventListener("DOMContentLoaded", function () {
     e.preventDefault();
     var usuario = document.querySelector('input[name="usuario"]').value;
     var password = document.querySelector('input[name="password"]').value;
-    
+
     if (usuario === "admin" && password === "admin") {
       // Si el usuario y la contraseña son correctos, redirige a la página de inicio
       console.log("Inicio de sesión correcto");
       sessionStorage.setItem("sesion", usuario);
       window.location.href = "./dashboardAdmin.html";
-
-    }
-    else {
+    } else {
       /*  LOGIN METODO AVL
       //obtener el arbol de usuarios del local storage y comprobar si el usuario y contraseña son correctos
       let arbolAVL = new AVL();
@@ -53,23 +50,22 @@ document.addEventListener("DOMContentLoaded", function () {
       let tablaHash = new TablaHash();
       //comprobar que exista la tabla hash en el local storage
       if (localStorage.getItem("tablaHash") === null) {
-        alert("Error: No existe la tabla hash en el local storage")
-      }
-      else {
+        alert("Error: No existe la tabla hash en el local storage");
+      } else {
         tablaHash.fromJSON();
         //comprobar que el usuario y contraseña sean correctos
         if (tablaHash.comprobarLogin(usuario, passEncriptada) === true) {
           //sesionsStorage.setItem("sesion", usuario);
           sessionStorage.setItem("sesion", usuario);
           window.location.href = "./dashboardUser.html";
-        }
-        else {
-          swal("Error de inicio de sesión", "Usuario o contraseña incorrectos", "error");
+        } else {
+          swal(
+            "Error de inicio de sesión",
+            "Usuario o contraseña incorrectos",
+            "error"
+          );
         }
       }
-
-
-
     }
   });
 });

@@ -35,27 +35,29 @@ export function generarNario() {
   });
 }
 
-export function generarGrafo(){
-  document.getElementById("reportContainer").classList.remove("visually-hidden");
+export function generarGrafo() {
+  document
+    .getElementById("reportContainer")
+    .classList.remove("visually-hidden");
   let tablaHash = new TablaHash();
   let graph = "";
-  if(localStorage.getItem("tablaHash") !== null){
+  if (localStorage.getItem("tablaHash") !== null) {
     tablaHash.fromJSON(localStorage.getItem("tablaHash"));
     let carnet = parseInt(sessionStorage.getItem("sesion"));
     let NodoUsuario = tablaHash.buscarUsuarioV2(carnet);
     graph = NodoUsuario.grafo.grafica();
-  }else{
-    graph = 'digraph G {bgcolor = "gray35";node [style=filled, fillcolor=skyblue];Grafo_vacio;}';
+  } else {
+    graph =
+      'digraph G {bgcolor = "gray35";node [style=filled, fillcolor=skyblue];Grafo_vacio;}';
   }
-  let url = "https://quickchart.io/graphviz?format=svg&width=1300&height=1000&&graph=";
+  let url =
+    "https://quickchart.io/graphviz?format=svg&width=1300&height=1000&&graph=";
   url += graph;
   var imagen = document.getElementById("reportImage");
   imagen.src = url;
-  imagen.addEventListener("load", function(){
+  imagen.addEventListener("load", function () {
     imagen.focus();
-  }
-  );
-
+  });
 }
 
 function hidecontainer() {
@@ -68,7 +70,6 @@ btnreporteCarpetas.addEventListener("click", generarGrafo);
 
 const btnCerrar = document.getElementById("cerrarGrafico");
 btnCerrar.addEventListener("click", hidecontainer);
-
 
 function generarMatriz() {
   //make container visible
@@ -89,7 +90,7 @@ function generarMatriz() {
     try {
       let nodoCarpeta = nodoUsuario.arbolCarpetas.obtenerNodo(rutaActual);
       graph = nodoCarpeta.matriz.reporte();
-    }catch (error) {
+    } catch (error) {
       alert(error);
     }
   } else {
@@ -109,10 +110,8 @@ function generarMatriz() {
   });
 }
 
-
 const btnReportePermisos = document.getElementById("reporteArchivos");
 btnReportePermisos.addEventListener("click", generarMatriz);
-
 
 function generarBitacora() {
   //make container visible
@@ -131,7 +130,7 @@ function generarBitacora() {
     let nodoUsuario = arbolAVL.getNodo(carnet);
     try {
       graph = nodoUsuario.bitacora.reporte();
-    }catch (error) {
+    } catch (error) {
       alert(error);
     }
   } else {
@@ -143,7 +142,7 @@ function generarBitacora() {
     "https://quickchart.io/graphviz?format=svg&width=1300&height=1000&&graph=";
 
   url += graph;
-  
+
   var imagen = document.getElementById("reportImage");
   imagen.src = url;
   // agregar evento 'load' a la imagen para asegurarse de que se cargue completamente antes de llamar al método 'focus()'
@@ -151,7 +150,6 @@ function generarBitacora() {
     imagen.focus();
   });
 }
-
 
 // btn reporteBitacora
 const btnReporteBitacora = document.getElementById("reporteBitacora");

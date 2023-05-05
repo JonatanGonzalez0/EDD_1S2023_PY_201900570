@@ -2,5 +2,5 @@
 //si no existe una sesion iniciada, redirigir a la pagina de login
 
 if (sessionStorage.getItem("sesion") === null) {
-    window.location.href = "./login.html";
+  window.location.href = "./login.html";
 }
